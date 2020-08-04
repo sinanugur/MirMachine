@@ -3,8 +3,10 @@ Command line to tool detect miRNA homolog sequences.
 
 Installation
 ------------
+To create required environment using Anaconda:
 
 `conda env create -f environment.yaml`
+`conda activate mirmachine`
 
 Quick start example
 -------------------
