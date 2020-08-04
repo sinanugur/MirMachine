@@ -1,0 +1,1295 @@
+number	species	mirna
+0	unknown	NA
+1	Protostomia	MIR-36
+1	Protostomia	MIR-2
+1	Protostomia	MIR-750
+1	Protostomia	MIR-67
+1	Protostomia	MIR-1993
+1	Protostomia	BANTAM
+1	Protostomia	MIR-317
+1	Protostomia	MIR-12
+1	Protostomia	MIR-87
+1	Protostomia	MIR-1175
+1	Protostomia	MIR-277
+1	Protostomia	MIR-279
+2	A. aegypti	MIR-2941
+2	A. aegypti	MIR-11911
+2	A. aegypti	MIR-1889
+2	A. aegypti	MIR-2940
+2	A. aegypti	MIR-10365
+2	A. aegypti	MIR-1891
+2	A. aegypti	MIR-1890
+2	A. aegypti	MIR-11899
+2	A. aegypti	MIR-11900
+2	A. aegypti	MIR-11895
+2	A. aegypti	MIR-11893
+3	Arthropoda	IAB-4
+3	Arthropoda	MIR-275
+4	Bilateria	MIR-33
+4	Bilateria	MIR-31
+4	Bilateria	MIR-34
+4	Bilateria	LET-7
+4	Bilateria	MIR-8
+4	Bilateria	MIR-9
+4	Bilateria	MIR-7
+4	Bilateria	MIR-278
+4	Bilateria	MIR-281
+4	Bilateria	MIR-137
+4	Bilateria	MIR-133
+4	Bilateria	MIR-1
+4	Bilateria	MIR-190
+4	Bilateria	MIR-22
+4	Bilateria	MIR-29
+4	Bilateria	MIR-96
+4	Bilateria	MIR-92
+4	Bilateria	MIR-76
+4	Bilateria	MIR-252
+4	Bilateria	MIR-315
+4	Bilateria	MIR-193
+4	Bilateria	MIR-216
+4	Bilateria	MIR-210
+4	Bilateria	MIR-219
+4	Bilateria	MIR-242
+4	Bilateria	MIR-184
+4	Bilateria	MIR-375
+4	Bilateria	MIR-71
+4	Bilateria	MIR-2001
+4	Bilateria	MIR-124
+4	Bilateria	MIR-153
+5	Neoptera	MIR-932
+6	Endopterygota	MIR-970
+6	Endopterygota	MIR-989
+7	Pancrustacea	MIR-3
+7	Pancrustacea	MIR-2765
+8	Diptera	MIR-957
+8	Diptera	MIR-999
+9	Eumetazoa	MIR-10
+10	Pterygota	MIR-929
+10	Pterygota	MIR-306
+10	Pterygota	MIR-3049
+10	Pterygota	MIR-2796
+10	Pterygota	MIR-927
+10	Pterygota	MIR-1000
+10	Pterygota	MIR-14
+10	Pterygota	MIR-971
+11	Drosophila	MIR-284
+11	Drosophila	MIR-956
+11	Drosophila	MIR-987
+11	Drosophila	MIR-1003
+11	Drosophila	MIR-1006
+11	Drosophila	MIR-975
+11	Drosophila	MIR-969
+11	Drosophila	MIR-963
+11	Drosophila	MIR-962
+11	Drosophila	MIR-960
+11	Drosophila	MIR-964
+11	Drosophila	MIR-1010
+11	Drosophila	MIR-968
+11	Drosophila	MIR-955
+11	Drosophila	MIR-973
+11	Drosophila	MIR-974
+11	Drosophila	MIR-976
+11	Drosophila	MIR-977
+12	Panarthropoda	MIR-276
+13	Mandibulata	MIR-282
+13	Mandibulata	MIR-316
+13	Mandibulata	MIR-965
+14	Ecdysozoa	MIR-305
+15	Diptera + Lepidoptera	MIR-988
+16	Vertebrata	MIR-338
+16	Vertebrata	MIR-1788
+16	Vertebrata	MIR-30
+16	Vertebrata	MIR-205
+16	Vertebrata	MIR-138
+16	Vertebrata	MIR-130
+16	Vertebrata	MIR-132
+16	Vertebrata	MIR-181
+16	Vertebrata	MIR-23
+16	Vertebrata	MIR-24
+16	Vertebrata	MIR-27
+16	Vertebrata	MIR-26
+16	Vertebrata	MIR-1329
+16	Vertebrata	MIR-140
+16	Vertebrata	MIR-459
+16	Vertebrata	MIR-451
+16	Vertebrata	MIR-456
+16	Vertebrata	MIR-455
+16	Vertebrata	MIR-143
+16	Vertebrata	MIR-19
+16	Vertebrata	MIR-128
+16	Vertebrata	MIR-499
+16	Vertebrata	MIR-199
+16	Vertebrata	MIR-192
+16	Vertebrata	MIR-875
+16	Vertebrata	MIR-218
+16	Vertebrata	MIR-194
+16	Vertebrata	MIR-17
+16	Vertebrata	MIR-148
+16	Vertebrata	MIR-144
+16	Vertebrata	MIR-147
+16	Vertebrata	MIR-146
+16	Vertebrata	MIR-221
+16	Vertebrata	MIR-122
+16	Vertebrata	MIR-145
+16	Vertebrata	MIR-202
+16	Vertebrata	MIR-203
+16	Vertebrata	MIR-204
+16	Vertebrata	MIR-208
+16	Vertebrata	MIR-21
+16	Vertebrata	MIR-430
+16	Vertebrata	MIR-551
+16	Vertebrata	MIR-142
+16	Vertebrata	MIR-155
+17	Olfactores	MIR-15
+17	Olfactores	MIR-126
+17	Olfactores	MIR-196
+18	Amniota	MIR-1397
+18	Amniota	MIR-1416
+18	Amniota	MIR-490
+19	Gnathostomata	MIR-725
+19	Gnathostomata	MIR-32
+19	Gnathostomata	MIR-425
+19	Gnathostomata	MIR-139
+19	Gnathostomata	MIR-191
+19	Gnathostomata	MIR-2184
+19	Gnathostomata	MIR-2188
+19	Gnathostomata	MIR-101
+19	Gnathostomata	MIR-214
+19	Gnathostomata	MIR-1388
+19	Gnathostomata	MIR-223
+19	Gnathostomata	MIR-150
+20	Deuterostomia	MIR-103
+21	Chordata	MIR-135
+21	Chordata	MIR-129
+21	Chordata	MIR-217
+22	Osteichthyes	MIR-726
+22	Osteichthyes	MIR-460
+22	Osteichthyes	MIR-737
+22	Osteichthyes	MIR-187
+22	Osteichthyes	MIR-458
+22	Osteichthyes	MIR-7147
+22	Osteichthyes	MIR-489
+23	Diapsida	MIR-1677
+23	Diapsida	MIR-1641
+24	Tetrapoda	MIR-1805
+24	Tetrapoda	MIR-383
+24	Tetrapoda	MIR-1662
+25	A. carolinensis	MIR-5396
+25	A. carolinensis	MIR-5406
+25	A. carolinensis	MIR-5436
+25	A. carolinensis	MIR-5435
+25	A. carolinensis	MIR-5408
+25	A. carolinensis	MIR-9576
+25	A. carolinensis	MIR-9572
+25	A. carolinensis	MIR-9573
+25	A. carolinensis	MIR-5397
+25	A. carolinensis	MIR-5399
+25	A. carolinensis	MIR-5402
+25	A. carolinensis	MIR-5407
+25	A. carolinensis	MIR-5405
+25	A. carolinensis	MIR-5452
+25	A. carolinensis	MIR-9574
+25	A. carolinensis	MIR-5417
+25	A. carolinensis	MIR-5412
+25	A. carolinensis	MIR-5464
+25	A. carolinensis	MIR-5426
+26	Sarcopterygii	MIR-599
+26	Sarcopterygii	MIR-2970
+27	A. mississippiensis	MIR-9598
+27	A. mississippiensis	MIR-9599
+27	A. mississippiensis	MIR-9606
+27	A. mississippiensis	MIR-9607
+27	A. mississippiensis	MIR-9600
+27	A. mississippiensis	MIR-9602
+27	A. mississippiensis	MIR-9603
+27	A. mississippiensis	MIR-9613
+27	A. mississippiensis	MIR-9614
+27	A. mississippiensis	MIR-9605
+28	Archelosauria	MIR-1720
+28	Archelosauria	MIR-7463
+29	A. suum	MIR-5359
+29	A. suum	MIR-5357
+29	A. suum	MIR-5355
+29	A. suum	MIR-5353
+29	A. suum	MIR-5350
+29	A. suum	ASU-NOVEL-6
+29	A. suum	ASU-NOVEL-7
+29	A. suum	ASU-NOVEL-2
+29	A. suum	ASU-NOVEL-3
+29	A. suum	ASU-NOVEL-8
+29	A. suum	MIR-5345
+29	A. suum	MIR-5347
+29	A. suum	MIR-5348
+29	A. suum	MIR-5342
+29	A. suum	MIR-5363
+29	A. suum	MIR-5361
+29	A. suum	MIR-5360
+29	A. suum	MIR-5364
+30	Chromadorea	MIR-54
+30	Chromadorea	MIR-791
+30	Chromadorea	MIR-86
+31	B. floridae	MIR-4881
+31	B. floridae	MIR-4887
+31	B. floridae	MIR-4857
+31	B. floridae	MIR-4859
+31	B. floridae	MIR-2076
+31	B. floridae	MIR-2062
+31	B. floridae	MIR-2066
+31	B. floridae	MIR-2068
+31	B. floridae	MIR-2070
+31	B. floridae	MIR-4874
+31	B. floridae	MIR-4871
+31	B. floridae	MIR-2058
+31	B. floridae	MIR-4868
+31	B. floridae	MIR-4864
+31	B. floridae	MIR-4860
+31	B. floridae	MIR-4879
+31	B. floridae	MIR-4862
+32	B. germanica	BGE-NOVEL-6
+32	B. germanica	MIR-3770
+32	B. germanica	MIR-6012
+32	B. germanica	BGE-NOVEL-17
+32	B. germanica	BGE-NOVEL-16
+32	B. germanica	BGE-NOVEL-15
+32	B. germanica	BGE-NOVEL-14
+32	B. germanica	BGE-NOVEL-13
+32	B. germanica	BGE-NOVEL-12
+32	B. germanica	BGE-NOVEL-11
+32	B. germanica	BGE-NOVEL-10
+32	B. germanica	BGE-NOVEL-19
+32	B. germanica	BGE-NOVEL-18
+32	B. germanica	BGE-NOVEL-22
+32	B. germanica	BGE-NOVEL-23
+32	B. germanica	BGE-NOVEL-20
+32	B. germanica	BGE-NOVEL-21
+32	B. germanica	BGE-NOVEL-26
+32	B. germanica	BGE-NOVEL-27
+32	B. germanica	BGE-NOVEL-24
+32	B. germanica	BGE-NOVEL-25
+32	B. germanica	BGE-NOVEL-3
+32	B. germanica	BGE-NOVEL-5
+32	B. germanica	BGE-NOVEL-4
+32	B. germanica	BGE-NOVEL-8
+32	B. germanica	BGE-NOVEL-2
+32	B. germanica	BGE-NOVEL-1
+32	B. germanica	BGE-NOVEL-7
+32	B. germanica	BGE-NOVEL-9
+33	Eutheria	MIR-330
+33	Eutheria	MIR-331
+33	Eutheria	MIR-335
+33	Eutheria	MIR-339
+33	Eutheria	MIR-346
+33	Eutheria	MIR-342
+33	Eutheria	MIR-2355
+33	Eutheria	MIR-3085
+33	Eutheria	MIR-769
+33	Eutheria	MIR-760
+33	Eutheria	MIR-1277
+33	Eutheria	MIR-1271
+33	Eutheria	MIR-542
+33	Eutheria	MIR-296
+33	Eutheria	MIR-6529
+33	Eutheria	MIR-197
+33	Eutheria	MIR-1298
+33	Eutheria	MIR-1296
+33	Eutheria	MIR-744
+33	Eutheria	MIR-105
+33	Eutheria	MIR-345
+33	Eutheria	MIR-134
+33	Eutheria	MIR-136
+33	Eutheria	MIR-423
+33	Eutheria	MIR-185
+33	Eutheria	MIR-1249
+33	Eutheria	MIR-188
+33	Eutheria	MIR-1247
+33	Eutheria	MIR-224
+33	Eutheria	MIR-28
+33	Eutheria	MIR-350
+33	Eutheria	MIR-452
+33	Eutheria	MIR-95
+33	Eutheria	MIR-337
+33	Eutheria	MIR-672
+33	Eutheria	MIR-670
+33	Eutheria	MIR-676
+33	Eutheria	MIR-574
+33	Eutheria	MIR-628
+33	Eutheria	MIR-493
+33	Eutheria	MIR-491
+33	Eutheria	MIR-384
+33	Eutheria	MIR-9851
+33	Eutheria	MIR-1912
+33	Eutheria	MIR-7180
+33	Eutheria	MIR-432
+33	Eutheria	MIR-2114
+33	Eutheria	MIR-3059
+33	Eutheria	MIR-582
+33	Eutheria	MIR-361
+33	Eutheria	MIR-362
+33	Eutheria	MIR-448
+33	Eutheria	MIR-6715
+33	Eutheria	MIR-874
+33	Eutheria	MIR-541
+33	Eutheria	MIR-544
+33	Eutheria	MIR-149
+33	Eutheria	MIR-324
+33	Eutheria	MIR-326
+33	Eutheria	MIR-488
+33	Eutheria	MIR-486
+33	Eutheria	MIR-328
+33	Eutheria	MIR-876
+33	Eutheria	MIR-935
+33	Eutheria	MIR-1379
+33	Eutheria	MIR-505
+33	Eutheria	MIR-504
+33	Eutheria	MIR-506
+33	Eutheria	MIR-592
+33	Eutheria	MIR-1301
+33	Eutheria	MIR-598
+33	Eutheria	MIR-615
+33	Eutheria	MIR-1307
+33	Eutheria	MIR-378
+33	Eutheria	MIR-376
+33	Eutheria	MIR-374
+33	Eutheria	MIR-431
+33	Eutheria	MIR-2483
+33	Eutheria	MIR-433
+33	Eutheria	MIR-450
+33	Eutheria	MIR-1911
+33	Eutheria	MIR-1842
+33	Eutheria	MIR-127
+33	Eutheria	MIR-653
+33	Eutheria	MIR-652
+33	Eutheria	MIR-1343
+33	Eutheria	MIR-154
+34	B. taurus	MIR-7859
+34	B. taurus	MIR-2299
+34	B. taurus	MIR-7858
+34	B. taurus	MIR-6525
+34	B. taurus	MIR-2313
+34	B. taurus	MIR-2408
+34	B. taurus	MIR-3660
+34	B. taurus	MIR-7861
+34	B. taurus	MIR-6119
+34	B. taurus	MIR-2468
+34	B. taurus	BTA-NOVEL-2
+34	B. taurus	BTA-NOVEL-1
+34	B. taurus	MIR-10182
+34	B. taurus	MIR-2367
+34	B. taurus	MIR-2285
+34	B. taurus	MIR-3431
+34	B. taurus	MIR-3432
+34	B. taurus	MIR-2320
+34	B. taurus	MIR-2328
+34	B. taurus	MIR-11968
+34	B. taurus	MIR-11989
+34	B. taurus	MIR-2331
+34	B. taurus	MIR-2330
+34	B. taurus	MIR-2388
+34	B. taurus	MIR-2471
+34	B. taurus	MIR-2475
+34	B. taurus	MIR-7862
+34	B. taurus	MIR-2336
+34	B. taurus	MIR-2382
+34	B. taurus	MIR-3956
+34	B. taurus	MIR-3957
+34	B. taurus	MIR-11995
+34	B. taurus	MIR-2373
+34	B. taurus	MIR-2461
+35	Laurasiatheria	NA
+36	Mammalia	MIR-186
+36	Mammalia	MIR-873
+36	Mammalia	MIR-590
+37	Theria	MIR-885
+37	Theria	MIR-340
+37	Theria	MIR-3613
+37	Theria	MIR-671
+37	Theria	MIR-1251
+37	Theria	MIR-675
+37	Theria	MIR-325
+37	Theria	MIR-483
+38	Boreoeutheria	MIR-2387
+38	Boreoeutheria	MIR-370
+39	C. briggsae	MIR-2227
+39	C. briggsae	MIR-2225
+39	C. briggsae	MIR-2223
+39	C. briggsae	MIR-2222
+39	C. briggsae	CBR-NOVEL-3
+39	C. briggsae	MIR-7593
+39	C. briggsae	MIR-7590
+39	C. briggsae	MIR-7591
+39	C. briggsae	MIR-7594
+39	C. briggsae	MIR-7595
+39	C. briggsae	MIR-7579
+39	C. briggsae	CBR-NOVEL-2
+39	C. briggsae	CBR-NOVEL-1
+39	C. briggsae	CBR-NOVEL-6
+39	C. briggsae	CBR-NOVEL-4
+39	C. briggsae	CBR-NOVEL-5
+39	C. briggsae	MIR-7585
+39	C. briggsae	MIR-7584
+39	C. briggsae	MIR-7586
+39	C. briggsae	MIR-7580
+39	C. briggsae	MIR-7583
+39	C. briggsae	MIR-7589
+39	C. briggsae	MIR-7588
+39	C. briggsae	MIR-2231
+39	C. briggsae	MIR-7587
+39	C. briggsae	MIR-7596
+40	Caenorhabditis	MIR-238
+40	Caenorhabditis	MIR-231
+40	Caenorhabditis	MIR-230
+40	Caenorhabditis	MIR-65
+40	Caenorhabditis	MIR-62
+40	Caenorhabditis	MIR-787
+40	Caenorhabditis	MIR-785
+40	Caenorhabditis	MIR-784
+40	Caenorhabditis	MIR-789
+40	Caenorhabditis	MIR-788
+40	Caenorhabditis	MIR-90
+40	Caenorhabditis	MIR-1817
+40	Caenorhabditis	MIR-249
+40	Caenorhabditis	MIR-357
+40	Caenorhabditis	MIR-70
+40	Caenorhabditis	MIR-253
+40	Caenorhabditis	MIR-255
+40	Caenorhabditis	MIR-254
+40	Caenorhabditis	LSY-6
+40	Caenorhabditis	MIR-248
+40	Caenorhabditis	MIR-246
+40	Caenorhabditis	MIR-392
+40	Caenorhabditis	MIR-358
+40	Caenorhabditis	MIR-85
+40	Caenorhabditis	MIR-77
+40	Caenorhabditis	MIR-73
+40	Caenorhabditis	MIR-355
+40	Caenorhabditis	MIR-4813
+41	C. elegans	MIR-2221
+41	C. elegans	MIR-63
+41	C. elegans	MIR-5594
+41	C. elegans	MIR-4808
+41	C. elegans	MIR-4806
+41	C. elegans	MIR-229
+41	C. elegans	MIR-2210
+41	C. elegans	MIR-2218
+41	C. elegans	MIR-1819
+41	C. elegans	MIR-59
+41	C. elegans	MIR-1821
+41	C. elegans	MIR-794
+41	C. elegans	MIR-792
+41	C. elegans	MIR-799
+41	C. elegans	MIR-1829
+41	C. elegans	MIR-2208
+41	C. elegans	MIR-243
+41	C. elegans	MIR-1832
+41	C. elegans	MIR-1830
+41	C. elegans	MIR-800
+41	C. elegans	MIR-1823
+41	C. elegans	MIR-2953
+41	C. elegans	MIR-796
+41	C. elegans	MIR-4814
+42	C. familiaris	CFA-NOVEL-15
+42	C. familiaris	CFA-NOVEL-24
+42	C. familiaris	CFA-NOVEL-17
+42	C. familiaris	CFA-NOVEL-16
+42	C. familiaris	CFA-NOVEL-10
+42	C. familiaris	CFA-NOVEL-12
+42	C. familiaris	MIR-8902
+42	C. familiaris	MIR-1838
+42	C. familiaris	MIR-8908
+42	C. familiaris	CFA-NOVEL-22
+42	C. familiaris	CFA-NOVEL-9
+42	C. familiaris	CFA-NOVEL-8
+42	C. familiaris	CFA-NOVEL-1
+42	C. familiaris	CFA-NOVEL-3
+42	C. familiaris	CFA-NOVEL-2
+42	C. familiaris	CFA-NOVEL-5
+42	C. familiaris	CFA-NOVEL-4
+42	C. familiaris	CFA-NOVEL-7
+42	C. familiaris	CFA-NOVEL-6
+42	C. familiaris	CFA-NOVEL-23
+42	C. familiaris	CFA-NOVEL-14
+42	C. familiaris	CFA-NOVEL-11
+42	C. familiaris	CFA-NOVEL-13
+42	C. familiaris	CFA-NOVEL-18
+42	C. familiaris	MIR-8859
+42	C. familiaris	MIR-1835
+42	C. familiaris	CFA-NOVEL-21
+42	C. familiaris	MIR-1844
+42	C. familiaris	MIR-1840
+43	C. gigas	CGI-NOVEL-21
+43	C. gigas	CGI-NOVEL-22
+43	C. gigas	CGI-NOVEL-20
+43	C. gigas	CGI-NOVEL-14
+43	C. gigas	CGI-NOVEL-15
+43	C. gigas	CGI-NOVEL-16
+43	C. gigas	CGI-NOVEL-10
+43	C. gigas	CGI-NOVEL-12
+43	C. gigas	CGI-NOVEL-13
+43	C. gigas	CGI-NOVEL-18
+43	C. gigas	CGI-NOVEL-17
+43	C. gigas	CGI-NOVEL-11
+43	C. gigas	CGI-NOVEL-1
+43	C. gigas	CGI-NOVEL-6
+43	C. gigas	CGI-NOVEL-7
+43	C. gigas	CGI-NOVEL-4
+43	C. gigas	CGI-NOVEL-5
+43	C. gigas	CGI-NOVEL-8
+43	C. gigas	CGI-NOVEL-19
+43	C. gigas	CGI-NOVEL-2
+43	C. gigas	CGI-NOVEL-3
+43	C. gigas	CGI-NOVEL-9
+44	Neotrochozoa	MIR-1990
+44	Neotrochozoa	MIR-1994
+44	Neotrochozoa	MIR-1986
+45	Mollusca	MIR-1985
+45	Mollusca	MIR-1984
+45	Mollusca	MIR-2722
+46	Lophotrochozoa	MIR-1992
+46	Lophotrochozoa	MIR-1989
+47	C. intestinalis	MIR-4076
+47	C. intestinalis	MIR-4070
+47	C. intestinalis	MIR-4071
+47	C. intestinalis	MIR-4073
+47	C. intestinalis	MIR-4078
+47	C. intestinalis	MIR-4079
+47	C. intestinalis	MIR-4086
+47	C. intestinalis	MIR-5601
+47	C. intestinalis	MIR-4179
+47	C. intestinalis	MIR-4043
+47	C. intestinalis	MIR-5600
+47	C. intestinalis	MIR-4029
+47	C. intestinalis	MIR-4092
+47	C. intestinalis	MIR-4077
+47	C. intestinalis	MIR-4081
+47	C. intestinalis	MIR-3599
+47	C. intestinalis	MIR-4067
+47	C. intestinalis	MIR-4065
+47	C. intestinalis	MIR-4063
+47	C. intestinalis	MIR-4062
+47	C. intestinalis	MIR-4061
+47	C. intestinalis	MIR-4060
+47	C. intestinalis	MIR-4068
+47	C. intestinalis	MIR-5611
+47	C. intestinalis	MIR-4032
+47	C. intestinalis	MIR-4018
+47	C. intestinalis	MIR-4014
+47	C. intestinalis	MIR-4015
+47	C. intestinalis	MIR-4010
+47	C. intestinalis	MIR-4011
+47	C. intestinalis	MIR-4053
+47	C. intestinalis	MIR-1495
+47	C. intestinalis	MIR-1502
+47	C. intestinalis	MIR-3598
+47	C. intestinalis	MIR-4003
+47	C. intestinalis	MIR-4085
+47	C. intestinalis	MIR-4047
+47	C. intestinalis	MIR-4127
+47	C. intestinalis	MIR-4052
+47	C. intestinalis	MIR-4054
+47	C. intestinalis	MIR-4055
+47	C. intestinalis	MIR-4057
+47	C. intestinalis	MIR-1497
+47	C. intestinalis	MIR-4031
+47	C. intestinalis	MIR-4017
+47	C. intestinalis	MIR-4033
+47	C. intestinalis	MIR-4036
+47	C. intestinalis	MIR-4000
+47	C. intestinalis	CIN-NOVEL-4
+47	C. intestinalis	MIR-4093
+47	C. intestinalis	MIR-4200
+47	C. intestinalis	MIR-4039
+47	C. intestinalis	MIR-4030
+47	C. intestinalis	MIR-4034
+47	C. intestinalis	MIR-4037
+47	C. intestinalis	CIN-NOVEL-9
+47	C. intestinalis	CIN-NOVEL-8
+47	C. intestinalis	CIN-NOVEL-3
+47	C. intestinalis	CIN-NOVEL-2
+47	C. intestinalis	CIN-NOVEL-1
+47	C. intestinalis	CIN-NOVEL-7
+47	C. intestinalis	MIR-4050
+47	C. intestinalis	CIN-NOVEL-5
+47	C. intestinalis	MIR-4048
+47	C. intestinalis	MIR-4045
+47	C. intestinalis	MIR-4044
+47	C. intestinalis	MIR-4046
+47	C. intestinalis	MIR-4041
+47	C. intestinalis	MIR-4040
+47	C. intestinalis	MIR-5610
+47	C. intestinalis	MIR-4013
+47	C. intestinalis	CIN-NOVEL-6
+48	Neoaves	MIR-9619
+49	Neognathae	MIR-1781
+49	Neognathae	MIR-1729
+49	Neognathae	MIR-2954
+49	Neognathae	MIR-1467
+49	Neognathae	MIR-2984
+49	Neognathae	MIR-1552
+49	Neognathae	MIR-1559
+49	Neognathae	MIR-1451
+49	Neognathae	MIR-2131
+50	C. livia	MIR-9636
+50	C. livia	MIR-9640
+50	C. livia	MIR-9643
+50	C. livia	MIR-9644
+50	C. livia	MIR-9646
+50	C. livia	MIR-9648
+50	C. livia	MIR-9634
+50	C. livia	MIR-9631
+50	C. livia	MIR-9633
+50	C. livia	MIR-9616
+50	C. livia	MIR-9622
+50	C. livia	MIR-9623
+50	C. livia	MIR-9621
+50	C. livia	MIR-9627
+50	C. livia	MIR-9625
+51	C. picta	MIR-9590
+51	C. picta	MIR-9594
+51	C. picta	MIR-9595
+51	C. picta	MIR-9592
+51	C. picta	MIR-9579
+51	C. picta	MIR-9589
+51	C. picta	MIR-9588
+51	C. picta	MIR-9587
+51	C. picta	MIR-9586
+51	C. picta	MIR-9585
+51	C. picta	MIR-9584
+51	C. picta	MIR-9583
+51	C. picta	MIR-9581
+51	C. picta	MIR-9580
+51	C. picta	MIR-9593
+51	C. picta	MIR-9578
+51	C. picta	CPI-NOVEL-1
+51	C. picta	MIR-9597
+52	C. porcellus	MIR-12081
+52	C. porcellus	MIR-12080
+52	C. porcellus	MIR-12083
+52	C. porcellus	MIR-12082
+52	C. porcellus	MIR-12084
+52	C. porcellus	MIR-12075
+52	C. porcellus	MIR-12074
+52	C. porcellus	MIR-12077
+52	C. porcellus	MIR-12072
+52	C. porcellus	MIR-12073
+52	C. porcellus	MIR-12078
+52	C. porcellus	MIR-12079
+52	C. porcellus	MIR-12076
+53	Euarchontoglires	MIR-511
+53	Euarchontoglires	MIR-770
+54	Glires	MIR-872
+55	C. teleta	MIR-2697
+55	C. teleta	MIR-2702
+55	C. teleta	MIR-2703
+55	C. teleta	MIR-2692
+55	C. teleta	MIR-2699
+56	Capitella + Clittelata	NA
+57	Annelida	MIR-2689
+57	Annelida	MIR-2685
+57	Annelida	MIR-2687
+57	Annelida	MIR-2686
+57	Annelida	MIR-2707
+57	Annelida	MIR-1998
+57	Annelida	MIR-1995
+57	Annelida	MIR-1996
+57	Annelida	MIR-1997
+57	Annelida	MIR-2691
+57	Annelida	MIR-2690
+57	Annelida	MIR-2705
+57	Annelida	MIR-2693
+57	Annelida	MIR-1987
+57	Annelida	MIR-2000
+58	D. melanogaster group	MIR-986
+58	D. melanogaster group	MIR-959
+58	D. melanogaster group	MIR-961
+58	D. melanogaster group	MIR-1007
+58	D. melanogaster group	MIR-1014
+58	D. melanogaster group	MIR-978
+59	D. ananassae	DAN-NOVEL-1
+59	D. ananassae	DAN-NOVEL-3
+59	D. ananassae	DAN-NOVEL-6
+59	D. ananassae	DAN-NOVEL-7
+59	D. ananassae	DAN-NOVEL-5
+59	D. ananassae	DAN-NOVEL-20
+59	D. ananassae	DAN-NOVEL-8
+59	D. ananassae	DAN-NOVEL-12
+59	D. ananassae	DAN-NOVEL-13
+59	D. ananassae	DAN-NOVEL-10
+59	D. ananassae	DAN-NOVEL-11
+59	D. ananassae	DAN-NOVEL-16
+59	D. ananassae	DAN-NOVEL-17
+59	D. ananassae	DAN-NOVEL-14
+59	D. ananassae	DAN-NOVEL-15
+59	D. ananassae	DAN-NOVEL-18
+59	D. ananassae	DAN-NOVEL-19
+59	D. ananassae	DAN-NOVEL-2
+59	D. ananassae	DAN-NOVEL-4
+59	D. ananassae	DAN-NOVEL-9
+60	D. melanogaster	MIR-4983
+60	D. melanogaster	MIR-4984
+60	D. melanogaster	MIR-303
+60	D. melanogaster	MIR-4969
+60	D. melanogaster	MIR-982
+60	D. melanogaster	MIR-985
+60	D. melanogaster	MIR-2501
+60	D. melanogaster	MIR-9388
+60	D. melanogaster	MIR-1001
+60	D. melanogaster	MIR-1004
+60	D. melanogaster	MIR-1005
+60	D. melanogaster	MIR-1008
+60	D. melanogaster	MIR-997
+60	D. melanogaster	MIR-992
+60	D. melanogaster	MIR-991
+60	D. melanogaster	MIR-967
+60	D. melanogaster	MIR-966
+60	D. melanogaster	MIR-2279
+60	D. melanogaster	MIR-1009
+60	D. melanogaster	MIR-1013
+60	D. melanogaster	MIR-972
+60	D. melanogaster	MIR-2499
+60	D. melanogaster	MIR-1012
+60	D. melanogaster	MIR-983
+61	D. mojavensis	MIR-9707
+61	D. mojavensis	MIR-9701
+61	D. mojavensis	DMO-NOVEL-15
+61	D. mojavensis	DMO-NOVEL-16
+61	D. mojavensis	DMO-NOVEL-11
+61	D. mojavensis	DMO-NOVEL-10
+61	D. mojavensis	DMO-NOVEL-13
+61	D. mojavensis	DMO-NOVEL-12
+61	D. mojavensis	MIR-9703
+61	D. mojavensis	DMO-NOVEL-9
+61	D. mojavensis	DMO-NOVEL-1
+61	D. mojavensis	DMO-NOVEL-3
+61	D. mojavensis	DMO-NOVEL-5
+61	D. mojavensis	DMO-NOVEL-4
+61	D. mojavensis	DMO-NOVEL-7
+61	D. mojavensis	MIR-9692
+61	D. mojavensis	MIR-9696
+61	D. mojavensis	DMO-NOVEL-14
+61	D. mojavensis	DMO-NOVEL-6
+61	D. mojavensis	MIR-9717
+61	D. mojavensis	DMO-NOVEL-8
+61	D. mojavensis	MIR-9540
+61	D. mojavensis	MIR-9538
+61	D. mojavensis	DMO-NOVEL-2
+61	D. mojavensis	MIR-9699
+61	D. mojavensis	MIR-9698
+62	D. novemcinctus	MIR-12085
+62	D. novemcinctus	MIR-12087
+62	D. novemcinctus	MIR-12086
+63	D. pulex	DPU-NOVEL-8
+63	D. pulex	DPU-NOVEL-1
+63	D. pulex	DPU-NOVEL-2
+63	D. pulex	DPU-NOVEL-3
+63	D. pulex	DPU-NOVEL-4
+63	D. pulex	DPU-NOVEL-5
+63	D. pulex	DPU-NOVEL-6
+63	D. pulex	DPU-NOVEL-7
+64	D. rerio	MIR-729
+64	D. rerio	MIR-728
+64	D. rerio	MIR-724
+64	D. rerio	MIR-723
+64	D. rerio	MIR-722
+64	D. rerio	MIR-7133
+64	D. rerio	MIR-7132
+64	D. rerio	MIR-734
+64	D. rerio	MIR-732
+64	D. rerio	DRE-NOVEL-1
+64	D. rerio	MIR-7149
+64	D. rerio	DRE-NOVEL-6
+64	D. rerio	DRE-NOVEL-7
+64	D. rerio	DRE-NOVEL-4
+64	D. rerio	DRE-NOVEL-5
+64	D. rerio	DRE-NOVEL-2
+64	D. rerio	DRE-NOVEL-3
+64	D. rerio	DRE-NOVEL-8
+64	D. rerio	MIR-2187
+64	D. rerio	MIR-2189
+64	D. rerio	MIR-2191
+64	D. rerio	MIR-7148
+65	E. fetida	EFE-NOVEL-3
+65	E. fetida	EFE-NOVEL-2
+65	E. fetida	EFE-NOVEL-1
+65	E. fetida	EFE-NOVEL-6
+65	E. fetida	EFE-NOVEL-5
+65	E. fetida	EFE-NOVEL-4
+66	E. telfairi	ETE-NOVEL-1
+66	E. telfairi	ETE-NOVEL-3
+66	E. telfairi	ETE-NOVEL-2
+66	E. telfairi	ETE-NOVEL-4
+66	E. telfairi	ETE-NOVEL-7
+66	E. telfairi	ETE-NOVEL-5
+66	E. telfairi	ETE-NOVEL-6
+67	G. gallus	MIR-12246
+67	G. gallus	MIR-1601
+67	G. gallus	MIR-1806
+67	G. gallus	MIR-10585
+67	G. gallus	MIR-1651
+67	G. gallus	MIR-7462
+67	G. gallus	MIR-1685
+67	G. gallus	MIR-1618
+67	G. gallus	MIR-12265
+67	G. gallus	MIR-1668
+67	G. gallus	MIR-1669
+67	G. gallus	MIR-1663
+67	G. gallus	MIR-1560
+67	G. gallus	MIR-1596
+67	G. gallus	MIR-12223
+67	G. gallus	MIR-1591
+67	G. gallus	MIR-12277
+67	G. gallus	MIR-1550
+67	G. gallus	MIR-1551
+67	G. gallus	MIR-1555
+67	G. gallus	MIR-7441
+67	G. gallus	MIR-1751
+67	G. gallus	MIR-1774
+67	G. gallus	MIR-1452
+67	G. gallus	MIR-1689
+67	G. gallus	MIR-1736
+67	G. gallus	MIR-1731
+67	G. gallus	MIR-1553
+67	G. gallus	MIR-1728
+68	H. melpomene	MIR-3338
+68	H. melpomene	MIR-2767
+68	H. melpomene	MIR-6302
+68	H. melpomene	MIR-3327
+68	H. melpomene	MIR-2786
+68	H. melpomene	MIR-2756
+68	H. melpomene	MIR-2755
+68	H. melpomene	MIR-2797
+68	H. melpomene	MIR-6301
+68	H. melpomene	MIR-6304
+68	H. melpomene	MIR-6305
+68	H. melpomene	MIR-6307
+68	H. melpomene	HME-NOVEL-7
+68	H. melpomene	HME-NOVEL-6
+68	H. melpomene	HME-NOVEL-5
+68	H. melpomene	HME-NOVEL-4
+68	H. melpomene	HME-NOVEL-3
+68	H. melpomene	HME-NOVEL-2
+68	H. melpomene	HME-NOVEL-1
+68	H. melpomene	MIR-2763
+68	H. melpomene	MIR-2766
+68	H. melpomene	MIR-10485
+69	H. sapiens	MIR-7854
+69	H. sapiens	MIR-3174
+69	H. sapiens	MIR-1276
+69	H. sapiens	MIR-1278
+69	H. sapiens	MIR-561
+69	H. sapiens	MIR-3924
+69	H. sapiens	MIR-4637
+69	H. sapiens	MIR-1295
+69	H. sapiens	MIR-3138
+69	H. sapiens	MIR-5000
+69	H. sapiens	MIR-5683
+69	H. sapiens	MIR-3619
+69	H. sapiens	MIR-1294
+69	H. sapiens	MIR-4661
+69	H. sapiens	MIR-4662
+69	H. sapiens	MIR-4664
+69	H. sapiens	MIR-3622
+69	H. sapiens	MIR-766
+69	H. sapiens	MIR-5581
+69	H. sapiens	MIR-5586
+69	H. sapiens	MIR-1910
+69	H. sapiens	MIR-1913
+69	H. sapiens	MIR-1914
+69	H. sapiens	MIR-3127
+69	H. sapiens	MIR-3126
+69	H. sapiens	MIR-2467
+69	H. sapiens	MIR-5010
+69	H. sapiens	MIR-2116
+69	H. sapiens	MIR-3194
+69	H. sapiens	MIR-629
+69	H. sapiens	MIR-1252
+69	H. sapiens	MIR-3940
+69	H. sapiens	MIR-3942
+69	H. sapiens	MIR-3944
+69	H. sapiens	MIR-5579
+69	H. sapiens	MIR-1287
+69	H. sapiens	MIR-585
+69	H. sapiens	MIR-2276
+69	H. sapiens	MIR-3136
+69	H. sapiens	MIR-3909
+69	H. sapiens	MIR-1908
+69	H. sapiens	MIR-3690
+69	H. sapiens	MIR-580
+69	H. sapiens	MIR-1270
+69	H. sapiens	MIR-3663
+69	H. sapiens	MIR-3187
+69	H. sapiens	MIR-1266
+69	H. sapiens	MIR-1269
+69	H. sapiens	MIR-616
+69	H. sapiens	MIR-3611
+69	H. sapiens	MIR-2115
+69	H. sapiens	MIR-2277
+69	H. sapiens	MIR-3180
+69	H. sapiens	MIR-4731
+69	H. sapiens	MIR-1286
+69	H. sapiens	MIR-3144
+69	H. sapiens	MIR-556
+69	H. sapiens	MIR-552
+69	H. sapiens	MIR-5687
+69	H. sapiens	MIR-4424
+69	H. sapiens	MIR-7151
+70	Catarrhini	MIR-887
+70	Catarrhini	MIR-4677
+70	Catarrhini	MIR-605
+70	Catarrhini	MIR-944
+70	Catarrhini	MIR-1323
+70	Catarrhini	MIR-3617
+70	Catarrhini	MIR-579
+70	Catarrhini	MIR-577
+70	Catarrhini	MIR-4524
+70	Catarrhini	MIR-498
+70	Catarrhini	MIR-624
+70	Catarrhini	MIR-584
+70	Catarrhini	MIR-589
+70	Catarrhini	MIR-642
+70	Catarrhini	MIR-4766
+70	Catarrhini	MIR-3173
+70	Catarrhini	MIR-3200
+70	Catarrhini	MIR-3146
+70	Catarrhini	MIR-934
+70	Catarrhini	MIR-1180
+70	Catarrhini	MIR-597
+70	Catarrhini	MIR-3934
+70	Catarrhini	MIR-576
+70	Catarrhini	MIR-3140
+70	Catarrhini	MIR-3145
+70	Catarrhini	MIR-550
+70	Catarrhini	MIR-651
+71	Ixodes	NA
+72	Ixodes sp.	MIR-3931
+72	Ixodes sp.	MIR-5305
+73	L. anatina	MIR-5045
+73	L. anatina	LAN-NOVEL-2
+73	L. anatina	LAN-NOVEL-1
+74	Gastropoda	NA
+75	L. gigantea	MIR-1988
+75	L. gigantea	LGI-NOVEL-2
+75	L. gigantea	LGI-NOVEL-1
+75	L. gigantea	LGI-NOVEL-3
+76	M. domestica	MIR-7360
+76	M. domestica	MIR-1544
+76	M. domestica	MIR-12337
+76	M. domestica	MDO-NOVEL-4
+76	M. domestica	MIR-7391
+76	M. domestica	MIR-7393
+76	M. domestica	MIR-7395
+76	M. domestica	MIR-7301
+76	M. domestica	MIR-7307
+76	M. domestica	MIR-7289
+76	M. domestica	MIR-7344
+76	M. domestica	MIR-12325
+76	M. domestica	MIR-7244
+76	M. domestica	MIR-7248
+76	M. domestica	MIR-7382
+76	M. domestica	MIR-7380
+76	M. domestica	MIR-7389
+76	M. domestica	MIR-7388
+76	M. domestica	MIR-7270
+76	M. domestica	MIR-7298
+76	M. domestica	MIR-7277
+76	M. domestica	MIR-7296
+76	M. domestica	MIR-7275
+76	M. domestica	MIR-7390
+76	M. domestica	MIR-7365
+76	M. domestica	MIR-7361
+76	M. domestica	MIR-7313
+76	M. domestica	MIR-7257
+76	M. domestica	MIR-12298
+76	M. domestica	MIR-7357
+76	M. domestica	MIR-7358
+76	M. domestica	MIR-7359
+77	Marsupialia	MIR-1541
+77	Marsupialia	MIR-1547
+77	Marsupialia	MIR-1546
+77	Marsupialia	MIR-1542
+77	Marsupialia	MIR-12380
+77	Marsupialia	MIR-7394
+77	Marsupialia	MIR-7397
+77	Marsupialia	MIR-7398
+77	Marsupialia	MIR-7309
+77	Marsupialia	MIR-7304
+77	Marsupialia	MIR-7286
+77	Marsupialia	MIR-7284
+77	Marsupialia	MIR-7246
+77	Marsupialia	MIR-7247
+77	Marsupialia	MIR-7383
+77	Marsupialia	MIR-7385
+77	Marsupialia	MIR-7336
+77	Marsupialia	MIR-7332
+77	Marsupialia	MIR-7377
+77	Marsupialia	MIR-12404
+77	Marsupialia	MIR-7281
+77	Marsupialia	MIR-7303
+77	Marsupialia	MIR-12316
+77	Marsupialia	MAR-NOVEL-3
+77	Marsupialia	MAR-NOVEL-2
+77	Marsupialia	MIR-12366
+77	Marsupialia	MIR-7293
+77	Marsupialia	MIR-7292
+77	Marsupialia	MIR-7378
+77	Marsupialia	MIR-7379
+77	Marsupialia	MIR-7373
+77	Marsupialia	MIR-7370
+77	Marsupialia	MIR-7371
+77	Marsupialia	MIR-7376
+77	Marsupialia	MIR-7333
+77	Marsupialia	MIR-12355
+77	Marsupialia	MIR-12358
+77	Marsupialia	MIR-7254
+77	Marsupialia	MIR-1540
+77	Marsupialia	MIR-7392
+77	Marsupialia	MIR-7323
+77	Marsupialia	MIR-7327
+77	Marsupialia	MIR-1549
+77	Marsupialia	MAR-NOVEL-1
+77	Marsupialia	MIR-7262
+77	Marsupialia	MIR-7363
+77	Marsupialia	MIR-7319
+77	Marsupialia	MIR-7251
+77	Marsupialia	MIR-7368
+78	M. mulatta	MIR-7208
+78	M. mulatta	MIR-7174
+78	M. mulatta	MIR-7170
+78	M. mulatta	MIR-7172
+78	M. mulatta	MML-NOVEL-12
+78	M. mulatta	MML-NOVEL-7
+78	M. mulatta	MML-NOVEL-6
+78	M. mulatta	MML-NOVEL-5
+78	M. mulatta	MML-NOVEL-4
+78	M. mulatta	MML-NOVEL-3
+78	M. mulatta	MML-NOVEL-2
+78	M. mulatta	MML-NOVEL-1
+78	M. mulatta	MML-NOVEL-9
+78	M. mulatta	MML-NOVEL-8
+78	M. mulatta	MIR-7179
+78	M. mulatta	MIR-7205
+78	M. mulatta	MIR-7181
+78	M. mulatta	MIR-7184
+78	M. mulatta	MIR-7189
+78	M. mulatta	MML-NOVEL-13
+78	M. mulatta	MML-NOVEL-11
+78	M. mulatta	MML-NOVEL-10
+78	M. mulatta	MML-NOVEL-15
+78	M. mulatta	MML-NOVEL-14
+79	M. musculus	MIR-3067
+79	M. musculus	MIR-1934
+79	M. musculus	MIR-1933
+79	M. musculus	MIR-1930
+79	M. musculus	MIR-3105
+79	M. musculus	MIR-3101
+79	M. musculus	MIR-3086
+79	M. musculus	MIR-3073
+79	M. musculus	MIR-1929
+79	M. musculus	MIR-1198
+79	M. musculus	MIR-3097
+79	M. musculus	MIR-3095
+79	M. musculus	MIR-3093
+79	M. musculus	MIR-3092
+79	M. musculus	MIR-3091
+79	M. musculus	MIR-3090
+79	M. musculus	MIR-3098
+79	M. musculus	MIR-1964
+79	M. musculus	MIR-3109
+79	M. musculus	MIR-3057
+79	M. musculus	MIR-3058
+79	M. musculus	MIR-3080
+79	M. musculus	MIR-1958
+79	M. musculus	MIR-3079
+79	M. musculus	MIR-1960
+79	M. musculus	MIR-1953
+79	M. musculus	MIR-5626
+79	M. musculus	MIR-5621
+79	M. musculus	MIR-7211
+79	M. musculus	MIR-3110
+79	M. musculus	MIR-3066
+79	M. musculus	MIR-3061
+79	M. musculus	MIR-1981
+79	M. musculus	MIR-7220
+79	M. musculus	MIR-1948
+79	M. musculus	MIR-1947
+79	M. musculus	MIR-1943
+79	M. musculus	MIR-1941
+79	M. musculus	MIR-3081
+79	M. musculus	MIR-701
+79	M. musculus	MIR-7647
+79	M. musculus	MIR-3060
+80	Muridae	MIR-3072
+80	Muridae	MIR-3112
+80	Muridae	MIR-3099
+80	Muridae	MIR-673
+80	Muridae	MIR-674
+80	Muridae	MIR-351
+80	Muridae	MIR-1962
+80	Muridae	MIR-1955
+80	Muridae	MIR-666
+80	Muridae	MIR-667
+80	Muridae	MIR-3075
+80	Muridae	MIR-540
+80	Muridae	MIR-3068
+80	Muridae	MIR-298
+80	Muridae	MIR-879
+80	Muridae	MIR-700
+81	O. anatinus	MIR-1338
+81	O. anatinus	MIR-1339
+81	O. anatinus	MIR-1391
+81	O. anatinus	OAN-NOVEL-13
+81	O. anatinus	OAN-NOVEL-11
+81	O. anatinus	MIR-1332
+81	O. anatinus	MIR-7416
+81	O. anatinus	MIR-7419
+81	O. anatinus	MIR-1398
+81	O. anatinus	MIR-1374
+81	O. anatinus	MIR-1375
+81	O. anatinus	MIR-1376
+81	O. anatinus	MIR-7414
+81	O. anatinus	OAN-NOVEL-10
+81	O. anatinus	OAN-NOVEL-12
+81	O. anatinus	OAN-NOVEL-9
+81	O. anatinus	OAN-NOVEL-8
+81	O. anatinus	OAN-NOVEL-2
+81	O. anatinus	MIR-1340
+81	O. anatinus	MIR-1327
+81	O. anatinus	MIR-1419
+81	O. anatinus	MIR-1390
+81	O. anatinus	MIR-7428
+81	O. anatinus	MIR-7422
+81	O. anatinus	MIR-7423
+81	O. anatinus	MIR-1365
+81	O. anatinus	MIR-1363
+81	O. anatinus	MIR-1362
+81	O. anatinus	MIR-1361
+81	O. anatinus	MIR-1360
+81	O. anatinus	MIR-1400
+81	O. anatinus	MIR-1401
+81	O. anatinus	MIR-1395
+81	O. anatinus	OAN-NOVEL-6
+81	O. anatinus	OAN-NOVEL-5
+81	O. anatinus	OAN-NOVEL-4
+81	O. anatinus	OAN-NOVEL-3
+81	O. anatinus	MIR-1381
+81	O. anatinus	MIR-1380
+81	O. anatinus	MIR-1389
+81	O. anatinus	MIR-1409
+81	O. anatinus	MIR-7435
+81	O. anatinus	MIR-7433
+81	O. anatinus	MIR-7432
+81	O. anatinus	MIR-1405
+81	O. anatinus	MIR-1350
+81	O. anatinus	MIR-1355
+81	O. anatinus	MIR-1422
+81	O. anatinus	OAN-NOVEL-7
+81	O. anatinus	MIR-7406
+81	O. anatinus	OAN-NOVEL-1
+81	O. anatinus	MIR-1421
+82	O. cuniculus	MIR-12093
+82	O. cuniculus	MIR-12090
+82	O. cuniculus	MIR-12091
+82	O. cuniculus	MIR-12094
+82	O. cuniculus	MIR-12095
+82	O. cuniculus	MIR-12092
+82	O. cuniculus	OCU-NOVEL-1
+83	Enteropneusta	MIR-4825
+83	Enteropneusta	MIR-4824
+83	Enteropneusta	MIR-4841
+83	Enteropneusta	MIR-4830
+83	Enteropneusta	MIR-4831
+83	Enteropneusta	MIR-4835
+83	Enteropneusta	MIR-4838
+83	Enteropneusta	MIR-4839
+83	Enteropneusta	MIR-4820
+83	Enteropneusta	MIR-4826
+83	Enteropneusta	MIR-4819
+84	P. flava	PFL-NOVEL-1
+84	P. flava	PFL-NOVEL-2
+84	P. flava	PFL-NOVEL-3
+85	Ambulacraria	MIR-2011
+85	Ambulacraria	MIR-2012
+85	Ambulacraria	MIR-2009
+85	Ambulacraria	MIR-2008
+85	Ambulacraria	MIR-2007
+85	Ambulacraria	MIR-2006
+86	Hemichordata	MIR-4829
+86	Hemichordata	MIR-4828
+86	Hemichordata	MIR-4834
+86	Hemichordata	MIR-4818
+87	P. miniata	NA
+88	Echinodermata	MIR-2010
+88	Echinodermata	MIR-2002
+88	Echinodermata	MIR-2004
+89	Eleutherozoa	MIR-2005
+90	R. norvegicus	MIR-3559
+90	R. norvegicus	MIR-3558
+90	R. norvegicus	MIR-6324
+90	R. norvegicus	MIR-6329
+90	R. norvegicus	MIR-3593
+90	R. norvegicus	MIR-3580
+91	S. harrisii	SHA-NOVEL-7
+91	S. harrisii	SHA-NOVEL-6
+91	S. harrisii	SHA-NOVEL-5
+91	S. harrisii	SHA-NOVEL-8
+91	S. harrisii	SHA-NOVEL-4
+91	S. harrisii	SHA-NOVEL-9
+91	S. harrisii	SHA-NOVEL-18
+91	S. harrisii	SHA-NOVEL-13
+91	S. harrisii	SHA-NOVEL-12
+91	S. harrisii	SHA-NOVEL-11
+91	S. harrisii	SHA-NOVEL-10
+91	S. harrisii	SHA-NOVEL-17
+91	S. harrisii	SHA-NOVEL-16
+91	S. harrisii	SHA-NOVEL-15
+91	S. harrisii	SHA-NOVEL-14
+92	S. kowalevskii	MIR-4823
+93	S. purpuratus	MIR-4847
+93	S. purpuratus	SPU-NOVEL-3
+93	S. purpuratus	SPU-NOVEL-2
+93	S. purpuratus	SPU-NOVEL-1
+93	S. purpuratus	SPU-NOVEL-5
+93	S. purpuratus	SPU-NOVEL-4
+94	S. torazame	STO-NOVEL-1
+94	S. torazame	STO-NOVEL-3
+94	S. torazame	STO-NOVEL-2
+94	S. torazame	STO-NOVEL-4
+95	T. castaneum	MIR-3809
+95	T. castaneum	MIR-3853
+95	T. castaneum	MIR-3851
+95	T. castaneum	MIR-11626
+95	T. castaneum	MIR-3816
+95	T. castaneum	MIR-11630
+95	T. castaneum	MIR-11636
+95	T. castaneum	MIR-11635
+95	T. castaneum	MIR-11634
+95	T. castaneum	MIR-3862
+95	T. castaneum	MIR-3863
+95	T. castaneum	MIR-3893
+95	T. castaneum	MIR-3822
+95	T. castaneum	MIR-3821
+95	T. castaneum	MIR-3824
+95	T. castaneum	MIR-3825
+95	T. castaneum	MIR-3836
+95	T. castaneum	MIR-11624
+95	T. castaneum	MIR-11621
+95	T. castaneum	MIR-11622
+95	T. castaneum	MIR-3814
+95	T. castaneum	MIR-3811
+95	T. castaneum	MIR-11617
+95	T. castaneum	MIR-11619
+95	T. castaneum	MIR-11618
+95	T. castaneum	MIR-3840
+95	T. castaneum	MIR-3849
+95	T. castaneum	MIR-3841
+95	T. castaneum	MIR-3842
+95	T. castaneum	MIR-3843
+95	T. castaneum	MIR-3820
+96	T. guttata	MIR-2958
+96	T. guttata	MIR-7643
+96	T. guttata	MIR-2965
+96	T. guttata	MIR-2987
+96	T. guttata	MIR-2962
+96	T. guttata	MIR-2997
+97	X. tropicalis	XTR-NOVEL-3
+97	X. tropicalis	XTR-NOVEL-2
+97	X. tropicalis	XTR-NOVEL-1
