@@ -5,8 +5,10 @@ Installation
 ------------
 To create required environment using Anaconda:
 
-`conda env create -f environment.yaml`
-`conda activate mirmachine`
+```
+conda env create -f environment.yaml
+conda activate mirmachine
+```
 
 Quick start example
 -------------------
