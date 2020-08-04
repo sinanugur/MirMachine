@@ -1,6 +1,11 @@
 # miRmachine
 Command line to tool detect miRNA homolog sequences.
 
+Installation
+------------
+
+`conda env create -f environment.yaml`
+
 Quick start example
 -------------------
 ```
