@@ -43,11 +43,14 @@ rule prepare_genome:
 	input:
 		genome
 	output:
-		genome + ".fai",
-		genome + ".size"
+		"data/genomes/" + species + ".fai",
+		"data/genomes/" + species + ".size"
+		#genome + ".fai",
+		#genome + ".size"
 	shell:
 		"""
 		samtools faidx {input};
+		mv {genome}.fai {output[0]};
 		cut -f1,2 {output[0]} > {output[1]};
 		"""
 rule search_CM:
@@ -64,7 +67,8 @@ rule search_CM:
 rule parse_output:
 	input:
 		"analyses/output/{species}/{mirna}.result",
-		genome + ".size"
+		"data/genomes/" + species + ".size"
+		#genome + ".size"
 	output:
 		"analyses/output/{species}/{mirna}.gff",
 		temp("analyses/output/{species}/{mirna}.ext.gff"),
@@ -77,7 +81,7 @@ rule parse_output:
 		"""
 		#parse the result file into GFF file
 		awk '{{print}} /Hit alignments/ {{exit}}' {input[0]} | gawk -v id={wildcards.mirna} {params.parse} > {output[0]}
-		bedtools slop -i {output[0]} -g {genome}.size -b 30 > {output[1]}
+		bedtools slop -i {output[0]} -g {input[1]} -b 30 > {output[1]}
 
 		#write the sequences into the GFF file
 		paste --delimiters=";" {output[0]} <(bedtools getfasta -tab -s -fi {genome} -bed {output[1]} | awk '{{print "sequence_with_30nt="$2}}') > {output[2]}
