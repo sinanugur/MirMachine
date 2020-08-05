@@ -8,12 +8,17 @@ To create required environment using Anaconda:
 ```
 conda env create -f environment.yaml
 conda activate mirmachine
+```
+
+Then clone git repo:
+```
 git clone https://github.com/sinanugur/miRmachine.git
 cd miRmachine
 ```
 
 Quick start example
 -------------------
+You can run miRmachine directly inside the cloned directory.
 ```
 ./miRmachine-main.py -n Caenorhabditis -s Caenorhabditis_elegans --genome data/genomes/ce11.fasta -m proto --cpu 20
 ```
