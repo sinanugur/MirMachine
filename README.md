@@ -1,5 +1,5 @@
 # miRmachine
-Command line to tool detect miRNA homolog sequences.
+A command line to tool detect miRNA homologs in genome sequences.
 
 Installation
 ------------
