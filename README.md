@@ -1,4 +1,4 @@
-# miRmachine
+# MirMachine
 A command line to tool detect miRNA homologs in genome sequences.
 
 Installation
