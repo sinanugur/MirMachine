@@ -46,6 +46,12 @@ Options:
 Output
 ------
 The `miRmachine` main executable will generate GFF annotations (filtered and unfiltered) and some other files.
-You will see `results/predictions/` directory.
+You will see `results/predictions/` directory which contains:
+
+```
+fasta/
+gff/
+filtered_gff/
+```
 
 
