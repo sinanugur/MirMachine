@@ -49,9 +49,9 @@ The `miRmachine` main executable will generate GFF annotations (filtered and unf
 You will see `results/predictions/` directory which contains:
 
 ```
-gff/ _All predicted miRNAs._
-filtered_gff/ _High confidence predictions after bitscore filtering._
-fasta/ _Both high and low confidence predictions in FASTA format._
+gff/ __All predicted miRNAs.__
+filtered_gff/ __High confidence predictions after bitscore filtering.__
+fasta/ __Both high and low confidence predictions in FASTA format.__
 ```
 
 
