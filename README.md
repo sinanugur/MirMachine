@@ -27,18 +27,22 @@ Options and Arguments
 ---------------------
 ```
 Usage:
-    miRmachine-main.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>]
-    miRmachine-main.py (-h | --help)
-    miRmachine-main.py --version
+    mirmachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes] [--dry]
+    mirmachine.py --print-all-nodes
+    mirmachine.py (-h | --help)
+    mirmachine.py --version
 
 Arguments:
     -n <text>, --node <text>              Node name. (e.g. Caenorhabditis)
     -s <text>, --species <text>           Species name. (e.g. Caenorhabditis_elegans)
-    -g <text>, --genome <text>            Genome FASTA file location (e.g. data/genome/example.fasta)
+    -g <text>, --genome <text>            Genome fasta file location (e.g. data/genome/example.fasta)
     -m <text>, --model <text>             Model type: deutero, proto, combined [default: proto]
     -c <integer>, --cpu <integer>         CPUs. [default: 2]
 
 Options:
+    -a --add-all-nodes                 Move on the tree both ways.
+    -d --dry                           Dry run.
+    -p --print-all-nodes               Print all available nodes and exit.
     -h --help                          Show this screen.
     --version                          Show version.
 ```
