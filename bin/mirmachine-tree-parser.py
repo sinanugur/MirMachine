@@ -44,15 +44,18 @@ SOFTWARE.
 __doc__="""Parse tree to find node miRNAs.
 
 Usage:
-    miRmachine-tree-parser.py <newick> <keyword>
-    miRmachine-tree-parser.py (-h | --help)
-    miRmachine-tree-parser.py --version
+    mirmachine-tree-parser.py <newick> <keyword> [--add-all-nodes]
+    mirmachine-tree-parser.py <newick> --print-all-nodes
+    mirmachine-tree-parser.py (-h | --help)
+    mirmachine-tree-parser.py --version
 
 Arguments:
     newick                              A newick tree.
     keyword                             A keyword to gather node miRNAs (e.g. Homo).
 
 Options:
+    -a --add-all-nodes                 Move on the tree both ways.
+    -p --print-all-nodes               Print all available nodes and exit.
     -h --help                          Show this screen.
     --version                          Show version.
 
@@ -63,20 +66,56 @@ def detect_ancestors(node,ancestors):
     if node == None:
         return
     else:
-        if node.name != None:
+        if node.name is not None:
             ancestors.extend([x.strip() for x in node.name.split("_")])
         detect_ancestors(node.ancestor,ancestors)
 
+    return
+
+def detect_descendants(node,descendants):
+    if not node:
+        return
+    else:
+        for i in node:
+            if i.name is not None and not i.is_leaf:
+                descendants.extend([x.strip() for x in i.name.split("_")])
+            detect_descendants(i.descendants,descendants)
+
+    return
+
+def walk_on_tree(newick_file):
+    descendants=[]
+    tree=newick.read(newick_file)
+    for node in tree[0].walk():
+        if node.name is not None and not node.is_leaf:
+            y=[x.strip() for x in node.name.split("_")]
+            descendants.extend(list(filter(lambda x: len(x) > 2,y)))
+    
+    while "group" in descendants: descendants.remove("group") 
+    for d in descendants:
+        print(d)
+
+    return
+
+
+
 def search_tree_for_keyword(newick_file,keyword):
 
-    ancestors=list()
+    ancestors=[]
+    descendants=[]
     tree=newick.read(newick_file)
     for node in tree[0].walk():
         if node.name is not None and node.name.find(keyword.strip()) != -1:
             detect_ancestors(node, ancestors)
-
-            for i in ancestors:
-                print(i)
+            detect_descendants([node], descendants)
+            while "group" in descendants: descendants.remove("group") 
+            while "group" in ancestors: ancestors.remove("group") 
+            
+            if arguments['--add-all-nodes']:
+                for d in descendants:
+                    print(d)
+            for a in ancestors:
+                print(a)
 
             break
 
@@ -88,9 +127,12 @@ def search_tree_for_keyword(newick_file,keyword):
 
 
 def main():
-    search_tree_for_keyword(arguments['<newick>'],arguments['<keyword>'])
+    if arguments["--print-all-nodes"]:
+        walk_on_tree(arguments['<newick>'])
+    else:
+        search_tree_for_keyword(arguments['<newick>'],arguments['<keyword>'])
 
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='0.95')
+    arguments = docopt(__doc__, version='0.97')
     main()
