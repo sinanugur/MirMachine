@@ -12,8 +12,8 @@ conda activate mirmachine
 
 Then clone git repo:
 ```
-git clone https://github.com/sinanugur/miRmachine.git
-cd miRmachine
+git clone https://github.com/sinanugur/MirMachine.git
+cd MirMachine
 ```
 
 Quick start example
