@@ -14,6 +14,7 @@ import newick
 import os
 import subprocess
 from pathlib import Path
+from datetime import datetime
 
 __author__ = 'sium'
 
@@ -93,9 +94,12 @@ def main():
         tree_parser_argument="bin/mirmachine-tree-parser.py meta/tree.newick --print-all-nodes"
         subprocess.call(tree_parser_argument,shell=True)
     else:
+        start_time = datetime.now()
         run_mirmachine()
+        end_time = datetime.now()
+        print('Total runtime: {}'.format(end_time - start_time))
 
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='0.1.02')
+    arguments = docopt(__doc__, version='0.1.2')
     main()
