@@ -12,15 +12,15 @@ conda activate mirmachine
 
 Then clone git repo:
 ```
-git clone https://github.com/sinanugur/miRmachine.git
-cd miRmachine
+git clone https://github.com/sinanugur/MirMachine.git
+cd MirMachine
 ```
 
 Quick start example
 -------------------
-You can run miRmachine directly inside the cloned directory.
+You can run MirMachine directly inside the cloned directory.
 ```
-bin/miRmachine-main.py -n Caenorhabditis -s Caenorhabditis_elegans --genome data/genomes/ce11.fasta -m proto --cpu 20
+bin/mirmachine.py -n Caenorhabditis -s Caenorhabditis_elegans --genome data/genomes/ce11.fasta -m proto --cpu 20
 ```
 
 Options and Arguments
@@ -49,7 +49,7 @@ Options:
 
 Output
 ------
-The `miRmachine` main executable will generate GFF annotations (filtered and unfiltered) and some other files.
+The `MirMachine` main executable will generate GFF annotations (filtered and unfiltered) and some other files.
 You will see `results/predictions/` directory which contains:
 
 `gff/` __All predicted miRNA families.__  
