@@ -1,27 +1,45 @@
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, Command
+import os
 
 with open("requirements.txt") as req:
     requirements=req.readlines()
+
+class CleanCommand(Command):
+    """Custom clean command to tidy up the project root."""
+    user_options = []
+    def initialize_options(self):
+        pass
+    def finalize_options(self):
+        pass
+    def run(self):
+        os.system('rm -vrf ./build ./dist ./*.pyc ./*.tgz ./*.egg-info')
+
+
+with open("README.md","r") as readme:
+    long_description=readme.read()
 
 setup(
     name="MirMachine",
     version="0.1.2",
     packages=find_packages(),
-    scripts=["bin/mirmachine.py"],
-
-    # Project uses reStructuredText, so ensure that the docutils get
-    # installed or upgraded on the target machine
+    scripts=["mirmachine/mirmachine.py"],
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    extras_require={"dev":["pytest>=3.7"]},
     #install_requires=requirements,
-
     include_package_data=True,
-    #package_data={"MirMachine": ["meta/nodes_mirnas_corrected.tsv","meta/cms/proto/*"]},
-    data_files={"meta": ["*.CM"]},
+    zip_safe=False,
+    #data_files={"meta":["*.tsv"]},
+    #data_files=[("meta",["*.CM"])],
     # metadata to display on PyPI
     author="Sinan U. Umu",
     author_email="sinanugur@gmail.com",
     description="MirMachine",
     keywords="RNA miRNA detection prediction",
-    #url="",   # project home page, if any
+        cmdclass={
+        'clean': CleanCommand,
+    },
+    url="https://github.com/sinanugur/MirMachine",   # project home page, if any
     classifiers=[
         "License :: OSI Approved :: Python Software Foundation License"
     ]
