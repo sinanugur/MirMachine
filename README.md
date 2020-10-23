@@ -1,5 +1,6 @@
 # MirMachine
 A command line to tool detect miRNA homologs in genome sequences.
+(http://www.repostatus.org/#active)
 
 Installation
 ------------
