@@ -19,19 +19,19 @@ pip install .
 
 Quick start example
 -------------------
-You can run MirMachine directly inside the cloned directory.
+Create a directory and run MirMachine there after installation. MirMachine will create the required directories while running.
 ```
-bin/mirmachine.py -n Caenorhabditis -s Caenorhabditis_elegans --genome data/genomes/ce11.fasta -m proto --cpu 20
+MirMachine.py -n Caenorhabditis -s Caenorhabditis_elegans --genome data/genomes/ce11.fasta -m proto --cpu 20
 ```
 
 Options and Arguments
 ---------------------
 ```
 Usage:
-    mirmachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes] [--dry]
-    mirmachine.py --print-all-nodes
-    mirmachine.py (-h | --help)
-    mirmachine.py --version
+    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes] [--dry]
+    MirMachine.py --print-all-nodes
+    MirMachine.py (-h | --help)
+    MirMachine.py --version
 
 Arguments:
     -n <text>, --node <text>              Node name. (e.g. Caenorhabditis)
