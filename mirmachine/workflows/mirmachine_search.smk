@@ -7,21 +7,21 @@ genome=config['genome']
 species=config['species']
 node=config['node']
 model=config.get('model','proto')
+meta_directory=config.get('meta_directory','meta')
+mirmachine_path=config.get('mirmachine_path','mirmachine')
 mirna=[x.title() + ".PRE" for x in config['mirnas']]
 
-cutoff_file="meta/cutoffs/" + model + "/mirmachine_trusted_cutoffs.tsv"
+cutoff_file=meta_directory + "/cutoffs/" + model + "/mirmachine_trusted_cutoffs.tsv"
 
 
 #pull out CMs, I added this part to check ready models
-files, = glob_wildcards("analyses/cms/{files}.CM")
+#files, = glob_wildcards("analyses/cms/{files}.CM")
 
-mirna_from=config.get('read_mirnas_from_cm_folder','No')
+#mirna_from=config.get('read_mirnas_from_cm_folder','No')
 
-if mirna_from == "Yes":
-	mirna=files
+#if mirna_from == "Yes":
+#	mirna=files
 
-
-#mirna.extend([x.title() + ".PRI" for x in config['mirnas']])
 
 #print (mirna)
 
@@ -55,7 +55,7 @@ rule prepare_genome:
 		"""
 rule search_CM:
 	input:
-		"meta/cms/" + model + "/{mirna}.CM"
+		meta_directory + "/cms/" + model + "/{mirna}.CM"
 	output:
 		"analyses/output/{species}/{mirna}.result"
 	threads: 15
@@ -87,7 +87,7 @@ rule parse_output:
 		paste --delimiters=";" {output[0]} <(bedtools getfasta -tab -s -fi {genome} -bed {output[1]} | awk '{{print "sequence_with_30nt="$2}}') > {output[2]}
 
 		#sort and filter overlapping
-		bin/gff_sort_and_compete.sh {output[2]} > {output[0]}
+		{mirmachine_path}/gff_sort_and_compete.sh {output[2]} > {output[0]}
 		"""
 
 

@@ -1,0 +1,8 @@
+include *.txt
+recursive-include mirmachine *.CM
+recursive-include mirmachine *.R
+recursive-include mirmachine *.newick
+recursive-include mirmachine *.pyc
+recursive-include mirmachine *.sh
+recursive-include mirmachine *.smk
+recursive-include mirmachine *.tsv

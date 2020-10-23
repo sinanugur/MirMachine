@@ -2,12 +2,12 @@
 '''
 Created on 03/08/2020
 
-miRmachine main
+MirMachine main
 
 @author: suu13
 '''
 
-from __future__ import print_function
+#from __future__ import print_function
 import re
 from docopt import docopt
 import newick
@@ -17,16 +17,20 @@ from pathlib import Path
 from datetime import datetime
 
 try:
-    import meta
-    import workflows
+    from mirmachine import meta
+    from mirmachine import workflows
+    import mirmachine
+    mirmachine_path=os.path.dirname(mirmachine.__file__)
 except ImportError:
     try:
-        from mirmachine import meta
-        from mirmachine import workflows
-        
+        import meta
+        import workflows
+        mirmachine_path="mirmachine" #so you did not install the package
     except:
-            pass
+            raise ImportError
 
+
+meta_directory=os.path.dirname(meta.__file__)
 
 __author__ = 'sium'
 
@@ -79,11 +83,7 @@ Options:
 
 """
 
-meta_directory=os.path.dirname(meta.__file__)
-try:
-    mirmachine_path=os.path.dirname(mirmachine.__file__)
-except:
-    mirmachine_path="mirmachine"
+
 
 
 def run_mirmachine():
@@ -94,7 +94,7 @@ def run_mirmachine():
     dry_run="-n" if arguments["--dry"] else ""
 
     yaml_argument="""echo {node} | tr "," "\n" | while read i; 
-    do {mirmachine_path}/mirmachine-tree-parser.py {meta_directory}/tree.newick $i {both_ways}; done | sort | uniq | while read a; \
+    do mirmachine-tree-parser.py {meta_directory}/tree.newick $i {both_ways}; done | sort | uniq | while read a; \
     do grep $a {meta_directory}/nodes_mirnas_corrected.tsv; done \
      | grep -v NOVEL | grep -v NA | cut -f3 | sort | uniq | \
       awk -v genome={genome} -v species={species} -v node={node} 'BEGIN{{print "genome: "genome;print "species: "species;print "node: "node; print "mirnas:"}}{{print " - "$1}}' > data/yamls/{species}.yaml""".format(
@@ -102,21 +102,24 @@ def run_mirmachine():
           both_ways=both_ways,
           mirmachine_path=mirmachine_path,
           meta_directory=meta_directory,
-          species=arguments['--species'],genome=arguments['--genome'])
+          species=arguments['--species'],
+          genome=arguments['--genome'])
     
     subprocess.check_call(yaml_argument,shell=True)
 
-    snakemake_argument="snakemake {dry} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(species=arguments['--species'],
+    snakemake_argument="snakemake {dry} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
+    species=arguments['--species'],
     cpu=arguments['--cpu'],
     model=arguments['--model'],
     meta_directory=meta_directory,
     mirmachine_path=mirmachine_path,
     dry=dry_run)
+    
     subprocess.call(snakemake_argument,shell=True)
 
 def main():
     if arguments["--print-all-nodes"]:
-        tree_parser_argument="bin/mirmachine-tree-parser.py {meta_directory}/tree.newick --print-all-nodes".format(meta_directory=meta_directory)
+        tree_parser_argument="mirmachine-tree-parser.py {meta_directory}/tree.newick --print-all-nodes".format(meta_directory=meta_directory,mirmachine_path=mirmachine_path)
         subprocess.call(tree_parser_argument,shell=True)
     else:
         start_time = datetime.now()
