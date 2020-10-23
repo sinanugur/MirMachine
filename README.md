@@ -10,16 +10,21 @@ conda env create -f environment.yaml
 conda activate mirmachine
 ```
 
-Then clone git repo:
+Then clone the git repo:
 ```
 git clone https://github.com/sinanugur/MirMachine.git
 cd MirMachine
 pip install .
 ```
 
+Check if the installation works by calling the main script.
+```
+MirMachine.py
+```
+
 Quick start example
 -------------------
-Create a directory and run MirMachine there after installation. MirMachine will create the required directories while running.
+Create a new directory and run MirMachine there after the installation. MirMachine will create the required directories while running.
 ```
 MirMachine.py -n Caenorhabditis -s Caenorhabditis_elegans --genome data/genomes/ce11.fasta -m proto --cpu 20
 ```
