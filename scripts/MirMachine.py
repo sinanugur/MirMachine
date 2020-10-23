@@ -62,10 +62,10 @@ SOFTWARE.
 __doc__="""Main MirMachine executable
 
 Usage:
-    mirmachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes] [--dry]
-    mirmachine.py --print-all-nodes
-    mirmachine.py (-h | --help)
-    mirmachine.py --version
+    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes] [--dry]
+    MirMachine.py --print-all-nodes
+    MirMachine.py (-h | --help)
+    MirMachine.py --version
 
 Arguments:
     -n <text>, --node <text>              Node name. (e.g. Caenorhabditis)

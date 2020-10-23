@@ -22,7 +22,7 @@ setup(
     name="MirMachine",
     version="0.1.2",
     packages=find_packages(exclude=('tests*','testing*')),
-    scripts=["mirmachine/mirmachine.py","mirmachine/mirmachine-tree-parser.py","mirmachine/gff_sort_and_compete.sh"],
+    scripts=["scripts/MirMachine.py","scripts/mirmachine-tree-parser.py","scripts/gff_sort_and_compete.sh"],
     long_description=long_description,
     long_description_content_type="text/markdown",
     extras_require={"dev":["pytest>=3.7"]},
@@ -42,7 +42,10 @@ setup(
     },
     url="https://github.com/sinanugur/MirMachine",   # project home page, if any
     classifiers=[
-        "License :: OSI Approved :: Python Software Foundation License"
+        'License :: OSI Approved :: MIT License',
+        "Programming Language :: Python :: 3",
+        'Topic :: Scientific :: Bio-Informatics'
+
     ]
 
     # could also include long_description, download_url, etc.

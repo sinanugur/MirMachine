@@ -1,4 +1,13 @@
-analyses
-results
-data
+analyses/
+results/
+data/
 .snakemake
+dist/
+eggs/
+lib/
+build/
+lib64/
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
