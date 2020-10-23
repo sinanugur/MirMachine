@@ -26,7 +26,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     extras_require={"dev":["pytest>=3.7"]},
-    #install_requires=requirements,
+    install_requires=requirements,
     include_package_data=True,
     zip_safe=False,
     #data_files={"meta":["*.tsv"]},
@@ -44,7 +44,7 @@ setup(
     classifiers=[
         'License :: OSI Approved :: MIT License',
         "Programming Language :: Python :: 3",
-        'Topic :: Scientific :: Bio-Informatics'
+        'Topic :: Scientific/Engineering :: Bio-Informatics'
 
     ]
 
