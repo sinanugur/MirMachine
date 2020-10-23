@@ -14,6 +14,7 @@ Then clone git repo:
 ```
 git clone https://github.com/sinanugur/MirMachine.git
 cd MirMachine
+pip install .
 ```
 
 Quick start example
