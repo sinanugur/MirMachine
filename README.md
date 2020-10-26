@@ -12,7 +12,12 @@ conda env create -f environment.yaml
 conda activate mirmachine
 ```
 
-Then clone the git repo:
+Then install from Pypi:
+```
+pip install mirmachine
+```
+
+Alternative method:
 ```
 git clone https://github.com/sinanugur/MirMachine.git
 cd MirMachine
