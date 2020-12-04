@@ -8,7 +8,7 @@ Installation
 To create required environment using Anaconda:
 
 ```
-conda env create -f environment.yaml
+conda env create -f environment.yml
 conda activate mirmachine
 ```
 
