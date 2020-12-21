@@ -1,22 +1,17 @@
 # MirMachine
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)  [![PyPI version](https://badge.fury.io/py/MirMachine.svg)](https://badge.fury.io/py/MirMachine)  
-A command line to tool detect miRNA homologs in genome sequences. 
+A command line to tool detect miRNA homologs in genome sequences. [![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/installer/conda.svg)](https://conda.anaconda.org/bioconda)  [![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/downloads.svg)](https://anaconda.org/bioconda/mirmachine)
 
 
 Installation
 ------------
-To create required environment using Anaconda:
+To install this package with conda run:
 
 ```
-conda env create -f environment.yml
-conda activate mirmachine
+conda install -c bioconda mirmachine
 ```
 
-Then install from Pypi:
-```
-pip install mirmachine
-```
 
 Alternative method:
 ```
@@ -27,7 +22,7 @@ pip install .
 
 Check if the installation works by calling the main script.
 ```
-MirMachine.py
+MirMachine.py --help
 ```
 
 Quick start example
