@@ -1,17 +1,14 @@
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
-from collections import defaultdict
-import os.path
-from yaml import load
 
-genome=config['genome']
-species=config['species']
-node=config['node']
-model=config.get('model','proto')
-meta_directory=config.get('meta_directory','meta')
-mirmachine_path=config.get('mirmachine_path','mirmachine')
-mirna=[x.title() + ".PRE" for x in config['mirnas']]
+'''
+Created on 03/08/2020
 
-cutoff_file=meta_directory + "/cutoffs/" + model + "/mirmachine_trusted_cutoffs.tsv"
+MirMachine snakemake workflow
+
+@author: Sinan U. Umu, sinanugur@gmail.com
+'''
+__version__="0.1.3"
+MDBver="2.0"
 
 __licence__="""
 MIT License
@@ -38,6 +35,31 @@ SOFTWARE.
 
 """
 
+
+from collections import defaultdict
+import os.path
+from yaml import load
+
+genome=config['genome']
+species=config['species']
+node=config['node']
+model=config.get('model','proto')
+meta_directory=config.get('meta_directory','meta')
+mirmachine_path=config.get('mirmachine_path','mirmachine')
+mirna=[x.title() + ".PRE" for x in config['mirnas']]
+
+cutoff_file=meta_directory + "/cutoffs/" + model + "/mirmachine_trusted_cutoffs.tsv"
+
+
+
+gffheader="""##gff-version 3
+# MirMachine version: {version}
+# CM Models: Built using MirGeneDB {MDBver}
+# Total families searched: {total}
+# Node: {node}
+# Genome file: {genome}
+# Species: {species}""".format(version=__version__,MDBver=MDBver,total=len(mirna),node=node,genome=genome,species=species)
+
 #pull out CMs, I added this part to check ready models
 #files, = glob_wildcards("analyses/cms/{files}.CM")
 
@@ -47,7 +69,7 @@ SOFTWARE.
 #	mirna=files
 
 
-#print (mirna)
+print (gffheader)
 
 cutoffs_dict=defaultdict(int)
 with open(cutoff_file) as tsv:
@@ -114,9 +136,6 @@ rule parse_output:
 		gff_sort_and_compete.sh {output[2]} > {output[0]}
 		"""
 
-
-
-
 rule create_filtered_gffs:
 	input:
 		"analyses/output/{species}/{mirna}.gff",
@@ -158,16 +177,22 @@ rule combine_gffs:
 		expand("analyses/output/{species}/{mirna}.gff",species=species,mirna=mirna)
 	output:
 		"results/predictions/gff/{species}.PRE.gff"
+	params:
+		header=gffheader
 	run:
-		shell("cat analyses/output/{wildcards.species}/*PRE.gff | grep PRE > {output}")
+		shell("""echo "{params.header}" > {output}""")
+		shell("cat analyses/output/{wildcards.species}/*PRE.gff | grep PRE >> {output}")
 
 rule combine_filtered_gffs:
 	input:
 		expand("analyses/output/{species}/{mirna}.filtered.gff",species=species,mirna=mirna)
 	output:
 		"results/predictions/filtered_gff/{species}.PRE.gff"
+	params:
+		header=gffheader
 	run:
-		shell("cat analyses/output/{wildcards.species}/*PRE.filtered.gff | grep PRE > {output}")
+		shell("""echo "{params.header}" > {output}""")
+		shell("cat analyses/output/{wildcards.species}/*PRE.filtered.gff | grep PRE >> {output}")
 
 
 rule create_heatmap_csv:
@@ -184,4 +209,3 @@ rule create_heatmap_csv:
 		gawk '{{match($0,"gene_id=(.*).PRE",m); print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2"\t"$1}}' > {output[1]}
 		join -a 1 {output[0]} {output[1]} | awk -v species={wildcards.species} -v node={node} '{{print species,node,$0}}' > {output[2]}
 		"""
-
