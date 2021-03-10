@@ -144,5 +144,5 @@ def main():
 
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='0.1.3')
+    arguments = docopt(__doc__, version='0.1.31')
     main()
