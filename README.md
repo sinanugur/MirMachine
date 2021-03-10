@@ -36,7 +36,8 @@ Options and Arguments
 ---------------------
 ```
 Usage:
-    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes] [--dry]
+    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--dry]
+    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--dry]
     MirMachine.py --print-all-nodes
     MirMachine.py (-h | --help)
     MirMachine.py --version
@@ -46,10 +47,12 @@ Arguments:
     -s <text>, --species <text>           Species name. (e.g. Caenorhabditis_elegans)
     -g <text>, --genome <text>            Genome fasta file location (e.g. data/genome/example.fasta)
     -m <text>, --model <text>             Model type: deutero, proto, combined [default: proto]
+    -f <text>, --family <text>            Run only a single miRNA family.
     -c <integer>, --cpu <integer>         CPUs. [default: 2]
 
 Options:
     -a --add-all-nodes                 Move on the tree both ways.
+    -o --single-node-only              Run only the given node.
     -d --dry                           Dry run.
     -p --print-all-nodes               Print all available nodes and exit.
     -h --help                          Show this screen.
