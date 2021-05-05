@@ -8,9 +8,9 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Sat Aug 17 06:09:38 2019
+DATE     Tue Apr  6 20:30:29 2021
 COM      [1] cmbuild -F analyses/cms/Mir-4831.PRE.CM analyses/secondary_structures/Mir-4831.PRE.sto
-COM      [2] cmcalibrate --cpu 8 analyses/cms/Mir-4831.PRE.CM
+COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-4831.PRE.CM
 PBEGIN   0.05
 PEND     0.05
 WBETA    1e-07
@@ -267,7 +267,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Sat Aug 17 06:09:38 2019
+DATE  Tue Apr  6 20:30:29 2021
 COM   [1] cmbuild -F analyses/cms/Mir-4831.PRE.CM analyses/secondary_structures/Mir-4831.PRE.sto
 NSEQ  2
 EFFN  1.871094
