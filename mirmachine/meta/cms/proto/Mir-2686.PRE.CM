@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Tue Oct  8 18:32:44 2019
+DATE     Thu Apr  8 06:41:45 2021
 COM      [1] cmbuild -F analyses/cms/Mir-2686.PRE.CM analyses/secondary_structures/Mir-2686.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-2686.PRE.CM
 PBEGIN   0.05
@@ -264,7 +264,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Tue Oct  8 18:32:44 2019
+DATE  Thu Apr  8 06:41:45 2021
 COM   [1] cmbuild -F analyses/cms/Mir-2686.PRE.CM analyses/secondary_structures/Mir-2686.PRE.sto
 NSEQ  6
 EFFN  4.825195
