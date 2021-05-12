@@ -105,7 +105,7 @@ def run_mirmachine():
     else:
         yaml_argument="""echo {node} {default_node_argument} | sort | uniq | while read a; \
         do grep $a {meta_directory}/nodes_mirnas_corrected.tsv; done \
-        | grep -v NOVEL | grep -v NA | cut -f3 | sort | uniq | \
+        | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq | \
         awk -v genome={genome} -v species={species} -v node={node} 'BEGIN{{print "genome: "genome;print "species: "species;print "node: "node; print "mirnas:"}}{{print " - "$1}}' > data/yamls/{species}.yaml""".format(
           default_node_argument=default_node_argument,
           meta_directory=meta_directory,
