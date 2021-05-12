@@ -1,3 +1,10 @@
+## [0.2.1a] - 2021-05-12
+### Changed
+- MirGeneDB v2.1
+- Proto: 315 
+- Deutero: 825 
+- Combined: 1146
+
 ## [0.1.31] - 2021-03-09
 ### Added
 - Headers for GFFs files.
