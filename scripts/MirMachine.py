@@ -62,9 +62,11 @@ SOFTWARE.
 __doc__="""Main MirMachine executable
 
 Usage:
-    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--dry]
-    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--dry]
+    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--dry]
+    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--unlock|--remove] [--dry]
+    MirMachine.py --node <text> [--add-all-nodes]
     MirMachine.py --print-all-nodes
+    MirMachine.py --print-ascii-tree
     MirMachine.py (-h | --help)
     MirMachine.py --version
 
@@ -77,12 +79,15 @@ Arguments:
     -c <integer>, --cpu <integer>         CPUs. [default: 2]
 
 Options:
-    -a --add-all-nodes                 Move on the tree both ways.
-    -o --single-node-only              Run only the given node.
-    -d --dry                           Dry run.
-    -p --print-all-nodes               Print all available nodes and exit.
-    -h --help                          Show this screen.
-    --version                          Show version.
+    -a, --add-all-nodes                 Move on the tree both ways.
+    -o, --single-node-only              Run only the given node.
+    -p, --print-all-nodes               Print all available node options and exit.
+    -t, --print-ascii-tree              Print ascii tree of the tree file.
+    -u, --unlock                        Rescue stalled jobs (Try this if the previous job ended prematurely).
+    -r, --remove                        Clear all output files (this won't remove input files).
+    -d, --dry                           Dry run.
+    -h, --help                          Show this screen.
+    --version                           Show version.
 
 """
 
@@ -95,6 +100,8 @@ def run_mirmachine():
 
     both_ways= "--add-all-nodes" if arguments["--add-all-nodes"] else ""
     dry_run="-n" if arguments["--dry"] else ""
+    unlock="--unlock" if arguments["--unlock"] else ""
+    remove="--delete-all-output" if arguments["--remove"] else ""
     default_node_argument= "" if arguments["--single-node-only"] else "| while read i; do mirmachine-tree-parser.py {meta_directory}/tree.newick $i {both_ways}; done".format(meta_directory=meta_directory,both_ways=both_ways)
 
     if arguments['--family']:
@@ -102,6 +109,7 @@ def run_mirmachine():
         family=arguments['--family'],
           species=arguments['--species'],
           genome=arguments['--genome'])
+    
     else:
         yaml_argument="""echo {node} {default_node_argument} | sort | uniq | while read a; \
         do grep $a {meta_directory}/nodes_mirnas_corrected.tsv; done \
@@ -118,24 +126,42 @@ def run_mirmachine():
     
     subprocess.check_call(yaml_argument,shell=True)
 
-    snakemake_argument="snakemake {dry} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
+    snakemake_argument="snakemake --rerun-incomplete {dry} {unlock} {remove} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
     species=arguments['--species'],
     cpu=arguments['--cpu'],
     model=arguments['--model'],
     meta_directory=meta_directory,
     mirmachine_path=mirmachine_path,
-    dry=dry_run)
+    dry=dry_run,
+    unlock=unlock,
+    remove=remove)
     
     subprocess.call(snakemake_argument,shell=True)
 
+def print_ascii_tree():
+    tree_parser_argument="mirmachine-tree-parser.py {meta_directory}/tree.newick --print-ascii-tree".format(meta_directory=meta_directory)
+    subprocess.call(tree_parser_argument,shell=True)
 
 def print_all_nodes():
-        tree_parser_argument="mirmachine-tree-parser.py {meta_directory}/tree.newick --print-all-nodes".format(meta_directory=meta_directory,mirmachine_path=mirmachine_path)
-        subprocess.call(tree_parser_argument,shell=True)
+    tree_parser_argument="mirmachine-tree-parser.py {meta_directory}/tree.newick --print-all-nodes".format(meta_directory=meta_directory)
+    print("All available nodes (leaf node names excluded):")
+    subprocess.call(tree_parser_argument,shell=True)
+
+def show_node_families():
+    both_ways= "--add-all-nodes" if arguments["--add-all-nodes"] else ""
+    yaml_argument="""echo {node} | while read i; do mirmachine-tree-parser.py {meta_directory}/tree.newick $i {both_ways}; done | sort | uniq | while read a; \
+        do grep $a {meta_directory}/nodes_mirnas_corrected.tsv; done \
+        | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq""".format(node=arguments['--node'],meta_directory=meta_directory,both_ways=both_ways)
+
+    subprocess.check_call(yaml_argument,shell=True)
 
 def main():
     if arguments["--print-all-nodes"]:
         print_all_nodes()
+    elif arguments["--print-ascii-tree"]:
+        print_ascii_tree()
+    elif not arguments["--species"] and not arguments["--genome"]:
+        show_node_families()
     else:
         start_time = datetime.now()
         run_mirmachine()
@@ -144,5 +170,5 @@ def main():
 
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='0.2.10')
+    arguments = docopt(__doc__, version='0.2.11')
     main()
