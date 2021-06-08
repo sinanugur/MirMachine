@@ -1,7 +1,7 @@
 # MirMachine
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)  [![PyPI version](https://badge.fury.io/py/MirMachine.svg)](https://badge.fury.io/py/MirMachine)  [![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/installer/conda.svg)](https://conda.anaconda.org/bioconda)  [![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/downloads.svg)](https://anaconda.org/bioconda/mirmachine)  
-A command line to tool detect miRNA homologs in genome sequences.
+A command line tool to detect miRNA homologs in genome sequences.
 
 
 Installation
@@ -70,7 +70,7 @@ The `MirMachine` main executable will generate GFF annotations (filtered and unf
 You will see `results/predictions/` directory which contains:
 
 `gff/` __All predicted miRNA families.__  
-`filtered_gff/` __High confidence miRNA family predictions after bitscore filtering.__  
+`filtered_gff/` __High confidence miRNA family predictions after bitscore filtering. (This file is what you need in most cases)__  
 `fasta/` __Both high and low confidence predictions in FASTA format.__  
 
 
