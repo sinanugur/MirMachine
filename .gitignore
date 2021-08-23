@@ -1,14 +1,42 @@
-analyses/
-results/
-data/
+engine/analyses/
+engine/results/
+engine/data/
 .snakemake
-dist/
-eggs/
-lib/
-build/
-lib64/
-__pycache__/
+engine/dist/
+engine/eggs/
+engine/lib/
+engine/build/
+engine/lib64/
+engine/__pycache__/
+
 *.py[cod]
 *.egg-info/
 *.egg
 .DS_Store
+
+# dependencies
+lookupService/frontend/node_modules
+lookupService/frontend/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+.idea/
+db.sqlite3
+lookupService/static/frontend/**
+package-lock.json
