@@ -12,10 +12,8 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "webpack serve",
-    "build": "webpack --watch",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "webpack --watch --mode development",
+    "build": "webpack --mode production"
   },
   "eslintConfig": {
     "extends": [
