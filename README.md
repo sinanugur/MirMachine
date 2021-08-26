@@ -7,7 +7,9 @@ for the MirMachine lookup/annotation tool
 ### Setting up `pipenv`
 Firstly make sure you have the correct Python version installed.\
 This project requires that you have Python 3.8 installed.\
-To install simply run `pipenv install` in the root folder.\
+You also need `pipenv` installed. This is done by using `pip install pipenv`. 
+
+To install the project simply run `pipenv install` in the root folder.\
 Then run `pipenv shell` to spawn the virtual environment.\
 Now you are ready to start Django.\
 P.S. if you want to exit the environment type `exit`
@@ -35,7 +37,7 @@ Runs the app in the development mode.\
 Enables hot reloading, making it the best choice when making changes to the frontend.\
 Run the Django server and open [http://localhost:8000](http://localhost:8000) to view it in the browser.
 
-The page will update if you make edits. Simply reload to display changes\
+The page will update if you make edits. Simply reload to display changes. 
 
 ### `npm run build`
 Builds the app for production to the `lookupService/static/frontend` folder.\
