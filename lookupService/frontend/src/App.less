@@ -4,17 +4,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   height: @header-height;
   width: 100%;
@@ -29,13 +18,18 @@
   background-color: @main-green;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header-content{
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+  height: @header-height;
+}
+
+.no-margins{
+  margin: 0;
 }
 
 .flex-column{
@@ -50,7 +44,7 @@
   color: white;
 }
 
-.input-section{
+.limit-width{
   width: 100%;
   max-width: 600px;
 }
@@ -60,8 +54,8 @@
   flex-flow: row wrap;
   align-items: center;
   justify-content: space-evenly;
-  height: @header-height;
   width: 100%;
+  postion: relative;
 }
 
 .input-cell {
@@ -71,15 +65,115 @@
   margin: 5px 0 5px 0;
 }
 
+.align-left {
+  align-items: flex-start;
+}
+
 .optional-section{
+  position: relative;
   flex-flow: row wrap;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
-  width: 100%;
+  width: 60%;
+  background-color: @main-green;
+  border-radius: 5px;
+  margin: 5px;
+  animation: growDown 300ms ease-in-out forwards;
   &__active{
     display: flex;
   }
   &__passive{
     display: none;
   }
+}
+
+@keyframes growDown {
+  0% {
+    transform: scaleY(0);
+  }
+
+  80% {
+    transform: scaleY(1.1);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.button{
+  display: flex;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0 5px 0 5px;
+  margin-top: 5px;
+  align-items: center;
+  &--default{
+    font-size: 0.85em;
+    background-color: white;
+    border-color: grey;
+    color: black;
+    padding-right: 3px !important;
+    &:hover{
+      background-color: grey;
+    }
+    &:active{
+      background-color: @main-color;
+    }
+  }
+
+  &--header{
+    background-color: @main-green;
+    &:hover{
+      background-color: @lighter-green;
+    }
+    &__active, &:active{
+      background-color: @darker-green;
+    }
+  }
+
+  &--action{
+    background-color: @main-green;
+    border-color: @darker-green;
+    font-size: 1.3em;
+    &:hover{
+      background-color: @lighter-green;
+    }
+    &:active{
+      background-color: @darker-green;
+    }
+  }
+
+  &--reset{
+    background-color: @warning-yellow;
+    border-color: @main-green;
+    &:hover{
+      background-color: @warning-yellow-transparent;
+    }
+    &:active{
+      background-color: @darker-green;
+    }
+  }
+
+}
+
+.icon{
+  margin-left: 5px;
+  &--chevron {
+    height: 6px;
+    transition: transform 0.2s;
+    &__right {
+      transform: rotate(-90deg);
+    }
+  }
+  &--run {
+    height: 14px;
+    fill: white;
+  }
+}
+
+
+
+.default-margins{
+  margin: 5px;
 }
