@@ -1,6 +1,8 @@
 from django.urls import path
-from .views import index_view  # the view responsible for the frontend
+from .views import get_job, post_job
+
 
 urlpatterns = [
-    path('', index_view),  # add the view to the url
+    path('jobs/', post_job),
+    path('job/<uuid:id>', get_job),
 ]

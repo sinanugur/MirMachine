@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react'
 import { SearchForm, AboutPage } from './components/MainPageComponents'
-import { Switch, Route, useLocation, Link } from 'react-router-dom'
+import Job from './components/JobPage'
 import Header from './components/Header'
+import { Switch, Route, useLocation } from 'react-router-dom'
 
 
 const App = () => {
     const [activeHeader, setActiveHeader] = useState('/')
     let location = useLocation()
+
     useEffect(() => {
         setActiveHeader(location.pathname)
     }, [location])
+
   return (
     <div className="App">
       <Header activeHeader={activeHeader}/>
@@ -17,6 +20,7 @@ const App = () => {
             <Switch>
                 <Route exact path={'/'} component={SearchForm}/>
                 <Route path={'/about'} component={AboutPage}/>
+                <Route path={'/job/:jobID'} component={Job}/>
             </Switch>
         </main>
     </div>

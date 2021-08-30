@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'lookupService.apps.LookupserviceConfig',
     'corsheaders',
     'manifest_loader',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
