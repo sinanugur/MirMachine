@@ -1,28 +1,23 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SearchForm, AboutPage } from './components/MainPageComponents'
+import { Switch, Route, useLocation, Link } from 'react-router-dom'
+import Header from './components/Header'
+
 
 const App = () => {
-    const [activeHeader, setActiveHeader] = useState('search')
-
+    const [activeHeader, setActiveHeader] = useState('/')
+    let location = useLocation()
+    useEffect(() => {
+        setActiveHeader(location.pathname)
+    }, [location])
   return (
     <div className="App">
-      <header className="App-header">
-          <div className={'header-content'}>
-              <h1 className={'no-margins'}>MirMachine</h1>
-              <span className={`button button--header ${activeHeader==='search' ? 'button--header__active' : ''}`}
-              onClick={() => setActiveHeader('search')}>
-                  Lookup Service
-              </span>
-              <span className={`button button--header ${activeHeader==='about' ? 'button--header__active' : ''}`}
-                    onClick={() => setActiveHeader('about')}>
-                  About
-              </span>
-          </div>
-      </header>
+      <Header activeHeader={activeHeader}/>
         <main className={'flex-column content'}>
-            {activeHeader === 'search' ?
-                <SearchForm/> : <AboutPage/>
-            }
+            <Switch>
+                <Route exact path={'/'} component={SearchForm}/>
+                <Route path={'/about'} component={AboutPage}/>
+            </Switch>
         </main>
     </div>
   );
