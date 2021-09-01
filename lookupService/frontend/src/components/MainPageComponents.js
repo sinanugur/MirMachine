@@ -1,18 +1,32 @@
 import { useState } from "react";
 import { ChevronIkon, ForstorrelsesglassIkon } from "@sb1/ffe-icons-react";
-
+import { submitJob } from '../utils/Repository'
+import { Redirect } from 'react-router-dom'
 
 export const SearchForm = () => {
     const [optionalActive, setOptionalActive] = useState(false)
     const [inputMode, setInputMode] = useState("text")
-    const handleSubmit = (event) => {
-        console.log(event.target)
-        event.preventDefault()
+    const [redirect, setRedirect] = useState()
+
+    const handleSubmit = async () => {
+        const data = {
+            data: document.getElementById('sequence').value,
+            mode: document.getElementById('mode').value,
+            node: document.getElementById('node').value,
+            species: document.getElementById('species').value,
+            model_type: document.getElementById('model').value,
+            dry_run: document.getElementById('dryRun').checked,
+            single_fam_mode: document.getElementById('singleFam').checked,
+            mail_address: document.getElementById('email').value
+        }
+        console.log(data)
+        const response = await submitJob(data)
+        console.log(response)
+        setRedirect(response.id)
     }
     return(
         <form className={'flex-column limit-width'}
-              onSubmit={(event) => handleSubmit(event)}
-                name={'query'} id={'query'}>
+                name={'query'} id={'query'} onSubmit={event => event.preventDefault()}>
                 <span className={'input-cell'}>
                     <label htmlFor={'sequence'}>Sequence:</label>
                     { inputMode === 'text' ?
@@ -61,11 +75,11 @@ export const SearchForm = () => {
                         </span>
                         <span className={'input-cell align-left'}>
                             <span>
-                                <input type={'checkbox'} id={'singleFam'}/>
+                                <input type={'checkbox'} id={'singleFam'} value={'true'}/>
                                 <label htmlFor={'singleFam'}>Single family mode</label>
                             </span>
                             <span>
-                                <input type={'checkbox'} id={'dryRun'}/>
+                                <input type={'checkbox'} id={'dryRun'} value={'true'}/>
                                 <label htmlFor={'dryRun'}>Dry run</label>
                             </span>
                         </span>
@@ -75,9 +89,12 @@ export const SearchForm = () => {
                         <input type={'text'} id={'email'} name={'email'} placeholder={'example@example.com'}/>
                     </span>
             </div>
-            <span className={'button button--action'} id={'submit'}>
+            <span className={'button button--action'} id={'submit'} onClick={() => {
+                handleSubmit()
+            }}>
                     Run MirMachine <ForstorrelsesglassIkon className={'icon icon--run'}/>
                 </span>
+            {redirect && <Redirect to={`/job/${redirect}`}/>}
         </form>
     )
 }
