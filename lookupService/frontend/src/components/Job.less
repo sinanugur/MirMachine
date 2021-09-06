@@ -8,3 +8,38 @@
   border: solid 3px @warning-yellow;
   border-radius: 5px;
 }
+
+.loading-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  width: 100%;
+  max-width: 300px;
+  height: 100px;
+  margin: 10px;
+}
+
+.loader{
+  height: 60px;
+  width: 40px;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(45deg);
+  }
+  50% {
+    transform: rotate(225deg);
+  }
+  75% {
+    transform: rotate(320deg)
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

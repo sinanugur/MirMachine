@@ -30,7 +30,20 @@ export const fetchJob = async (id) => {
             'X-CSRFToken': csrftoken,
         },
     })
-    return response.json()
+    switch (response.status) {
+        case 200:
+            return response.json()
+            break
+        case 400:
+            throw new JobFetchError("String is not a valid ID")
+            break
+        case 404:
+            throw new JobFetchError("Could not find the job in the database")
+            break
+        default:
+            throw new JobFetchError("Unknown error occured")
+            break
+    }
 }
 
 const getCookie = (name) => {
@@ -46,4 +59,11 @@ const getCookie = (name) => {
         }
     }
     return cookieValue;
+}
+
+export class JobFetchError extends Error {
+    constructor(message) {
+        super(message)
+        this.name = "JobFetchError"
+    }
 }

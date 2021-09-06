@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { SearchForm, AboutPage } from './components/MainPageComponents'
 import Job from './components/JobPage'
 import Header from './components/Header'
+import Retrieval from "./components/Retrieval";
 import { Switch, Route, useLocation } from 'react-router-dom'
 
 
@@ -21,6 +22,7 @@ const App = () => {
                 <Route exact path={'/'} component={SearchForm}/>
                 <Route path={'/about'} component={AboutPage}/>
                 <Route path={'/job/:jobID'} component={Job}/>
+                <Route path={'/retrieve'} component={Retrieval}/>
             </Switch>
         </main>
     </div>

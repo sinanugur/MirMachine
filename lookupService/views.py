@@ -1,5 +1,6 @@
 import sys
 
+from django.core.exceptions import ValidationError
 from django.shortcuts import render
 from .serializers import JobSerializer
 from .models import Job
@@ -19,12 +20,21 @@ def index_view(request, *args, **kwargs):
 @api_view(['GET'])
 def get_job(request, id):
     if request.method == 'GET':
-        job = Job.objects.get(id__exact=id)
-        serializer = JobSerializer(job)
-        return JsonResponse(serializer.data)
+        try:
+            job = Job.objects.get(id=id)
+            serializer = JobSerializer(job)
+            return JsonResponse(serializer.data)
+        except ValidationError:
+            response = {"message": "Not a valid UUID"}
+            return JsonResponse(response,
+                                status=status.HTTP_400_BAD_REQUEST)
+        except:
+            response = {"message": "Object does not exist in database"}
+            return JsonResponse(response,
+                                status=status.HTTP_404_NOT_FOUND)
 
 
-#remember to remove exemptions
+# remember to remove exemptions
 @api_view(['POST','GET'])
 def post_job(request):
     if request.method == 'POST':
@@ -33,7 +43,6 @@ def post_job(request):
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
-        print("jajajajaja")
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'GET':
         jobs = Job.objects.all()
