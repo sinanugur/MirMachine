@@ -37,4 +37,13 @@ class Job(models.Model):
     mail_address = models.CharField(blank=True, max_length=100)
 
 
+class Node(models.Model):
+    id = models.CharField(primary_key=True, max_length=168)
+    text = models.CharField(max_length=168)
+
+
+class Edge(models.Model):
+    id = models.CharField(primary_key=True, max_length=332)
+    from_node = models.CharField(max_length=168)
+    to_node = models.CharField(max_length=168)
 

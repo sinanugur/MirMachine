@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { SearchForm, AboutPage } from './components/MainPageComponents'
 import Job from './components/JobPage'
 import Header from './components/Header'
-import Retrieval from "./components/Retrieval";
+import Retrieval from "./components/Retrieval"
+import Tree from './components/Tree'
 import { Switch, Route, useLocation } from 'react-router-dom'
 
 
@@ -23,6 +24,7 @@ const App = () => {
                 <Route path={'/about'} component={AboutPage}/>
                 <Route path={'/job/:jobID'} component={Job}/>
                 <Route path={'/retrieve'} component={Retrieval}/>
+                <Route path={'/tree'} component={Tree}/>
             </Switch>
         </main>
     </div>

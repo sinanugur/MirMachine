@@ -46,6 +46,18 @@ export const fetchJob = async (id) => {
     }
 }
 
+export const fetchTree = async () => {
+    const csrftoken = getCookie('csrftoken')
+    const response = await fetch(baseURL + `tree/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+    })
+    return response.json()
+}
+
 const getCookie = (name) => {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {

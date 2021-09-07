@@ -19,7 +19,7 @@ from lookupService.views import index_view
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin', admin.site.urls),
     path('api/', include('lookupService.urls')),
     path('', index_view),
     re_path(r'^(?:.*)/?$', index_view)

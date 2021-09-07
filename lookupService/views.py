@@ -1,14 +1,13 @@
-import sys
-
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
-from .serializers import JobSerializer
-from .models import Job
+from .serializers import JobSerializer, NodeSerializer, EdgeSerializer
+from .models import Job, Node, Edge
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
+from .tree_helper import parse_newick_tree
 
 
 # Create your views here.
@@ -48,3 +47,20 @@ def post_job(request):
         jobs = Job.objects.all()
         serializer = JobSerializer(jobs, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(['GET'])
+def get_tree(request):
+    if request.method == 'GET':
+        nodes = Node.objects.all()
+        edges = Edge.objects.all()
+        if not nodes or not edges:
+            nodes, edges = parse_newick_tree()
+            node_serializer = NodeSerializer(data=nodes, many=True)
+            if node_serializer.is_valid():
+                node_serializer.save()
+            edge_serializer = EdgeSerializer(data=edges, many=True)
+            if edge_serializer.is_valid():
+                edge_serializer.save()
+        tree = {"nodes": nodes, "edges": edges}
+        return JsonResponse(tree, status=status.HTTP_200_OK)
