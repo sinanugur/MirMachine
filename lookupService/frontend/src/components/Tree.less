@@ -1,9 +1,9 @@
 
 .canvas-container{
   max-width: 80%;
-  max-height: 100%;
-  margin: 5% auto;
-  padding: 20px;
+  max-height: 85%;
+  margin: 3% auto;
+  padding: 20px 15px 0 15px;
   border: 3px solid @main-green;
   background-color: white;
   display: block;
@@ -24,6 +24,16 @@
   background-color: rgba(0,0,0,0.4)
 }
 
-.artificial-node{
-
+.close{
+  color: @warning-yellow;
+  position: absolute;
+  top:0;
+  right: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  &:focus, &:hover{
+    color: @warning-yellow-transparent;
+    cursor: pointer;
+    text-decoration: none;
+  }
 }

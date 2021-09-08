@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronIkon, ForstorrelsesglassIkon } from "@sb1/ffe-icons-react";
 import { submitJob } from '../utils/Repository'
 import { Redirect } from 'react-router-dom'
+import Tree from './Tree'
 
 export const SearchForm = () => {
     const [optionalActive, setOptionalActive] = useState(false)
     const [inputMode, setInputMode] = useState("text")
     const [redirect, setRedirect] = useState()
+    const [node, setNode] = useState("Metazoa")
+    const [modal, setModal] = useState(false)
+
+    useEffect(() => {
+        setModal(false)
+    },[node])
 
     const handleSubmit = async () => {
         const data = {
@@ -27,6 +34,7 @@ export const SearchForm = () => {
     return(
         <form className={'flex-column limit-width'}
                 name={'query'} id={'query'} onSubmit={event => event.preventDefault()}>
+            {modal && <Tree hook={setNode} show={setModal}/>}
                 <span className={'input-cell'}>
                     <label htmlFor={'sequence'}>Sequence:</label>
                     { inputMode === 'text' ?
@@ -55,8 +63,12 @@ export const SearchForm = () => {
                         <input type={'text'} name={'species'} id={'species'} placeholder={'e.g. Caenorhabditis'}/>
                     </span>
                 <span className={'input-cell'}>
-                        <label htmlFor={'node'}>Node:</label>
-                        <input type={'text'} name={'node'} id={'node'} placeholder={'e.g. Caenorhabditis_elegans'}/>
+                    <label htmlFor={'node'}>Node:</label>
+                        <span className={'same-line'}>
+                            <input type={'text'} name={'node'} id={'node'} placeholder={'e.g. Caenorhabditis_elegans'}
+                            value={node} onChange={(event) => {setNode(event.target.value)}}/>
+                            <span className={'button'} onClick={() => {setModal(true)}}>Choose</span>
+                        </span>
                     </span>
             </div>
             <span className={'button button--default'}
