@@ -32,33 +32,34 @@ def assemble_tree(tree, index, node_pool, edge_pool):
     start_of_last_node = index
     nodes = []
     find_parent_mode = False
-
+    sub_tree = []
     while not done:
         _next = tree[i]
         last_node = tree[start_of_last_node:i]
         i += 1
         if _next == ')':
+            if start_of_last_node == (i-1):
+                last_node = "Artificial_node" + str(i)
             if find_parent_mode:
-                nodes = assign_parent_and_flush(last_node, nodes, node_pool, edge_pool)
+                nodes = nodes + assign_parent_and_flush(last_node, sub_tree, node_pool, edge_pool)
             else:
                 nodes.append(last_node)
+
             return nodes, i
         elif _next == ',':
-            if start_of_last_node == (i-1): #assuming no 1 char labels
+            if start_of_last_node == (i-1):  # assuming no 1 char labels
+                last_node = "Artificial_node" + str(i)
+
+            if find_parent_mode:
+                nodes = nodes + assign_parent_and_flush(last_node, sub_tree, node_pool, edge_pool)
                 find_parent_mode = False
-                #if we just returned and find another subtree on the same level, we flatten the tree
-                #we could also insert an artificial parent to maintain "irrelevant" details
             else:
-                if find_parent_mode:
-                    nodes = assign_parent_and_flush(last_node, nodes, node_pool, edge_pool)
-                else:
-                    nodes.append(last_node)
+                nodes.append(last_node)
             start_of_last_node = i
         elif _next == '(':
             sub_tree, i = assemble_tree(tree, i, node_pool, edge_pool)
-            nodes = nodes + sub_tree
             start_of_last_node = i
             find_parent_mode = True
         elif _next == ';':
-            nodes = assign_parent_and_flush(last_node, nodes, node_pool, edge_pool, last=True)
+            nodes = assign_parent_and_flush(last_node, sub_tree, node_pool, edge_pool, last=True)
             return nodes, i

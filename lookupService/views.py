@@ -54,6 +54,8 @@ def get_tree(request):
     if request.method == 'GET':
         nodes = Node.objects.all()
         edges = Edge.objects.all()
+        node_serializer = NodeSerializer(nodes, many=True)
+        edge_serializer = EdgeSerializer(edges, many=True)
         if not nodes or not edges:
             nodes, edges = parse_newick_tree()
             node_serializer = NodeSerializer(data=nodes, many=True)
@@ -62,5 +64,5 @@ def get_tree(request):
             edge_serializer = EdgeSerializer(data=edges, many=True)
             if edge_serializer.is_valid():
                 edge_serializer.save()
-        tree = {"nodes": nodes, "edges": edges}
+        tree = {"nodes": node_serializer.data, "edges": edge_serializer.data}
         return JsonResponse(tree, status=status.HTTP_200_OK)

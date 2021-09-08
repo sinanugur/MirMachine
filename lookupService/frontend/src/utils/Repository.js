@@ -55,7 +55,29 @@ export const fetchTree = async () => {
             'X-CSRFToken': csrftoken,
         },
     })
-    return response.json()
+    return processTreeResponse(await response.json())
+}
+
+export const processTreeResponse = (response) => {
+    let edges = []
+    let nodes = []
+    for(let i = 0; i<response.edges.length; i++){
+        let cur = response.edges[i]
+        edges.push({
+            id: cur.id,
+            from: cur.from_node,
+            to: cur.to_node
+        })
+    }
+    for(let i = 0; i<response.nodes.length; i++){
+        let cur = response.nodes[i]
+        let text = cur.text.startsWith("Artificial_node") ? "" : cur.text.replace("_"," ")
+        nodes.push({
+            id: cur.id,
+            text: text
+        })
+    }
+    return {nodes: nodes, edges: edges}
 }
 
 const getCookie = (name) => {
