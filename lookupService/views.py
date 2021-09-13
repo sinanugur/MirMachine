@@ -1,12 +1,13 @@
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
-from .serializers import JobSerializer, NodeSerializer, EdgeSerializer
-from .models import Job, Node, Edge
+from .serializers import JobSerializer, NodeSerializer, EdgeSerializer, FamilySerializer
+from .models import Job, Node, Edge, Family
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
 from rest_framework.decorators import api_view
 from .tree_helper import parse_newick_tree
+from .family_importer import import_all_families
 import hashlib
 
 
@@ -66,3 +67,16 @@ def get_tree(request):
                 edge_serializer.save()
         tree = {"nodes": node_serializer.data, "edges": edge_serializer.data}
         return JsonResponse(tree, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_families(request):
+    if request.method == 'GET':
+        families = Family.objects.all()
+        serializer = FamilySerializer(families, many=True)
+        if not families:
+            families = import_all_families()
+            serializer = FamilySerializer(data=families, many=True)
+            if serializer.is_valid():
+                serializer.save()
+        return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)

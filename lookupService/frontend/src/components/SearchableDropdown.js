@@ -37,7 +37,7 @@ const SearchableDropdown = (props) => {
     const updateFilteredInput = (value) => {
         if(props.data) {
             filteredData.current =
-                props.data.filter(it => (it.text.toLowerCase().startsWith(value.toLowerCase()) && it.text !== ''))
+                props.data.filter(it => (it[props.displayParam].toLowerCase().startsWith(value.toLowerCase()) && it[props.displayParam] !== ''))
         }
     }
     return(
@@ -67,11 +67,11 @@ const SearchableDropdown = (props) => {
                 filteredData.current.map((elem, i) => {
                     return <span key={i} id={`list${i}`} className={'dropdown--element'} tabIndex={'0'}
                                  onClick={() => {
-                                     props.setSelected(elem.id)
+                                     props.setSelected(elem[props.filterParam])
                                      setDropdown(false)
                                  }}
                                  onKeyDown={(event) => {handleKeyPress(event)}}>
-                                <span className={'dropdown--text'}>{elem.text}</span>
+                                <span className={'dropdown--text'}>{elem[props.displayParam]}</span>
                             </span>
                 })}
             </span>

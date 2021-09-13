@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Job, Node, Edge
+from .models import Job, Node, Edge, Family
 
 
 class JobSerializer(serializers.HyperlinkedModelSerializer):
@@ -23,3 +23,8 @@ class EdgeSerializer(serializers.HyperlinkedModelSerializer):
         model = Edge
         fields = ['id', 'from_node', 'to_node']
 
+
+class FamilySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Family
+        fields = ['name']

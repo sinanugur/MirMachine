@@ -62,3 +62,6 @@ class Edge(models.Model):
     from_node = models.CharField(max_length=168)
     to_node = models.CharField(max_length=168)
 
+
+class Family(models.Model):
+    name = models.CharField(primary_key=True, max_length=68)

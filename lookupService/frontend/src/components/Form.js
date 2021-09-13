@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ChevronIkon, ForstorrelsesglassIkon } from "@sb1/ffe-icons-react";
-import {fetchTree, submitJob} from '../utils/Repository'
+import { fetchTree, submitJob, getFamilies } from '../utils/Repository'
 import { Redirect } from 'react-router-dom'
 import Tree from './Tree'
 import SearchableDropdown from "./SearchableDropdown";
@@ -13,14 +13,18 @@ export const SearchForm = () => {
     // Form data
     const [inputMode, setInputMode] = useState("text")
     const [node, setNode] = useState("")
-    const [singleFam, setSingleFam] = useState(false)
     const [singleNode, setSingleNode] = useState(false)
+    const [selectedFamily, setSelectedFamily] = useState("")
+    const [singleFam, setSingleFam] = useState(false)
 
     const [redirect, setRedirect] = useState()
 
     // Tree data
     const [nodes, setNodes] = useState()
     const [edges, setEdges] = useState()
+
+    // Family data
+    const [families, setFamilies] = useState()
 
     useEffect(() => {
         // disable modal after selection
@@ -30,12 +34,14 @@ export const SearchForm = () => {
 
     useEffect(() => {
         // fetch data upon page load
-        const getNewickTree = async () => {
-            let data = await fetchTree()
-            setNodes(data.nodes)
-            setEdges(data.edges)
+        const getData = async () => {
+            let treeData = await fetchTree()
+            let familyData = await getFamilies()
+            setNodes(treeData.nodes)
+            setEdges(treeData.edges)
+            setFamilies(familyData)
         }
-        getNewickTree()
+        getData()
     },[])
 
     const handleSubmit = async () => {
@@ -47,7 +53,7 @@ export const SearchForm = () => {
             model_type: document.getElementById('model').value,
             single_node: singleNode,
             single_fam_mode: singleFam,
-            family: singleFam ? document.getElementById('family').value : '',
+            family: singleFam ? selectedFamily : '',
             mail_address: document.getElementById('email').value
         }
         const response = await submitJob(data)
@@ -92,6 +98,7 @@ export const SearchForm = () => {
                                 data={nodes} selected={node}
                                 setSelected={setNode} disabled={singleFam}
                                 placeholder={'e.g. C elegans'}
+                                displayParam={'text'} filterParam={'id'}
                             />
                             <span className={`button button--default default-margins ${singleFam ? 'disabled' : ''}`}
                                   onClick={() => {if(!singleFam) setModal(true)}}>Visualize</span>
@@ -122,9 +129,11 @@ export const SearchForm = () => {
                                 <label htmlFor={'singleFam'}>Single family mode</label>
                             </span>
                             { singleFam ?
-                                <span>
-                                    <input className={'limit-input-width'} type={'text'} id={'family'} placeholder={'e.g. Mir-71'}/>
-                                </span> : null
+                                <SearchableDropdown data={families} selected={selectedFamily}
+                                                    setSelected={setSelectedFamily} disabled={false}
+                                                    placeholder={'e.g. Mir-71'}
+                                                    displayParam={'name'} filterParam={'name'}
+                                /> : null
                             }
                             <span>
                                 <input type={'checkbox'} id={'singleNode'} checked={singleNode}

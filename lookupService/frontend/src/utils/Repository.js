@@ -80,6 +80,18 @@ export const processTreeResponse = (response) => {
     return {nodes: nodes, edges: edges}
 }
 
+export const getFamilies = async () => {
+    const csrftoken = getCookie('csrftoken')
+    const response = await fetch(baseURL + `families/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+    })
+    return response.json()
+}
+
 const getCookie = (name) => {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
