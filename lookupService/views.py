@@ -5,9 +5,9 @@ from .models import Job, Node, Edge
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
-from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from .tree_helper import parse_newick_tree
+import hashlib
 
 
 # Create your views here.
@@ -37,8 +37,8 @@ def get_job(request, id):
 @api_view(['POST','GET'])
 def post_job(request):
     if request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = JobSerializer(data=data)
+        serializer = JobSerializer(data=request.data)
+        serializer.initial_data['hash'] = hashlib.md5(serializer.initial_data['data'].encode()).hexdigest()
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)

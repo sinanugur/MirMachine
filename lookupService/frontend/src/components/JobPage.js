@@ -24,15 +24,23 @@ const Job = () => {
             <>
             <h1> Your job</h1>
                 <span>ID: {jobData.id}</span>
-                <span>Status: ongoing</span>
+                <span>Status: {jobData.status}</span>
                 <span>Initiated at: {jobData.initiated.split('T')[0] + ' @ ' + jobData.initiated.split('T')[1].substring(0,5) + ' GMT'}</span>
-                <span>Dataset hash: TODO</span>
+                <span>Dataset hash: {jobData.hash}</span>
                 <span>Species tag: {jobData.species}</span>
-                <span>Node: {jobData.node}</span>
                 <span>Model type: {jobData.model_type === 'both' ? jobData.model_type : jobData.model_type + 'stome'}</span>
-                <span>Dry run: {jobData.dry_run ? 'yes' : 'no'}</span>
+                {jobData.single_fam_mode ? null :
+                    <>
+                    <span>Node: {jobData.node}</span>
+                    <span>Single node: {jobData.single_node ? 'yes' : 'no'}</span></>
+                }
                 <span>Single family mode: {jobData.single_fam_mode ? 'yes' : 'no'}</span>
-                <span>E-mail: {jobData.mail_address}</span>
+                {jobData.single_fam_mode ?
+                    <span>Family: {jobData.family}</span> : null
+                }
+                {jobData.mail_address == '' ? null :
+                    <span>{`E-mail: ${jobData.mail_address}`}</span>
+                }
                 <div className={'loading-container'}>
                     <img src={'/static/mir.svg'} alt='Mir logo'className={'loader'}/>
                     <p>Working...</p>

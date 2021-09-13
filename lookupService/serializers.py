@@ -5,10 +5,10 @@ from .models import Job, Node, Edge
 class JobSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Job
-        fields = ['id', 'initiated',
-                  'data', 'mode',
+        fields = ['id', 'initiated', 'status',
+                  'data', 'hash', 'mode',
                   'species', 'node',
-                  'model_type', 'dry_run',
+                  'model_type', 'single_node', 'family',
                   'single_fam_mode', 'mail_address']
 
 

@@ -1,19 +1,48 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronIkon, ForstorrelsesglassIkon } from "@sb1/ffe-icons-react";
-import { submitJob } from '../utils/Repository'
+import {fetchTree, submitJob} from '../utils/Repository'
 import { Redirect } from 'react-router-dom'
 import Tree from './Tree'
 
 export const SearchForm = () => {
+    // Form states
     const [optionalActive, setOptionalActive] = useState(false)
-    const [inputMode, setInputMode] = useState("text")
-    const [redirect, setRedirect] = useState()
-    const [node, setNode] = useState("Metazoa")
     const [modal, setModal] = useState(false)
+    const [nodeDropdown, setNodeDropdown] = useState(false)
+    const focusRef = useRef('nodeList0')
+    const filteredNodes = useRef()
+
+    // Form data
+    const [inputMode, setInputMode] = useState("text")
+    const [node, setNode] = useState("")
+    const [singleFam, setSingleFam] = useState(false)
+    const [singleNode, setSingleNode] = useState(false)
+
+    const [redirect, setRedirect] = useState()
+
+    // Tree data
+    const [nodes, setNodes] = useState()
+    const [edges, setEdges] = useState()
 
     useEffect(() => {
+        // disable modal after selection
         setModal(false)
     },[node])
+
+    useEffect(() => {
+        // reset focus in dropdown list after selection or list despawn
+        focusRef.current = 'nodeList0'
+    },[nodeDropdown, node])
+
+    useEffect(() => {
+        // fetch data upon page load
+        const getNewickTree = async () => {
+            let data = await fetchTree()
+            setNodes(data.nodes)
+            setEdges(data.edges)
+        }
+        getNewickTree()
+    },[])
 
     const handleSubmit = async () => {
         const data = {
@@ -22,21 +51,50 @@ export const SearchForm = () => {
             node: document.getElementById('node').value,
             species: document.getElementById('species').value,
             model_type: document.getElementById('model').value,
-            dry_run: document.getElementById('dryRun').checked,
-            single_fam_mode: document.getElementById('singleFam').checked,
+            single_node: singleNode,
+            single_fam_mode: singleFam,
+            family: singleFam ? document.getElementById('family').value : '',
             mail_address: document.getElementById('email').value
         }
-        console.log(data)
         const response = await submitJob(data)
-        console.log(response)
         setRedirect(response.id)
+    }
+
+    const updateFilteredNodes = (value) => {
+        if(nodes) {
+            filteredNodes.current =
+                nodes.filter(it => (it.text.toLowerCase().startsWith(value.toLowerCase()) && it.text !== ''))
+        }
+    }
+
+    const handleKeyPress = (event) => {
+        let key = event.key
+        let curIndex = parseInt(focusRef.current.substring(8))
+
+        if(nodes && filteredNodes.current) {
+            switch (key) {
+                case "ArrowDown":
+                    event.preventDefault()
+                    focusRef.current = `nodeList${String((curIndex + 1) % filteredNodes.current.length)}`
+                    document.getElementById(focusRef.current).focus()
+                    break
+                case "ArrowUp":
+                    event.preventDefault()
+                    focusRef.current = `nodeList${Math.max((curIndex - 1), 0)}`
+                    document.getElementById(focusRef.current).focus()
+                    break
+                case "Enter":
+                    document.getElementById(focusRef.current).click()
+                    break
+            }
+        }
     }
     return(
         <form className={'flex-column limit-width'}
                 name={'query'} id={'query'} onSubmit={event => event.preventDefault()}>
-            {modal && <Tree hook={setNode} show={setModal}/>}
+            {modal && <Tree hook={setNode} show={setModal} nodes={nodes} edges={edges}/>}
                 <span className={'input-cell'}>
-                    <label htmlFor={'sequence'}>Sequence:</label>
+                    <label className={'label'} htmlFor={'sequence'}>Sequence:</label>
                     { inputMode === 'text' ?
                         <textarea id={'sequence'} name={'sequence'} rows={2}
                                   placeholder={'Input sequence here'}/> :
@@ -49,7 +107,7 @@ export const SearchForm = () => {
                     }
                 </span>
             <span className={'input-cell'}>
-                    <label htmlFor={'mode'}>Mode:</label>
+                    <label className={'label'} htmlFor={'mode'}>Mode:</label>
                     <select id={'mode'} name={'mode'} onChange={event => {setInputMode(event.target.value)}}>
                         <option value={'text'}>Text input</option>
                         <option value={'file'}>File upload</option>
@@ -59,15 +117,50 @@ export const SearchForm = () => {
                 </span>
             <div className={'input-row'}>
                     <span className={'input-cell'}>
-                        <label htmlFor={'species'}>Species:</label>
+                        <label className={'label'} htmlFor={'species'}>Species:</label>
                         <input type={'text'} name={'species'} id={'species'} placeholder={'e.g. Caenorhabditis'}/>
                     </span>
                 <span className={'input-cell'}>
-                    <label htmlFor={'node'}>Node:</label>
+                    <label className={'label'} htmlFor={'node'}>Node:</label>
                         <span className={'same-line'}>
-                            <input type={'text'} name={'node'} id={'node'} placeholder={'e.g. Caenorhabditis_elegans'}
-                            value={node} onChange={(event) => {setNode(event.target.value)}}/>
-                            <span className={'button'} onClick={() => {setModal(true)}}>Choose</span>
+                            <span className={'dropdown'} onBlur={(event) => {
+                                if(event.relatedTarget && event.relatedTarget.id.startsWith('nodeList')){
+                                    return
+                                }
+                                setNodeDropdown(false)
+                            }}>
+                                <input
+                                    placeholder={'e.g. C elegans'} autoComplete={'off'}
+                                    className={'dropdown--button'} type={'text'} name={'node'} id={'node'}
+                                    onFocus={() => {
+                                        if(nodes && !filteredNodes.current)
+                                            updateFilteredNodes('')
+                                        setNodeDropdown(true)
+                                    }}
+                                    value={node} onChange={(event) => {
+                                        setNode(event.target.value)
+                                        updateFilteredNodes(event.target.value)
+                                    }}
+                                    disabled={singleFam}
+                                    onKeyDown={(event) => {handleKeyPress(event)}}
+                                />
+                                <span tabIndex={'0'} id='nodeDropdown'
+                                      className={`dropdown--list dropdown--list__${nodeDropdown ? 'active' : 'passive'}`}>
+                                    {nodes && filteredNodes.current &&
+                                        filteredNodes.current.map((elem, i) => {
+                                            return <span key={i} id={`nodeList${i}`} className={'dropdown--element'} tabIndex={'0'}
+                                                     onClick={() => {
+                                                         setNode(elem.id)
+                                                         setNodeDropdown(false)
+                                                     }}
+                                                     onKeyDown={(event) => {handleKeyPress(event)}}>
+                                                <span className={'dropdown--text'}>{elem.text}</span>
+                                                </span>
+                                    })}
+                                </span>
+                            </span>
+                            <span className={`button button--default default-margins ${singleFam ? 'disabled' : ''}`}
+                                  onClick={() => {if(!singleFam) setModal(true)}}>Visualize</span>
                         </span>
                     </span>
             </div>
@@ -80,24 +173,37 @@ export const SearchForm = () => {
                         <span className={'input-cell'}>
                             <label htmlFor={'model'}>Model type:</label>
                             <select id={'model'} name={'model'}>
+                                <option value={'both'}>Both</option>
                                 <option value={'proto'}>Proto</option>
                                 <option value={'deutero'}>Deutero</option>
-                                <option value={'both'}>Both</option>
                             </select>
                         </span>
                         <span className={'input-cell align-left'}>
                             <span>
-                                <input type={'checkbox'} id={'singleFam'} value={'true'}/>
+                                <input type={'checkbox'} id={'singleFam'} checked={singleFam} onChange={
+                                    (event) => {
+                                        setSingleFam(event.target.checked)
+                                        setSingleNode(false)
+                                    }}/>
                                 <label htmlFor={'singleFam'}>Single family mode</label>
                             </span>
+                            { singleFam ?
+                                <span>
+                                    <input className={'limit-input-width'} type={'text'} id={'family'} placeholder={'e.g. Mir-71'}/>
+                                </span> : null
+                            }
                             <span>
-                                <input type={'checkbox'} id={'dryRun'} value={'true'}/>
-                                <label htmlFor={'dryRun'}>Dry run</label>
+                                <input type={'checkbox'} id={'singleNode'} checked={singleNode}
+                                       onChange={(event) => {
+                                           setSingleFam(false)
+                                           setSingleNode(event.target.checked)
+                                       }}/>
+                                <label htmlFor={'singleNode'}>Single node mode</label>
                             </span>
                         </span>
                     </span>
                 <span className={'input-cell'}>
-                        <label htmlFor={'email'}>Mail address:</label>
+                        <label className={'label'} htmlFor={'email'}>Mail address:</label>
                         <input type={'text'} id={'email'} name={'email'} placeholder={'example@example.com'}/>
                     </span>
             </div>
@@ -126,3 +232,4 @@ export const AboutPage = () => {
         </div>
     )
 }
+

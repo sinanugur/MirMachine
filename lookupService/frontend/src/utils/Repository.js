@@ -71,7 +71,7 @@ export const processTreeResponse = (response) => {
     }
     for(let i = 0; i<response.nodes.length; i++){
         let cur = response.nodes[i]
-        let text = cur.text.startsWith("Artificial_node") ? "" : cur.text.replace("_"," ")
+        let text = cur.text.startsWith("Artificial_node") ? "" : cur.text.replaceAll("_"," ")
         nodes.push({
             id: cur.id,
             text: text,
