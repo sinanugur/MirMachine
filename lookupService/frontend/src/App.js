@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { SearchForm, AboutPage } from './components/MainPageComponents'
+import { AboutPage } from './components/About'
+import { SearchForm } from './components/Form'
 import Job from './components/JobPage'
 import Header from './components/Header'
 import Retrieval from "./components/Retrieval"

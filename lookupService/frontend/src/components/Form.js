@@ -1,16 +1,14 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { ChevronIkon, ForstorrelsesglassIkon } from "@sb1/ffe-icons-react";
 import {fetchTree, submitJob} from '../utils/Repository'
 import { Redirect } from 'react-router-dom'
 import Tree from './Tree'
+import SearchableDropdown from "./SearchableDropdown";
 
 export const SearchForm = () => {
     // Form states
     const [optionalActive, setOptionalActive] = useState(false)
     const [modal, setModal] = useState(false)
-    const [nodeDropdown, setNodeDropdown] = useState(false)
-    const focusRef = useRef('nodeList0')
-    const filteredNodes = useRef()
 
     // Form data
     const [inputMode, setInputMode] = useState("text")
@@ -29,10 +27,6 @@ export const SearchForm = () => {
         setModal(false)
     },[node])
 
-    useEffect(() => {
-        // reset focus in dropdown list after selection or list despawn
-        focusRef.current = 'nodeList0'
-    },[nodeDropdown, node])
 
     useEffect(() => {
         // fetch data upon page load
@@ -60,51 +54,22 @@ export const SearchForm = () => {
         setRedirect(response.id)
     }
 
-    const updateFilteredNodes = (value) => {
-        if(nodes) {
-            filteredNodes.current =
-                nodes.filter(it => (it.text.toLowerCase().startsWith(value.toLowerCase()) && it.text !== ''))
-        }
-    }
-
-    const handleKeyPress = (event) => {
-        let key = event.key
-        let curIndex = parseInt(focusRef.current.substring(8))
-
-        if(nodes && filteredNodes.current) {
-            switch (key) {
-                case "ArrowDown":
-                    event.preventDefault()
-                    focusRef.current = `nodeList${String((curIndex + 1) % filteredNodes.current.length)}`
-                    document.getElementById(focusRef.current).focus()
-                    break
-                case "ArrowUp":
-                    event.preventDefault()
-                    focusRef.current = `nodeList${Math.max((curIndex - 1), 0)}`
-                    document.getElementById(focusRef.current).focus()
-                    break
-                case "Enter":
-                    document.getElementById(focusRef.current).click()
-                    break
-            }
-        }
-    }
     return(
         <form className={'flex-column limit-width'}
-                name={'query'} id={'query'} onSubmit={event => event.preventDefault()}>
+              name={'query'} id={'query'} onSubmit={event => event.preventDefault()}>
             {modal && <Tree hook={setNode} show={setModal} nodes={nodes} edges={edges}/>}
-                <span className={'input-cell'}>
+            <span className={'input-cell'}>
                     <label className={'label'} htmlFor={'sequence'}>Sequence:</label>
-                    { inputMode === 'text' ?
-                        <textarea id={'sequence'} name={'sequence'} rows={2}
-                                  placeholder={'Input sequence here'}/> :
-                        <input
-                            type={inputMode === 'file' ? 'file' : 'text'}
-                            placeholder={`Input ${inputMode === 'link' ? 'link' : 'accession number'} here`}
-                            name={'sequence'}
-                            id={'sequence'}
-                        />
-                    }
+                { inputMode === 'text' ?
+                    <textarea id={'sequence'} name={'sequence'} rows={2}
+                              placeholder={'Input sequence here'}/> :
+                    <input
+                        type={inputMode === 'file' ? 'file' : 'text'}
+                        placeholder={`Input ${inputMode === 'link' ? 'link' : 'accession number'} here`}
+                        name={'sequence'}
+                        id={'sequence'}
+                    />
+                }
                 </span>
             <span className={'input-cell'}>
                     <label className={'label'} htmlFor={'mode'}>Mode:</label>
@@ -123,42 +88,11 @@ export const SearchForm = () => {
                 <span className={'input-cell'}>
                     <label className={'label'} htmlFor={'node'}>Node:</label>
                         <span className={'same-line'}>
-                            <span className={'dropdown'} onBlur={(event) => {
-                                if(event.relatedTarget && event.relatedTarget.id.startsWith('nodeList')){
-                                    return
-                                }
-                                setNodeDropdown(false)
-                            }}>
-                                <input
-                                    placeholder={'e.g. C elegans'} autoComplete={'off'}
-                                    className={'dropdown--button'} type={'text'} name={'node'} id={'node'}
-                                    onFocus={() => {
-                                        if(nodes && !filteredNodes.current)
-                                            updateFilteredNodes('')
-                                        setNodeDropdown(true)
-                                    }}
-                                    value={node} onChange={(event) => {
-                                        setNode(event.target.value)
-                                        updateFilteredNodes(event.target.value)
-                                    }}
-                                    disabled={singleFam}
-                                    onKeyDown={(event) => {handleKeyPress(event)}}
-                                />
-                                <span tabIndex={'0'} id='nodeDropdown'
-                                      className={`dropdown--list dropdown--list__${nodeDropdown ? 'active' : 'passive'}`}>
-                                    {nodes && filteredNodes.current &&
-                                        filteredNodes.current.map((elem, i) => {
-                                            return <span key={i} id={`nodeList${i}`} className={'dropdown--element'} tabIndex={'0'}
-                                                     onClick={() => {
-                                                         setNode(elem.id)
-                                                         setNodeDropdown(false)
-                                                     }}
-                                                     onKeyDown={(event) => {handleKeyPress(event)}}>
-                                                <span className={'dropdown--text'}>{elem.text}</span>
-                                                </span>
-                                    })}
-                                </span>
-                            </span>
+                            <SearchableDropdown
+                                data={nodes} selected={node}
+                                setSelected={setNode} disabled={singleFam}
+                                placeholder={'e.g. C elegans'}
+                            />
                             <span className={`button button--default default-margins ${singleFam ? 'disabled' : ''}`}
                                   onClick={() => {if(!singleFam) setModal(true)}}>Visualize</span>
                         </span>
@@ -216,20 +150,3 @@ export const SearchForm = () => {
         </form>
     )
 }
-
-export const AboutPage = () => {
-    return(
-        <div className={'limit-width'}>
-            <h2>About MirMachine</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-        </div>
-    )
-}
-
