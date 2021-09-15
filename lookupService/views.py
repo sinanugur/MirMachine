@@ -1,13 +1,16 @@
+from pathlib import Path
+
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
-from .serializers import JobSerializer, NodeSerializer, EdgeSerializer, FamilySerializer
-from .models import Job, Node, Edge, Family
+from .serializers import JobSerializer, NodeSerializer, EdgeSerializer, FamilySerializer, NodeFamilyRelationSerializer
+from .models import Job, Node, Edge, Family, NodeFamilyRelation
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
 from rest_framework.decorators import api_view
 from .tree_helper import parse_newick_tree
-from .family_importer import import_all_families
+from .family_importer import import_all_families, import_node_to_family_db
+from engine.scripts.MirMachine import show_node_families_args
 import hashlib
 
 
@@ -72,7 +75,7 @@ def get_tree(request):
 @api_view(['GET'])
 def get_families(request):
     if request.method == 'GET':
-        families = Family.objects.all()
+        families = Family.objects.order_by('name')
         serializer = FamilySerializer(families, many=True)
         if not families:
             families = import_all_families()
@@ -80,3 +83,23 @@ def get_families(request):
             if serializer.is_valid():
                 serializer.save()
         return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
+
+
+@api_view(['GET'])
+def get_included_families(request):
+    if request.method == 'GET':
+        params = request.query_params
+        print(params)
+        relations = NodeFamilyRelation.objects.all()
+        if not relations:
+            relations = import_node_to_family_db()
+            print(relations)
+            serializer = NodeFamilyRelationSerializer(data=relations, many=True)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                print(serializer.errors)
+        relations = NodeFamilyRelation.objects.all()
+        families = show_node_families_args(params.get('both_ways'), params.get('node'), relations)
+        response = {'families': families}
+        return JsonResponse(response, status=status.HTTP_200_OK, safe=False)

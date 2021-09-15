@@ -22,7 +22,7 @@ setup(
     name="MirMachine",
     version="0.2.11",
     packages=find_packages(exclude=('tests*','testing*')),
-    scripts=["scripts/MirMachine.py","scripts/mirmachine-tree-parser.py","scripts/gff_sort_and_compete.sh"],
+    scripts=["scripts/MirMachine.py","scripts/mirmachine_tree_parser.py","scripts/gff_sort_and_compete.sh"],
     long_description=long_description,
     long_description_content_type="text/markdown",
     extras_require={"dev":["pytest>=3.7"]},

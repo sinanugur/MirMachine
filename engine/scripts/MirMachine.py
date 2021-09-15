@@ -15,22 +15,24 @@ import os
 import subprocess
 from pathlib import Path
 from datetime import datetime
-
-try:
-    from mirmachine import meta
-    from mirmachine import workflows
-    import mirmachine
-    mirmachine_path=os.path.dirname(mirmachine.__file__)
-except ImportError:
-    try:
-        import meta
-        import workflows
-        mirmachine_path="mirmachine" #so you did not install the package
-    except:
-            raise ImportError
-
-
-meta_directory=os.path.dirname(meta.__file__)
+from .mirmachine_tree_parser import search_tree_for_keyword
+base_dir = os.path.dirname(__file__)
+#
+#try:
+#    from mirmachine import meta
+#    from mirmachine import workflows
+#    import mirmachine
+#    mirmachine_path=os.path.dirname(mirmachine.__file__)
+#except ImportError:
+#    try:
+#        import meta
+#        import workflows
+#        mirmachine_path="mirmachine" #so you did not install the package
+#    except:
+#            raise ImportError
+#
+#
+meta_directory=os.path.dirname(os.path.join(base_dir, '../mirmachine/meta/'))
 
 __author__ = 'sium'
 
@@ -102,7 +104,7 @@ def run_mirmachine():
     dry_run="-n" if arguments["--dry"] else ""
     unlock="--unlock" if arguments["--unlock"] else ""
     remove="--delete-all-output" if arguments["--remove"] else ""
-    default_node_argument= "" if arguments["--single-node-only"] else "| while read i; do mirmachine-tree-parser.py {meta_directory}/tree.newick $i {both_ways}; done".format(meta_directory=meta_directory,both_ways=both_ways)
+    default_node_argument= "" if arguments["--single-node-only"] else "| while read i; do mirmachine_tree_parser.py {meta_directory}/tree.newick $i {both_ways}; done".format(meta_directory=meta_directory,both_ways=both_ways)
 
     if arguments['--family']:
         yaml_argument = """echo {family} | awk -v genome={genome} -v species={species} 'BEGIN{{print "genome: "genome;print "species: "species;print "node: "node; print "mirnas:"}}{{print " - "$1}}' > data/yamls/{species}.yaml""".format(
@@ -139,21 +141,37 @@ def run_mirmachine():
     subprocess.call(snakemake_argument,shell=True)
 
 def print_ascii_tree():
-    tree_parser_argument="mirmachine-tree-parser.py {meta_directory}/tree.newick --print-ascii-tree".format(meta_directory=meta_directory)
+    tree_parser_argument="mirmachine_tree_parser.py {meta_directory}/tree.newick --print-ascii-tree".format(meta_directory=meta_directory)
     subprocess.call(tree_parser_argument,shell=True)
 
 def print_all_nodes():
-    tree_parser_argument="mirmachine-tree-parser.py {meta_directory}/tree.newick --print-all-nodes".format(meta_directory=meta_directory)
+    tree_parser_argument="mirmachine_tree_parser.py {meta_directory}/tree.newick --print-all-nodes".format(meta_directory=meta_directory)
     print("All available nodes (leaf node names excluded):")
     subprocess.call(tree_parser_argument,shell=True)
 
+
 def show_node_families():
     both_ways= "--add-all-nodes" if arguments["--add-all-nodes"] else ""
-    yaml_argument="""echo {node} | while read i; do mirmachine-tree-parser.py {meta_directory}/tree.newick $i {both_ways}; done | sort | uniq | while read a; \
+    yaml_argument="""echo {node} | while read i; do mirmachine_tree_parser.py {meta_directory}/tree.newick $i {both_ways}; done | sort | uniq | while read a; \
         do grep $a {meta_directory}/nodes_mirnas_corrected.tsv; done \
         | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq""".format(node=arguments['--node'],meta_directory=meta_directory,both_ways=both_ways)
 
     subprocess.check_call(yaml_argument,shell=True)
+
+
+def show_node_families_args(both_ways, node, relations):
+    ancestors, descendants = search_tree_for_keyword(os.path.join(meta_directory, 'tree.newick'), node,
+                                                     use_args=False, both_ways=both_ways)
+    families = []
+    for ancestor in ancestors:
+        families = families + ([obj.family for obj in relations
+                                if obj.node == ancestor and obj.family not in families])
+    if both_ways:
+        for descendant in descendants:
+            families = families + ([obj.family for obj in relations
+                                    if obj.node == descendant and obj.family not in families])
+    return families
+
 
 def main():
     if arguments["--print-all-nodes"]:

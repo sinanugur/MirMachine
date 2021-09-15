@@ -1,6 +1,4 @@
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.utils import timezone
 import uuid
 # Create your models here.
@@ -65,3 +63,10 @@ class Edge(models.Model):
 
 class Family(models.Model):
     name = models.CharField(primary_key=True, max_length=68)
+    proto = models.BooleanField(default=boolean_default)
+    deutero = models.BooleanField(default=boolean_default)
+
+
+class NodeFamilyRelation(models.Model):
+    node = models.CharField(max_length=168)
+    family = models.CharField(max_length=68)

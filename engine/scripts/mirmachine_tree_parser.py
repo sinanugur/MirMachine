@@ -44,11 +44,11 @@ SOFTWARE.
 __doc__="""Parse tree to find node miRNAs.
 
 Usage:
-    mirmachine-tree-parser.py <newick> <keyword> [--add-all-nodes]
-    mirmachine-tree-parser.py <newick> --print-all-nodes
-    mirmachine-tree-parser.py <newick> --print-ascii-tree
-    mirmachine-tree-parser.py (-h | --help)
-    mirmachine-tree-parser.py --version
+    mirmachine_tree_parser.py <newick> <keyword> [--add-all-nodes]
+    mirmachine_tree_parser.py <newick> --print-all-nodes
+    mirmachine_tree_parser.py <newick> --print-ascii-tree
+    mirmachine_tree_parser.py (-h | --help)
+    mirmachine_tree_parser.py --version
 
 Arguments:
     newick                              A newick tree.
@@ -103,28 +103,28 @@ def walk_on_tree(newick_file):
     return
 
 
-
-def search_tree_for_keyword(newick_file,keyword):
-
-    ancestors=[]
-    descendants=[]
-    tree=newick.read(newick_file)
+def search_tree_for_keyword(newick_file, keyword, use_args=True, both_ways=False):
+    ancestors = []
+    descendants = []
+    tree = newick.read(newick_file)
     for node in tree[0].walk():
-        #if node.name is not None and node.name.find(keyword.strip()) != -1:
-        if node.name is not None and re.search(keyword.strip().title(),node.name):
+        # if node.name is not None and node.name.find(keyword.strip()) != -1:
+        if node.name is not None and re.search(keyword.strip().title(), node.name):
             detect_ancestors(node, ancestors)
             detect_descendants([node], descendants)
             while "group" in descendants: descendants.remove("group") 
             while "group" in ancestors: ancestors.remove("group") 
-            
-            if arguments['--add-all-nodes']:
+            if use_args:
+                both_ways = arguments['--add-all-nodes']
+            if both_ways:
                 for d in descendants:
                     print(d)
             for a in ancestors:
                 print(a)
 
             break
-
+    if not use_args:
+        return ancestors, descendants
     return
 
 
