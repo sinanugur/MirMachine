@@ -12,6 +12,7 @@ from .tree_helper import parse_newick_tree
 from .family_importer import import_all_families, import_node_to_family_db
 from engine.scripts.MirMachine import show_node_families_args
 import hashlib
+import json
 
 
 # Create your views here.
@@ -89,8 +90,12 @@ def get_families(request):
 def get_included_families(request):
     if request.method == 'GET':
         params = request.query_params
-        print(params)
+
+        # parsing booleans
+        both_ways = json.loads(params.get('both_ways'))
+        single_node = json.loads(params.get('single_node'))
         relations = NodeFamilyRelation.objects.all()
+
         if not relations:
             relations = import_node_to_family_db()
             print(relations)
@@ -100,6 +105,11 @@ def get_included_families(request):
             else:
                 print(serializer.errors)
         relations = NodeFamilyRelation.objects.all()
-        families = show_node_families_args(params.get('both_ways'), params.get('node'), relations)
+        if single_node:
+            families = NodeFamilyRelation.objects.filter(node=params.get('node'))
+            families = [e.family for e in families]
+        else:
+            families = show_node_families_args(both_ways, params.get('node'), relations)
+        families.sort()
         response = {'families': families}
         return JsonResponse(response, status=status.HTTP_200_OK, safe=False)

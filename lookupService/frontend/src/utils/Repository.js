@@ -92,6 +92,20 @@ export const getFamilies = async () => {
     return response.json()
 }
 
+export const getFamiliesIncludedInSearch = async (node, bothWays, singleNode) => {
+    const csrftoken = getCookie('csrftoken')
+    // TODO: verify input
+    const params = `?node=${node}&both_ways=${bothWays}&single_node=${singleNode}`
+    const response = await fetch(baseURL + `relations/${params}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+    })
+    return response.json()
+}
+
 const getCookie = (name) => {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {

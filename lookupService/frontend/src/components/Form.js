@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ChevronIkon, ForstorrelsesglassIkon } from "@sb1/ffe-icons-react";
-import { fetchTree, submitJob, getFamilies } from '../utils/Repository'
+import { fetchTree, submitJob, getFamilies, getFamiliesIncludedInSearch } from '../utils/Repository'
 import { Redirect } from 'react-router-dom'
 import Tree from './Tree'
 import SearchableDropdown from "./SearchableDropdown";
@@ -9,6 +9,7 @@ export const SearchForm = () => {
     // Form states
     const [optionalActive, setOptionalActive] = useState(false)
     const [modal, setModal] = useState(false)
+    const [showIncluded, setShowIncluded] = useState(false)
 
     // Form data
     const [inputMode, setInputMode] = useState("text")
@@ -25,6 +26,7 @@ export const SearchForm = () => {
 
     // Family data
     const [families, setFamilies] = useState()
+    const [includedFamilies, setIncludedFamilies] = useState()
 
     useEffect(() => {
         // disable modal after selection
@@ -48,7 +50,7 @@ export const SearchForm = () => {
         const data = {
             data: document.getElementById('sequence').value,
             mode: document.getElementById('mode').value,
-            node: document.getElementById('node').value,
+            node: node,
             species: document.getElementById('species').value,
             model_type: document.getElementById('model').value,
             single_node: singleNode,
@@ -58,6 +60,17 @@ export const SearchForm = () => {
         }
         const response = await submitJob(data)
         setRedirect(response.id)
+    }
+
+    const handleIncludedFamilyFetching = async () => {
+        if(singleFam){
+            setIncludedFamilies({families: [selectedFamily]})
+            return
+        }
+        if(!showIncluded && node){
+            setIncludedFamilies(await getFamiliesIncludedInSearch(node, false, singleNode))
+        }
+        setShowIncluded(!showIncluded)
     }
 
     return(
@@ -154,7 +167,29 @@ export const SearchForm = () => {
                 handleSubmit()
             }}>
                     Run MirMachine <ForstorrelsesglassIkon className={'icon icon--run'}/>
+            </span>
+            <span className={'button button--default'} onClick={async () => {
+                handleIncludedFamilyFetching()
+                }}>
+                Included families
+            </span>
+            <div className={`optional-section optional-section__${showIncluded ? 'active' : 'passive'}`}>
+                <span className={'default-margins pane-heading'}>
+                    {node && 'Families that will be included in the search'}
+                    {!node && 'Select a node and hit the refresh button'}
                 </span>
+                <span className={'button button--default'} onClick={async () => {
+                    handleIncludedFamilyFetching()
+                }}>
+                    Refresh
+                </span>
+                <div className={'scrolling-list-wrapped'}>
+                    {includedFamilies &&
+                    includedFamilies.families.map((it) => {
+                        return <span className={'default-margins'}>{it}</span>
+                    })}
+                </div>
+            </div>
             {redirect && <Redirect to={`/job/${redirect}`}/>}
         </form>
     )
