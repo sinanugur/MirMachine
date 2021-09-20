@@ -3,28 +3,28 @@ import { useRef, useState, useEffect } from "react";
 
 const SearchableDropdown = (props) => {
     const [dropdown, setDropdown] = useState(false)
-    const focusRef = useRef('list0')
+    const focusRef = useRef(`${props.identifier}0`)
     const filteredData = useRef()
 
     useEffect(() => {
         // reset focus in dropdown list after selection or list despawn
-        focusRef.current = 'list0'
+        focusRef.current = `${props.identifier}0`
     },[dropdown, props.selected])
 
     const handleKeyPress = (event) => {
         let key = event.key
-        let curIndex = parseInt(focusRef.current.substring(4))
+        let curIndex = parseInt(focusRef.current.substring(props.identifier.length))
 
         if(props.data && filteredData.current) {
             switch (key) {
                 case "ArrowDown":
                     event.preventDefault()
-                    focusRef.current = `list${String((curIndex + 1) % filteredData.current.length)}`
+                    focusRef.current = `${props.identifier}${String((curIndex + 1) % filteredData.current.length)}`
                     document.getElementById(focusRef.current).focus()
                     break
                 case "ArrowUp":
                     event.preventDefault()
-                    focusRef.current = `list${Math.max((curIndex - 1), 0)}`
+                    focusRef.current = `${props.identifier}${Math.max((curIndex - 1), 0)}`
                     document.getElementById(focusRef.current).focus()
                     break
                 case "Enter":
@@ -42,7 +42,7 @@ const SearchableDropdown = (props) => {
     }
     return(
         <span className={'dropdown'} onBlur={(event) => {
-            if(event.relatedTarget && event.relatedTarget.id.startsWith('list')){
+            if(event.relatedTarget && event.relatedTarget.id.startsWith(props.identifier)){
                 return
             }
             setDropdown(false)
@@ -65,7 +65,7 @@ const SearchableDropdown = (props) => {
                   className={`dropdown--list dropdown--list__${dropdown ? 'active' : 'passive'}`}>
                 {props.data && filteredData.current &&
                 filteredData.current.map((elem, i) => {
-                    return <span key={i} id={`list${i}`} className={'dropdown--element'} tabIndex={'0'}
+                    return <span key={i} id={`${props.identifier}${i}`} className={'dropdown--element'} tabIndex={'0'}
                                  onClick={() => {
                                      props.setSelected(elem[props.filterParam])
                                      setDropdown(false)

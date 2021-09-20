@@ -110,7 +110,7 @@ export const SearchForm = () => {
                             <SearchableDropdown
                                 data={nodes} selected={node}
                                 setSelected={setNode} disabled={singleFam}
-                                placeholder={'e.g. C elegans'}
+                                placeholder={'e.g. C elegans'} identifier={'node'}
                                 displayParam={'text'} filterParam={'id'}
                             />
                             <span className={`button button--default default-margins ${singleFam ? 'disabled' : ''}`}
@@ -144,7 +144,7 @@ export const SearchForm = () => {
                             { singleFam ?
                                 <SearchableDropdown data={families} selected={selectedFamily}
                                                     setSelected={setSelectedFamily} disabled={false}
-                                                    placeholder={'e.g. Mir-71'}
+                                                    placeholder={'e.g. Mir-71'} identifier={'family'}
                                                     displayParam={'name'} filterParam={'name'}
                                 /> : null
                             }
