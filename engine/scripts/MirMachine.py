@@ -120,7 +120,7 @@ def run_mirmachine():
           default_node_argument=default_node_argument,
           meta_directory=meta_directory,
           node=arguments['--node'],
-            mirmachine_path=mirmachine_path,
+          mirmachine_path=mirmachine_path,
           species=arguments['--species'],
           genome=arguments['--genome'])
 

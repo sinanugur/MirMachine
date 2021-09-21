@@ -62,15 +62,15 @@ export const SearchForm = () => {
         setRedirect(response.id)
     }
 
-    const handleIncludedFamilyFetching = async () => {
+    const handleIncludedFamilyFetching = async (refresh) => {
         if(singleFam){
             setIncludedFamilies({families: [selectedFamily]})
-            return
         }
-        if(!showIncluded && node){
+        else if(node){
             setIncludedFamilies(await getFamiliesIncludedInSearch(node, false, singleNode))
         }
-        setShowIncluded(!showIncluded)
+        if(!refresh)
+            setShowIncluded(!showIncluded)
     }
 
     return(
@@ -169,7 +169,7 @@ export const SearchForm = () => {
                     Run MirMachine <ForstorrelsesglassIkon className={'icon icon--run'}/>
             </span>
             <span className={'button button--default'} onClick={async () => {
-                handleIncludedFamilyFetching()
+                handleIncludedFamilyFetching(false)
                 }}>
                 Included families
             </span>
@@ -179,14 +179,14 @@ export const SearchForm = () => {
                     {!node && 'Select a node and hit the refresh button'}
                 </span>
                 <span className={'button button--default'} onClick={async () => {
-                    handleIncludedFamilyFetching()
+                    handleIncludedFamilyFetching(true)
                 }}>
                     Refresh
                 </span>
                 <div className={'scrolling-list-wrapped'}>
                     {includedFamilies &&
-                    includedFamilies.families.map((it) => {
-                        return <span className={'default-margins'}>{it}</span>
+                    includedFamilies.families.map((it,i) => {
+                        return <span key={i} className={'default-margins'}>{it}</span>
                     })}
                 </div>
             </div>

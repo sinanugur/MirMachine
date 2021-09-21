@@ -1,6 +1,4 @@
 import { Canvas, Node } from 'reaflow'
-import { useEffect, useState } from 'react'
-import { fetchTree } from "../utils/Repository"
 
 const Tree = (props) => {
 
