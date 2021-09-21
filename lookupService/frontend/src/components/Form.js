@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { ChevronIkon, ForstorrelsesglassIkon } from "@sb1/ffe-icons-react";
+import { ChevronIkon, ForstorrelsesglassIkon } from '@sb1/ffe-icons-react'
 import { fetchTree, submitJob, getFamilies, getFamiliesIncludedInSearch } from '../utils/Repository'
 import { Redirect } from 'react-router-dom'
 import Tree from './Tree'
-import SearchableDropdown from "./SearchableDropdown";
+import SearchableDropdown from './SearchableDropdown'
+import OptionalSection from './OptionalSection'
+import FamilyList from './FamilyList'
 
 export const SearchForm = () => {
     // Form states
@@ -73,6 +75,10 @@ export const SearchForm = () => {
             setShowIncluded(!showIncluded)
     }
 
+    const addDemoInput = () => {
+        // TODO
+    }
+
     return(
         <form className={'flex-column limit-width'}
               name={'query'} id={'query'} onSubmit={event => event.preventDefault()}>
@@ -118,78 +124,42 @@ export const SearchForm = () => {
                         </span>
                     </span>
             </div>
-            <span className={'button button--default'}
-                  onClick={() => {setOptionalActive(!optionalActive)}}>
-                    Optional params <ChevronIkon className={`icon icon--chevron ${optionalActive ? '' : 'icon--chevron__right'}`}/>
-                </span>
-            <div className={`optional-section optional-section__${optionalActive ? 'active' : 'passive'}`}>
-                    <span className={'input-row'}>
-                        <span className={'input-cell'}>
-                            <label htmlFor={'model'}>Model type:</label>
-                            <select id={'model'} name={'model'}>
-                                <option value={'both'}>Both</option>
-                                <option value={'proto'}>Proto</option>
-                                <option value={'deutero'}>Deutero</option>
-                            </select>
-                        </span>
-                        <span className={'input-cell align-left'}>
-                            <span>
-                                <input type={'checkbox'} id={'singleFam'} checked={singleFam} onChange={
-                                    (event) => {
-                                        setSingleFam(event.target.checked)
-                                        setSingleNode(false)
-                                    }}/>
-                                <label htmlFor={'singleFam'}>Single family mode</label>
-                            </span>
-                            { singleFam ?
-                                <SearchableDropdown data={families} selected={selectedFamily}
-                                                    setSelected={setSelectedFamily} disabled={false}
-                                                    placeholder={'e.g. Mir-71'} identifier={'family'}
-                                                    displayParam={'name'} filterParam={'name'}
-                                /> : null
-                            }
-                            <span>
-                                <input type={'checkbox'} id={'singleNode'} checked={singleNode}
-                                       onChange={(event) => {
-                                           setSingleFam(false)
-                                           setSingleNode(event.target.checked)
-                                       }}/>
-                                <label htmlFor={'singleNode'}>Single node mode</label>
-                            </span>
-                        </span>
-                    </span>
-                <span className={'input-cell'}>
-                        <label className={'label'} htmlFor={'email'}>Mail address:</label>
-                        <input type={'text'} id={'email'} name={'email'} placeholder={'example@example.com'}/>
-                    </span>
-            </div>
             <span className={'button button--action'} id={'submit'} onClick={() => {
                 handleSubmit()
             }}>
                     Run MirMachine <ForstorrelsesglassIkon className={'icon icon--run'}/>
             </span>
-            <span className={'button button--default'} onClick={async () => {
-                handleIncludedFamilyFetching(false)
-                }}>
-                Included families
+            <span className={'input-row'}>
+                <span className={'button button--default button__bigger'}
+                      onClick={() => {setOptionalActive(!optionalActive)}}>
+                        Optional params <ChevronIkon className={`icon icon--chevron ${optionalActive ? '' : 'icon--chevron__right'}`}/>
+                </span>
+                <span className={'button button--default button__bigger'} onClick={async () => {
+                    handleIncludedFamilyFetching(false)
+                    }}>
+                    Included families <ChevronIkon className={`icon icon--chevron ${showIncluded ? '' : 'icon--chevron__right'}`}/>
+                </span>
+                <span className={'button button--default button__bigger'}
+                        onClick={() => {addDemoInput()}}>
+                    Demo parameters
+                </span>
             </span>
-            <div className={`optional-section optional-section__${showIncluded ? 'active' : 'passive'}`}>
-                <span className={'default-margins pane-heading'}>
-                    {node && 'Families that will be included in the search'}
-                    {!node && 'Select a node and hit the refresh button'}
-                </span>
-                <span className={'button button--default'} onClick={async () => {
-                    handleIncludedFamilyFetching(true)
-                }}>
-                    Refresh
-                </span>
-                <div className={'scrolling-list-wrapped'}>
-                    {includedFamilies &&
-                    includedFamilies.families.map((it,i) => {
-                        return <span key={i} className={'default-margins'}>{it}</span>
-                    })}
-                </div>
-            </div>
+            <OptionalSection
+                optionalActive={optionalActive}
+                singleFam={singleFam}
+                setSingleFam={setSingleFam}
+                setSingleNode={setSingleNode}
+                selectedFamily={selectedFamily}
+                setSelectedFamily={setSelectedFamily}
+                singleNode={singleNode}
+                families={families}
+            />
+            <FamilyList
+                node={node}
+                handleIncludedFamilyFetching={handleIncludedFamilyFetching}
+                includedFamilies={includedFamilies}
+                showIncluded={showIncluded}
+            />
             {redirect && <Redirect to={`/job/${redirect}`}/>}
         </form>
     )

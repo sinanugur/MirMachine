@@ -163,7 +163,7 @@
   border-radius: 5px;
   cursor: pointer;
   padding: 0 5px 0 5px;
-  margin-top: 5px;
+  margin: 5px 0 5px 0;
   align-items: center;
   &--default{
     font-size: 0.85em;
@@ -177,6 +177,9 @@
     &:active{
       background-color: @main-color;
     }
+  }
+  &__bigger{
+    font-size: 1.0em;
   }
 
   &--header{
@@ -219,7 +222,7 @@
 .icon{
   margin-left: 5px;
   &--chevron {
-    height: 6px;
+    height: 8px;
     transition: transform 0.2s;
     &__right {
       transform: rotate(-90deg);
