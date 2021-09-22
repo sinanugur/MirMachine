@@ -2,7 +2,10 @@ from pathlib import Path
 
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
-from .serializers import JobSerializer, NodeSerializer, EdgeSerializer, FamilySerializer, NodeFamilyRelationSerializer
+
+from .job_pre_processor import process_form_data
+from .serializers import JobSerializer, NodeSerializer, \
+    EdgeSerializer, FamilySerializer, NodeFamilyRelationSerializer
 from .models import Job, Node, Edge, Family, NodeFamilyRelation
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -39,11 +42,10 @@ def get_job(request, id):
 
 
 # remember to remove exemptions
-@api_view(['POST','GET'])
+@api_view(['POST', 'GET'])
 def post_job(request):
     if request.method == 'POST':
-        serializer = JobSerializer(data=request.data)
-        serializer.initial_data['hash'] = hashlib.md5(serializer.initial_data['data'].encode()).hexdigest()
+        serializer = process_form_data(request)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)

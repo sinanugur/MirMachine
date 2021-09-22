@@ -1,9 +1,18 @@
 const baseURL = 'http://localhost:8000/api/'
 
-export const submitJob = async (data) => {
+export const submitJob = async (data, file) => {
     const csrftoken = getCookie('csrftoken')
+
+    let formData = new FormData()
     const jsonString = JSON.stringify(data,null, '    ')
-    console.log(jsonString)
+    formData.append('data', jsonString)
+
+    if(data.mode == 'file'){
+        if(!file) throw new JobPostError('File is null')
+        formData.append('file', file)
+    }
+
+    console.log(formData)
 
     const response = await fetch(baseURL + 'jobs/',{
         method: 'POST',
@@ -11,12 +20,11 @@ export const submitJob = async (data) => {
         cache: 'no-cache',
         credentials: 'same-origin',
         headers: {
-            'Content-Type': 'application/json',
             'Accept': '*/*',
             'X-CSRFToken': csrftoken,
             'Accept-Encoding': 'gzip, deflate, br'
         },
-        body: jsonString
+        body: formData
         });
     return response.json()
 }
@@ -125,5 +133,12 @@ export class JobFetchError extends Error {
     constructor(message) {
         super(message)
         this.name = "JobFetchError"
+    }
+}
+
+export class JobPostError extends Error {
+    constructor(message) {
+        super(message)
+        this.name = "JobPostError"
     }
 }

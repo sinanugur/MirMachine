@@ -49,6 +49,12 @@ export const SearchForm = () => {
     },[])
 
     const handleSubmit = async () => {
+        let mode = document.getElementById('mode').value
+        let file
+        if(mode == 'file'){
+            file = document.getElementById('sequence').files[0]
+            document.getElementById('sequence').value = ''
+        }
         const data = {
             data: document.getElementById('sequence').value,
             mode: document.getElementById('mode').value,
@@ -60,7 +66,7 @@ export const SearchForm = () => {
             family: singleFam ? selectedFamily : '',
             mail_address: document.getElementById('email').value
         }
-        const response = await submitJob(data)
+        const response = await submitJob(data, file)
         setRedirect(response.id)
     }
 
