@@ -76,7 +76,17 @@ export const SearchForm = () => {
     }
 
     const addDemoInput = () => {
-        // TODO
+        if(confirm('Are you sure you want to enter demo values?\nThis will overwrite current input')) {
+            //setNode('Caenorhabditis')
+            document.getElementById('species').value = ''
+            setOptionalActive(true)
+            document.getElementById('model').value = 'proto'
+            setSingleNode(false)
+            setSingleFam(true)
+            setSelectedFamily('Let-7')
+            document.getElementById('mode').value = 'text'
+            document.getElementById('sequence').value = demoSequence
+        }
     }
 
     return(
@@ -164,3 +174,5 @@ export const SearchForm = () => {
         </form>
     )
 }
+
+const demoSequence = 'TTCTGTCTCCGGTAAGGTAGAAAATTGCATAGTTCACCGGTGGTAATATTCCAAACTATACAACCTACTACCTCACCGGATCCAC'
