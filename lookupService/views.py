@@ -1,8 +1,9 @@
-from pathlib import Path
-
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
-from .serializers import JobSerializer, NodeSerializer, EdgeSerializer, FamilySerializer, NodeFamilyRelationSerializer
+
+from .job_pre_processor import process_form_data
+from .serializers import JobSerializer, NodeSerializer, \
+    EdgeSerializer, FamilySerializer, NodeFamilyRelationSerializer, StrippedJobSerializer
 from .models import Job, Node, Edge, Family, NodeFamilyRelation
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -11,22 +12,20 @@ from rest_framework.decorators import api_view
 from .tree_helper import parse_newick_tree
 from .family_importer import import_all_families, import_node_to_family_db
 from engine.scripts.MirMachine import show_node_families_args
-import hashlib
 import json
 
 
-# Create your views here.
 @ensure_csrf_cookie
 def index_view(request, *args, **kwargs):
     return render(request, 'frontend/index.html', context={}, status=200)
 
 
 @api_view(['GET'])
-def get_job(request, id):
+def get_job(request, _id):
     if request.method == 'GET':
         try:
-            job = Job.objects.get(id=id)
-            serializer = JobSerializer(job)
+            job = Job.objects.get(id=_id)
+            serializer = StrippedJobSerializer(job)
             return JsonResponse(serializer.data)
         except ValidationError:
             response = {"message": "Not a valid UUID"}
@@ -38,15 +37,14 @@ def get_job(request, id):
                                 status=status.HTTP_404_NOT_FOUND)
 
 
-# remember to remove exemptions
-@api_view(['POST','GET'])
+@api_view(['POST', 'GET'])
 def post_job(request):
     if request.method == 'POST':
-        serializer = JobSerializer(data=request.data)
-        serializer.initial_data['hash'] = hashlib.md5(serializer.initial_data['data'].encode()).hexdigest()
+        serializer = process_form_data(request)
         if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+            instance = serializer.save()
+            stripped = StrippedJobSerializer(instance)
+            return JsonResponse(stripped.data, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'GET':
         jobs = Job.objects.all()

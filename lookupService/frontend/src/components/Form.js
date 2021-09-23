@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ChevronIkon, ForstorrelsesglassIkon } from '@sb1/ffe-icons-react'
-import { fetchTree, submitJob, getFamilies, getFamiliesIncludedInSearch } from '../utils/Repository'
+import Spinner from '@sb1/ffe-spinner-react'
+import { fetchTree, submitJob, getFamilies, getFamiliesIncludedInSearch, validData } from '../utils/Repository'
 import { Redirect } from 'react-router-dom'
 import Tree from './Tree'
 import SearchableDropdown from './SearchableDropdown'
@@ -12,6 +13,7 @@ export const SearchForm = () => {
     const [optionalActive, setOptionalActive] = useState(false)
     const [modal, setModal] = useState(false)
     const [showIncluded, setShowIncluded] = useState(false)
+    const [submitting, setSubmitting] = useState(false)
 
     // Form data
     const [inputMode, setInputMode] = useState("text")
@@ -49,6 +51,13 @@ export const SearchForm = () => {
     },[])
 
     const handleSubmit = async () => {
+        setSubmitting(true)
+        let mode = document.getElementById('mode').value
+        let file
+        if(mode == 'file'){
+            file = document.getElementById('sequence').files[0]
+            document.getElementById('sequence').value = ''
+        }
         const data = {
             data: document.getElementById('sequence').value,
             mode: document.getElementById('mode').value,
@@ -60,8 +69,21 @@ export const SearchForm = () => {
             family: singleFam ? selectedFamily : '',
             mail_address: document.getElementById('email').value
         }
-        const response = await submitJob(data)
-        setRedirect(response.id)
+
+        if(validData(data, file)) {
+            try {
+                const response = await submitJob(data, file)
+                setRedirect(response.id)
+            } catch (e) {
+                if (e.name == 'JobPostError') {
+                    alert(e.message)
+                }
+                setSubmitting(false)
+            }
+        } else {
+            alert('Required fields are missing')
+            setSubmitting(false)
+        }
     }
 
     const handleIncludedFamilyFetching = async (refresh) => {
@@ -93,6 +115,9 @@ export const SearchForm = () => {
         <form className={'flex-column limit-width'}
               name={'query'} id={'query'} onSubmit={event => event.preventDefault()}>
             {modal && <Tree hook={setNode} show={setModal} nodes={nodes} edges={edges}/>}
+            {submitting ? <span className={'default-margins'}>
+                <Spinner className='spinner' large={true}/></span> :
+            <>
             <span className={'input-cell'}>
                     <label className={'label'} htmlFor={'sequence'}>Sequence:</label>
                 { inputMode === 'text' ?
@@ -101,7 +126,7 @@ export const SearchForm = () => {
                     <input
                         type={inputMode === 'file' ? 'file' : 'text'}
                         placeholder={`Input ${inputMode === 'link' ? 'link' : 'accession number'} here`}
-                        name={'sequence'}
+                        name={'sequence'} accept={'.txt,.fa,.fasta'}
                         id={'sequence'}
                     />
                 }
@@ -170,6 +195,7 @@ export const SearchForm = () => {
                 includedFamilies={includedFamilies}
                 showIncluded={showIncluded}
             />
+            </>}
             {redirect && <Redirect to={`/job/${redirect}`}/>}
         </form>
     )
