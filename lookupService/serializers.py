@@ -2,14 +2,16 @@ from rest_framework import serializers
 from .models import Job, Node, Edge, Family, NodeFamilyRelation
 
 
+class StrippedJobSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Job
+        exclude = ['data']
+
+
 class JobSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Job
-        fields = ['id', 'initiated', 'status',
-                  'data', 'hash', 'mode',
-                  'species', 'node',
-                  'model_type', 'single_node', 'family',
-                  'single_fam_mode', 'mail_address']
+        fields = '__all__'
 
 
 class NodeSerializer(serializers.HyperlinkedModelSerializer):

@@ -1,11 +1,9 @@
-from pathlib import Path
-
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
 
 from .job_pre_processor import process_form_data
 from .serializers import JobSerializer, NodeSerializer, \
-    EdgeSerializer, FamilySerializer, NodeFamilyRelationSerializer
+    EdgeSerializer, FamilySerializer, NodeFamilyRelationSerializer, StrippedJobSerializer
 from .models import Job, Node, Edge, Family, NodeFamilyRelation
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -17,18 +15,17 @@ from engine.scripts.MirMachine import show_node_families_args
 import json
 
 
-# Create your views here.
 @ensure_csrf_cookie
 def index_view(request, *args, **kwargs):
     return render(request, 'frontend/index.html', context={}, status=200)
 
 
 @api_view(['GET'])
-def get_job(request, id):
+def get_job(request, _id):
     if request.method == 'GET':
         try:
-            job = Job.objects.get(id=id)
-            serializer = JobSerializer(job)
+            job = Job.objects.get(id=_id)
+            serializer = StrippedJobSerializer(job)
             return JsonResponse(serializer.data)
         except ValidationError:
             response = {"message": "Not a valid UUID"}
@@ -40,14 +37,14 @@ def get_job(request, id):
                                 status=status.HTTP_404_NOT_FOUND)
 
 
-# remember to remove exemptions
 @api_view(['POST', 'GET'])
 def post_job(request):
     if request.method == 'POST':
         serializer = process_form_data(request)
         if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+            instance = serializer.save()
+            stripped = StrippedJobSerializer(instance)
+            return JsonResponse(stripped.data, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'GET':
         jobs = Job.objects.all()

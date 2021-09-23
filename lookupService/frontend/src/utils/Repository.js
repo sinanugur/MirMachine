@@ -145,8 +145,8 @@ export class JobPostError extends Error {
     }
 }
 
-export const validData = (data) => {
-    if(data.data === '') return false
+export const validData = (data, file) => {
+    if(data.data === '' && !file) return false
     else if(data.single_fam_mode && data.family === '') return false
     else if(!data.single_fam_mode && data.node === '') return false
     return true

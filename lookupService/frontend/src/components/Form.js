@@ -70,7 +70,7 @@ export const SearchForm = () => {
             mail_address: document.getElementById('email').value
         }
 
-        if(validData(data)) {
+        if(validData(data, file)) {
             try {
                 const response = await submitJob(data, file)
                 setRedirect(response.id)
