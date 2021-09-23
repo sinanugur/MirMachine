@@ -8,11 +8,10 @@ export const submitJob = async (data, file) => {
     formData.append('data', jsonString)
 
     if(data.mode == 'file'){
-        if(!file) throw new JobPostError('File is null')
+        if(!file) throw new JobPostError('Please select a file to upload')
         formData.append('file', file)
     }
 
-    console.log(formData)
 
     const response = await fetch(baseURL + 'jobs/',{
         method: 'POST',
@@ -26,6 +25,9 @@ export const submitJob = async (data, file) => {
         },
         body: formData
         });
+    if(response.status === 400){
+        throw new JobPostError('Invalid data, make sure you filled out the necessary fields')
+    }
     return response.json()
 }
 
@@ -141,4 +143,11 @@ export class JobPostError extends Error {
         super(message)
         this.name = "JobPostError"
     }
+}
+
+export const validData = (data) => {
+    if(data.data === '') return false
+    else if(data.single_fam_mode && data.family === '') return false
+    else if(!data.single_fam_mode && data.node === '') return false
+    return true
 }

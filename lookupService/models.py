@@ -42,7 +42,7 @@ class Job(models.Model):
     data = models.CharField(max_length=10000)
     mode = models.CharField(choices=MODE_OPTIONS, max_length=10)
     species = models.CharField(blank=True, max_length=60, default=species_default)
-    node = models.CharField(max_length=100)
+    node = models.CharField(max_length=100, blank=True)
     model_type = models.CharField(choices=MODEL_TYPES, max_length=15)
     single_node = models.BooleanField(default=boolean_default)
     single_fam_mode = models.BooleanField(default=boolean_default)
