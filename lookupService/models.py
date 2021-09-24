@@ -42,7 +42,7 @@ class Job(models.Model):
     initiated = models.DateTimeField(auto_now_add=True)
     data = models.TextField()
     mode = models.CharField(choices=MODE_OPTIONS, max_length=10)
-    species = models.CharField(blank=True, max_length=60, default=species_default)
+    species = models.TextField(blank=True, default=species_default)
     node = models.CharField(max_length=100, blank=True)
     model_type = models.CharField(choices=MODEL_TYPES, max_length=15)
     single_node = models.BooleanField(default=boolean_default)

@@ -1,6 +1,7 @@
 import hashlib
 import json
 from lookupService.serializers import JobSerializer
+from .ncbi_fetcher import get_fasta
 
 
 def process_form_data(request):
@@ -21,6 +22,12 @@ def process_form_data(request):
                 continue
             _list.append(decoded)
         serializer.initial_data['data'] = ''.join(_list)
+    elif serializer.initial_data['mode'] == 'accNum':
+        data = get_fasta(serializer.initial_data['data'])
+        data = data.splitlines()
+        if serializer.initial_data['species'] == '':
+            serializer.initial_data['species'] = data[0][1:]
+        serializer.initial_data['data'] = ''.join(data[1:])
     serializer.initial_data['hash'] = hashlib.md5(serializer.initial_data['data'].encode()).hexdigest()
     return serializer
 

@@ -27,6 +27,8 @@ export const submitJob = async (data, file) => {
         });
     if(response.status === 400){
         throw new JobPostError('Invalid data, make sure you filled out the necessary fields')
+    } else if(response.status === 404){
+        throw new JobPostError('Invalid accession number')
     }
     return response.json()
 }

@@ -40,11 +40,15 @@ def get_job(request, _id):
 @api_view(['POST', 'GET'])
 def post_job(request):
     if request.method == 'POST':
-        serializer = process_form_data(request)
-        if serializer.is_valid():
-            instance = serializer.save()
-            stripped = StrippedJobSerializer(instance)
-            return JsonResponse(stripped.data, status=status.HTTP_201_CREATED)
+        try:
+            serializer = process_form_data(request)
+            if serializer.is_valid():
+                instance = serializer.save()
+                stripped = StrippedJobSerializer(instance)
+                return JsonResponse(stripped.data, status=status.HTTP_201_CREATED)
+        except ValueError:
+            response = {"message": "Not a valid accession number"}
+            return JsonResponse(response, status=status.HTTP_404_NOT_FOUND)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'GET':
         jobs = Job.objects.all()
