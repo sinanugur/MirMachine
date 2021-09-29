@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
-
-from .job_pre_processor import process_form_data
+from lookupService.helpers.job_pre_processor import process_form_data
+from lookupService.helpers.job_scheduler import schedule_job
 from .serializers import JobSerializer, NodeSerializer, \
     EdgeSerializer, FamilySerializer, NodeFamilyRelationSerializer, StrippedJobSerializer
 from .models import Job, Node, Edge, Family, NodeFamilyRelation
@@ -9,8 +9,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
 from rest_framework.decorators import api_view
-from .tree_helper import parse_newick_tree
-from .family_importer import import_all_families, import_node_to_family_db
+from lookupService.helpers.tree_helper import parse_newick_tree
+from lookupService.helpers.family_importer import import_all_families, import_node_to_family_db
 from engine.scripts.MirMachine import show_node_families_args
 import json
 
@@ -45,6 +45,7 @@ def post_job(request):
             if serializer.is_valid():
                 instance = serializer.save()
                 stripped = StrippedJobSerializer(instance)
+                schedule_job()
                 return JsonResponse(stripped.data, status=status.HTTP_201_CREATED)
         except ValueError:
             response = {"message": "Not a valid accession number"}

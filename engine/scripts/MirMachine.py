@@ -17,6 +17,7 @@ from pathlib import Path
 from datetime import datetime
 from .mirmachine_tree_parser import search_tree_for_keyword
 base_dir = os.path.dirname(__file__)
+mirmachine_path = os.path.join(base_dir)
 #
 #try:
 #    from mirmachine import meta
@@ -32,7 +33,7 @@ base_dir = os.path.dirname(__file__)
 #            raise ImportError
 #
 #
-meta_directory=os.path.dirname(os.path.join(base_dir, '../mirmachine/meta/'))
+meta_directory= os.path.join(base_dir, '../mirmachine/meta/')
 
 __author__ = 'sium'
 
@@ -98,7 +99,7 @@ Options:
 
 def run_mirmachine():
 
-    Path("data/yamls").mkdir(parents=True,exist_ok=True)
+    Path("data/yamls").mkdir(parents=True, exist_ok=True)
 
     both_ways= "--add-all-nodes" if arguments["--add-all-nodes"] else ""
     dry_run="-n" if arguments["--dry"] else ""

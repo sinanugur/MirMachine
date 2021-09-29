@@ -34,7 +34,7 @@ class Job(models.Model):
         ('queued', 'Queued'),
         ('ongoing', 'Ongoing'),
         ('completed', 'Completed'),
-        ('halted','Halted')
+        ('halted', 'Halted')
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     status = models.CharField(choices=STATUSES, max_length=15, default=status_default)

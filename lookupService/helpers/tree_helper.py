@@ -3,7 +3,7 @@ import os
 
 def parse_newick_tree():
     module_dir = os.path.dirname(__file__)
-    file_path = os.path.join(module_dir, '../engine/mirmachine/meta/tree.newick')
+    file_path = os.path.join(module_dir, '../../engine/mirmachine/meta/tree.newick')
     _file = open(file_path, 'r')
     tree = _file.readline()
     _file.close()

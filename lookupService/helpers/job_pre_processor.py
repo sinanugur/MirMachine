@@ -1,7 +1,7 @@
 import hashlib
 import json
 from lookupService.serializers import JobSerializer
-from .ncbi_fetcher import get_fasta
+from lookupService.helpers.ncbi_fetcher import get_fasta
 
 
 def process_form_data(request):

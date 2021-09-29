@@ -1,6 +1,7 @@
 engine/analyses/
 engine/results/
 engine/data/
+data/
 .snakemake
 engine/dist/
 engine/eggs/

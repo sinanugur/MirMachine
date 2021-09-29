@@ -7,7 +7,7 @@ def import_all_families():
     deuterostomes = get_strings_in_files('deutero')
 
     module_dir = os.path.dirname(__file__)
-    file_path = os.path.join(module_dir, '../engine/mirmachine/meta/cutoffs/combined/mirmachine_trusted_cutoffs.tsv')
+    file_path = os.path.join(module_dir, '../../engine/mirmachine/meta/cutoffs/combined/mirmachine_trusted_cutoffs.tsv')
     _file = open(file_path, 'r')
     # skip first line
     _file.readline()
@@ -45,7 +45,7 @@ def get_strings_in_files(type):
 def import_node_to_family_db():
     relations = []
     module_dir = os.path.dirname(__file__)
-    file_path = os.path.join(module_dir, '../engine/mirmachine/meta/nodes_mirnas_corrected.tsv')
+    file_path = os.path.join(module_dir, '../../engine/mirmachine/meta/nodes_mirnas_corrected.tsv')
     _file = open(file_path, 'r')
     line = _file.readline()
     while line != '':
