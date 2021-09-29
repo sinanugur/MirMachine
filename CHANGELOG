@@ -1,3 +1,7 @@
+## [0.2.11.1] - 2021-09-29
+### Changed
+- Bioconda installation problem is fixed by updating requirements.txt.
+
 ## [0.2.11] - 2021-05-17
 ### Added
 - Some features were added to main executable such as printing ascii tree, nodes etc.
