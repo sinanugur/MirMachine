@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages, Command
 import os
 
-with open("requirements.txt") as req:
+with open("../requirements.txt") as req:
     requirements=req.readlines()
 
 class CleanCommand(Command):

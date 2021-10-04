@@ -1,4 +1,3 @@
-import threading
 from ..models import Job
 from engine.scripts.mirmachine_args import run_mirmachine
 
@@ -14,5 +13,3 @@ def schedule_job():
     next_in_line.save()
     run_mirmachine(next_in_line)
 
-def handle_job_complete():
-    pass

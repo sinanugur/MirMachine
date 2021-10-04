@@ -5,19 +5,25 @@ channels:
   - defaults
 dependencies:
   - bedtools=2.29.2
+  - coreutils=8.31
+  - django=3.2.6
   - gawk=5.0.1
+  - moreutils=0.65
   - pip=20.0.2
-  - python=3.6.10
+  - python=3.8
   - samtools=1.6
   - infernal=1.1.2
-  - moreutils=0.5.7
   - pip:
     - appdirs==1.4.3
     - attrs==19.3.0
     - biopython==1.76
+    - channels==3.0.4
+    - channels-redis==3.3.1
     - configargparse==1.1
-    - datrie==0.8
+    - datrie==0.8.2
     - decorator==4.4.2
+    - django-manifest-loader==1.0.0
+    - djangorestframework==3.12.4
     - docopt==0.6.2
     - docutils==0.16
     - gitdb==4.0.2

@@ -76,7 +76,7 @@ with open(cutoff_file) as tsv:
 	for line in tsv.readlines():
 		cutoffs_dict[line.split()[0] + ".PRE"]=line.split()[1]
 
-
+print('read cutoff dict starting rules')
 
 rule all:
 	input:
@@ -133,7 +133,7 @@ rule parse_output:
 		paste --delimiters=";" {output[0]} <(bedtools getfasta -tab -s -fi {genome} -bed {output[1]} | awk '{{print "sequence_with_30nt="$2}}') > {output[2]}
 
 		#sort and filter overlapping
-		gff_sort_and_compete.sh {output[2]} > {output[0]}
+		scripts/gff_sort_and_compete.sh {output[2]} > {output[0]}
 		"""
 
 rule create_filtered_gffs:
@@ -145,7 +145,7 @@ rule create_filtered_gffs:
 
 	params:
 		trusted=lambda wildcards: cutoffs_dict[wildcards.mirna]
-	
+
 	run:
 		shell("cat {input[0]} | awk -v trusted={params.trusted} '$6 >= trusted{{print}}' > {output}")
 
