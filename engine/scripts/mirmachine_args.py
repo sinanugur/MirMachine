@@ -2,7 +2,6 @@ import os
 import subprocess
 from pathlib import Path
 
-
 base_dir = os.path.dirname(__file__)
 mirmachine_path = os.path.join(base_dir, '../mirmachine/')
 meta_directory = os.path.join(mirmachine_path, 'meta')
@@ -58,9 +57,5 @@ def run_mirmachine(job_object):
         mirmachine_path=mirmachine_path)
 
     out = subprocess.run(snakemake_argument, shell=True)
-    if out.returncode != 0:
-        job_object.status = 'halted'
-    else:
-        job_object.status = 'completed'
-    job_object.save()
+    return out, job_object
 

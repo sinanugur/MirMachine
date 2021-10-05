@@ -13,6 +13,7 @@ from lookupService.helpers.tree_helper import parse_newick_tree
 from lookupService.helpers.family_importer import import_all_families, import_node_to_family_db
 from engine.scripts.MirMachine import show_node_families_args
 import json
+import threading
 
 
 @ensure_csrf_cookie
@@ -45,7 +46,8 @@ def post_job(request):
             if serializer.is_valid():
                 instance = serializer.save()
                 stripped = StrippedJobSerializer(instance)
-                schedule_job()
+                job_thread = threading.Thread(target=schedule_job)
+                job_thread.start()
                 return JsonResponse(stripped.data, status=status.HTTP_201_CREATED)
         except ValueError:
             response = {"message": "Not a valid accession number"}

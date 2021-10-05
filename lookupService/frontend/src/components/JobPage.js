@@ -1,30 +1,45 @@
 import { useParams, Link } from 'react-router-dom'
 import { useEffect, useState } from "react";
 import { fetchJob } from "../utils/Repository";
+import { connectToSocket } from "../utils/WebSockets";
 
 const Job = () => {
     const { jobID } = useParams()
     const [jobData, setJobData] = useState()
     const [error, setError] = useState()
+    const [socket, setSocket] = useState()
+    const [socketMessage, setSocketMessage] = useState()
     useEffect(() => {
         const getJobData = async () => {
             try {
                 let data = await fetchJob(jobID)
                 console.log(data)
                 setJobData(data)
+                setSocket(connectToSocket(jobID, setSocketMessage))
             } catch(err) {
                 setError(err.message)
             }
         }
         getJobData()
+        return () => {
+            socket.close(1000, 'User left')
+        }
     },[])
+    useEffect(() => {
+        if(socketMessage === 'halted' || socketMessage === 'completed'){
+            socket.close(1000, 'Got required info')
+        }
+    },[socketMessage])
     return(
         <div className={'flex-column'}>
             {jobData &&
             <>
             <h1> Your job</h1>
                 <span>ID: {jobData.id}</span>
-                <span>Status: {jobData.status}</span>
+                <span>
+                    Status: {!socketMessage && jobData.status}
+                    {socketMessage && socketMessage}
+                </span>
                 <span>Initiated at: {jobData.initiated.split('T')[0] + ' @ ' + jobData.initiated.split('T')[1].substring(0,5) + ' GMT'}</span>
                 <span>Dataset hash: {jobData.hash}</span>
                 <span>Species tag: {jobData.species}</span>
