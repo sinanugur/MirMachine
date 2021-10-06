@@ -1,7 +1,8 @@
 import { useParams, Link } from 'react-router-dom'
-import { useEffect, useState } from "react";
-import { fetchJob } from "../utils/Repository";
-import { connectToSocket } from "../utils/WebSockets";
+import { useEffect, useState } from 'react'
+import { fetchJob } from '../utils/Repository'
+import { connectToSocket } from '../utils/WebSockets'
+import Loader from './Loader'
 
 const Job = () => {
     const { jobID } = useParams()
@@ -14,7 +15,9 @@ const Job = () => {
             try {
                 let data = await fetchJob(jobID)
                 setJobData(data)
-                setSocket(connectToSocket(jobID, setSocketMessage))
+                setSocketMessage(data.status)
+                if(data.status !== 'halted' && data.status !== 'completed')
+                    setSocket(connectToSocket(jobID, setSocketMessage))
             } catch(err) {
                 setError(err.message)
             }
@@ -37,8 +40,7 @@ const Job = () => {
             <h1> Your job</h1>
                 <span>ID: {jobData.id}</span>
                 <span>
-                    Status: {!socketMessage && jobData.status}
-                    {socketMessage && socketMessage}
+                    Status: {socketMessage && socketMessage}
                 </span>
                 <span>Initiated at: {jobData.initiated.split('T')[0] + ' @ ' + jobData.initiated.split('T')[1].substring(0,5) + ' GMT'}</span>
                 <span>Dataset hash: {jobData.hash}</span>
@@ -56,10 +58,7 @@ const Job = () => {
                 {jobData.mail_address == '' ? null :
                     <span>{`E-mail: ${jobData.mail_address}`}</span>
                 }
-                <div className={'loading-container'}>
-                    <img src={'/static/mir.svg'} alt='Mir logo'className={'loader'}/>
-                    <p>Working...</p>
-                </div>
+                <Loader status={socketMessage}/>
                 <div className={'info-pane'}>
                     Please store your job ID safely for later reference.<br/>
                     This is needed to access your results if you didn't register your email.<br/>

@@ -81,7 +81,7 @@ export const SearchForm = () => {
                 setSubmitting(false)
             }
         } else {
-            alert('Required fields are missing')
+            alert('Required fields are missing or the data you provided is not valid')
             setSubmitting(false)
         }
     }

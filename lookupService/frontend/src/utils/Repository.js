@@ -151,5 +151,19 @@ export const validData = (data, file) => {
     if(data.data === '' && !file) return false
     else if(data.single_fam_mode && data.family === '') return false
     else if(!data.single_fam_mode && data.node === '') return false
+    return validGenome(data.data)
+}
+
+const validGenome = (genome) => {
+    const lines = genome.split('\n')
+    const legalChars = 'agtcun'
+    for(let i = 0; i<lines.length; i++){
+        let line = lines[i]
+        if(line.startsWith('>') || line.startsWith(';')) continue
+        let lower = line.toLowerCase()
+        for(let i = 0; i < lower.length; i++){
+            if(!legalChars.includes(lower[i])) return false
+        }
+    }
     return true
 }
