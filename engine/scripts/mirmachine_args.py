@@ -13,10 +13,12 @@ def run_mirmachine(job_object):
     Path("engine/data/temp").mkdir(parents=True, exist_ok=True)
 
     gen_file_path = 'data/temp/' + job_object.species + '.txt'
-    genome_file = open('engine/' + gen_file_path, 'x')
-    genome_file.write('>{species}\n'.format(species=job_object.species))
-    genome_file.write(job_object.data)
-    genome_file.close()
+    try:
+        write_genome_to_temp_file(job_object, 'engine/' + gen_file_path)
+    except OSError:
+        if os.path.exists('engine/' + gen_file_path):
+            os.remove('engine/' + gen_file_path)
+            write_genome_to_temp_file(job_object, 'engine/' + gen_file_path)
 
     both_ways = ''  # "--add-all-nodes" if arguments["--add-all-nodes"] else ""
     dry_run = ''  # "-n" if arguments["--dry"] else ""
@@ -59,3 +61,9 @@ def run_mirmachine(job_object):
     out = subprocess.run(snakemake_argument, shell=True)
     return out, job_object
 
+
+def write_genome_to_temp_file(job_object, gen_file_path):
+    genome_file = open(gen_file_path, 'x')
+    genome_file.write('>{species}\n'.format(species=job_object.species))
+    genome_file.write(job_object.data)
+    genome_file.close()

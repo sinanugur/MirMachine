@@ -1,8 +1,7 @@
 
 export const connectToSocket = (id, hook) => {
     const socket = new WebSocket(`ws://localhost:8000/ws/job/${id}`)
-    // Open connection
-    console.log('inside the connection method')
+    // On open connection
     socket.addEventListener('open', (event) => {
         socket.send('Nice to meet you')
         console.log('connected to socket')

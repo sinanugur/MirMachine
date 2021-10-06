@@ -2,20 +2,27 @@ from ..models import Job
 from engine.scripts.mirmachine_args import run_mirmachine
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from .maintainer import clean_up_temporary_files
 
 
 def schedule_job():
     ongoing = Job.objects.filter(status='ongoing')
+    # check if already job running
     if ongoing.exists():
         return
     queued = Job.objects.filter(status='queued').order_by('initiated')
-    # could check if none are returned, but this should never happen
+    # check if queue is empty
+    if not queued.exists():
+        clean_up_temporary_files()
+        return
     next_in_line = queued[0]
     next_in_line.status = 'ongoing'
     next_in_line.save()
+    announce_status_change(next_in_line)
 
     process, job_object = run_mirmachine(next_in_line)
     handle_job_end(process, job_object)
+    schedule_job()
 
 
 def handle_job_end(process, job_object):
@@ -24,12 +31,16 @@ def handle_job_end(process, job_object):
     else:
         job_object.status = 'completed'
     job_object.save()
+    announce_status_change(job_object)
+
+
+def announce_status_change(job_object):
     layer = get_channel_layer('default')
     str_id = str(job_object.id)
-    print(str_id)
-    print(job_object.status)
+
     async_to_sync(layer.group_send)(
         str_id,
         {'type': 'status.update', 'status': job_object.status}
     )
+
 

@@ -13,7 +13,6 @@ const Job = () => {
         const getJobData = async () => {
             try {
                 let data = await fetchJob(jobID)
-                console.log(data)
                 setJobData(data)
                 setSocket(connectToSocket(jobID, setSocketMessage))
             } catch(err) {
@@ -22,7 +21,8 @@ const Job = () => {
         }
         getJobData()
         return () => {
-            socket.close(1000, 'User left')
+            if(socket && socket.readyState === 1) // 1 = OPEN
+                socket.close(1000, 'User left')
         }
     },[])
     useEffect(() => {
