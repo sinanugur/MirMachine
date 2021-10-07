@@ -11,20 +11,21 @@ workflows_dir = os.path.join(mirmachine_path, 'workflows/')
 def run_mirmachine(job_object):
     Path("engine/data/yamls").mkdir(parents=True, exist_ok=True)
     Path("engine/data/temp").mkdir(parents=True, exist_ok=True)
-
-    gen_file_path = 'data/temp/' + job_object.species + '.txt'
-    try:
-        write_genome_to_temp_file(job_object, 'engine/' + gen_file_path)
-    except OSError:
-        if os.path.exists('engine/' + gen_file_path):
-            os.remove('engine/' + gen_file_path)
+    if job_object.mode != 'file':
+        gen_file_path = 'data/temp/' + job_object.species + '.txt'
+        try:
             write_genome_to_temp_file(job_object, 'engine/' + gen_file_path)
-
+        except OSError:
+            if os.path.exists('engine/' + gen_file_path):
+                os.remove('engine/' + gen_file_path)
+                write_genome_to_temp_file(job_object, 'engine/' + gen_file_path)
+    else:
+        gen_file_path = '../media/uploads/{id}.txt'.format(id=job_object.id)
     both_ways = ''  # "--add-all-nodes" if arguments["--add-all-nodes"] else ""
     dry_run = ''  # "-n" if arguments["--dry"] else ""
     unlock = ''  # "--unlock" if arguments["--unlock"] else ""
     remove = ''  # "--delete-all-output" if arguments["--remove"] else ""
-    default_node_argument = "" if job_object.single_node else "| while read i; do mirmachine_tree_parser.py {meta_directory}/tree.newick $i {both_ways}; done".format(
+    default_node_argument = "" if job_object.single_node else "| while read i; do engine/scripts/mirmachine_tree_parser.py {meta_directory}/tree.newick $i {both_ways}; done".format(
         meta_directory=meta_directory, both_ways=both_ways)
 
     if job_object.single_fam_mode:

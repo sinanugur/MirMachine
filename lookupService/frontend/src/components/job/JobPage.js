@@ -47,7 +47,7 @@ const Job = () => {
                 <span>Initiated at: {jobData.initiated.split('T')[0] + ' @ ' + jobData.initiated.split('T')[1].substring(0,5) + ' GMT'}</span>
                 <span>Dataset hash: {jobData.hash}</span>
                 <span>Species tag: {jobData.species}</span>
-                <span>Model type: {jobData.model_type === 'both' ? jobData.model_type : jobData.model_type + 'stome'}</span>
+                <span>Model type: {jobData.model_type === 'combined' ? jobData.model_type : jobData.model_type + 'stome'}</span>
                 {jobData.single_fam_mode ? null :
                     <>
                     <span>Node: {jobData.node}</span>

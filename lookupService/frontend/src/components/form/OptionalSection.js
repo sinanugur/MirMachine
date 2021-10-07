@@ -9,7 +9,7 @@ const OptionalSection = (props) => {
                         <span className={'input-cell'}>
                             <label htmlFor={'model'}>Model type:</label>
                             <select id={'model'} name={'model'}>
-                                <option value={'both'}>Both</option>
+                                <option value={'combined'}>Combined</option>
                                 <option value={'proto'}>Proto</option>
                                 <option value={'deutero'}>Deutero</option>
                             </select>

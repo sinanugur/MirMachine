@@ -1,8 +1,7 @@
 from django.db import models
 from django.utils import timezone
-from django.template.defaultfilters import truncatechars
 import uuid
-# Create your models here.
+import os
 
 
 def boolean_default():
@@ -18,6 +17,13 @@ def status_default():
     return 'queued'
 
 
+def name_uploaded_file(instance, filename):
+    path = 'uploads/'
+    # extension doesn't matter, using txt for consistency
+    new_name = '{id}.txt'.format(id=str(instance.id))
+    return os.path.join(path, new_name)
+
+
 class Job(models.Model):
     MODE_OPTIONS = [
         ('text','Text input'),
@@ -28,7 +34,7 @@ class Job(models.Model):
     MODEL_TYPES = [
         ('proto', 'Protostomes'),
         ('deutero', 'Deuterostomes'),
-        ('both','Both')
+        ('combined','Combined')
     ]
     STATUSES = [
         ('queued', 'Queued'),
@@ -40,7 +46,8 @@ class Job(models.Model):
     status = models.CharField(choices=STATUSES, max_length=15, default=status_default)
     hash = models.CharField(max_length=168, blank=True)
     initiated = models.DateTimeField(auto_now_add=True)
-    data = models.TextField()
+    data = models.TextField(blank=True)
+    data_file = models.FileField(upload_to=name_uploaded_file, null=True, blank=True)
     mode = models.CharField(choices=MODE_OPTIONS, max_length=10)
     species = models.TextField(blank=True, default=species_default)
     node = models.CharField(max_length=100, blank=True)
