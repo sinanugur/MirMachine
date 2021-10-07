@@ -13,15 +13,19 @@ def schedule_job():
     queued = Job.objects.filter(status='queued').order_by('initiated')
     # check if queue is empty
     if not queued.exists():
-        clean_up_temporary_files()
+        # clean_up_temporary_files()
         return
     next_in_line = queued[0]
     next_in_line.status = 'ongoing'
     next_in_line.save()
     announce_status_change(next_in_line)
-
-    process, job_object = run_mirmachine(next_in_line)
-    handle_job_end(process, job_object)
+    try:
+        process, job_object = run_mirmachine(next_in_line)
+        handle_job_end(process, job_object)
+    except OSError:
+        next_in_line.status = 'halted'
+        next_in_line.save()
+        announce_status_change(next_in_line)
     schedule_job()
 
 

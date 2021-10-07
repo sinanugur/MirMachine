@@ -44,8 +44,12 @@ def run_mirmachine(job_object):
             node=job_object.node,
             mirmachine_path=mirmachine_path,
             species=job_object.species,
-            genome=job_object.data)
-    subprocess.run(yaml_argument, check=True, shell=True)
+            genome=gen_file_path)
+
+    out = subprocess.run(yaml_argument, shell=True)
+
+    if out.returncode != 0:
+        return out, job_object
 
     snakemake_argument="snakemake -s engine/mirmachine/workflows/mirmachine_search.smk -d {workdir} " \
                        "--rerun-incomplete --config meta_directory={meta_directory} model={model} " \

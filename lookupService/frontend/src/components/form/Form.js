@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { ChevronIkon, ForstorrelsesglassIkon } from '@sb1/ffe-icons-react'
 import Spinner from '@sb1/ffe-spinner-react'
-import { fetchTree, submitJob, getFamilies, getFamiliesIncludedInSearch, validData } from '../utils/Repository'
+import { fetchTree, submitJob, getFamilies, getFamiliesIncludedInSearch } from '../../utils/Repository'
+import { validData } from '../../utils/Validators'
 import { Redirect } from 'react-router-dom'
 import Tree from './Tree'
 import SearchableDropdown from './SearchableDropdown'
@@ -69,8 +70,8 @@ export const SearchForm = () => {
             family: singleFam ? selectedFamily : '',
             mail_address: document.getElementById('email').value
         }
-
-        if(validData(data, file)) {
+        let errorMessage = validData(data, file)
+        if(errorMessage === '') {
             try {
                 const response = await submitJob(data, file)
                 setRedirect(response.id)
@@ -81,7 +82,7 @@ export const SearchForm = () => {
                 setSubmitting(false)
             }
         } else {
-            alert('Required fields are missing or the data you provided is not valid')
+            alert(errorMessage)
             setSubmitting(false)
         }
     }

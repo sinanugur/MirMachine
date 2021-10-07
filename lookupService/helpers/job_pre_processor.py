@@ -6,6 +6,8 @@ from lookupService.helpers.ncbi_fetcher import get_fasta
 
 def process_form_data(request):
     serializer = JobSerializer(data=json.loads(request.POST.get('data')))
+    updated_data = {}
+    updated_data.update(serializer.initial_data)
     if serializer.initial_data['mode'] == 'file':
         file = request.FILES.get('file')
         parsed_header = False
@@ -15,21 +17,22 @@ def process_form_data(request):
             if not parsed_header:
                 if serializer.initial_data['species'] == '':
                     lines = decoded.splitlines()
-                    serializer.initial_data['species'], i = extract_fasta_header(lines)
+                    updated_data['species'], i = extract_fasta_header(lines)
                     _list.append(''.join(lines[i:]))
                 parsed_header = True
                 continue
             _list.append(decoded)
-        serializer.initial_data['data'] = ''.join(_list)
+        updated_data['data'] = ''.join(_list)
     elif serializer.initial_data['mode'] == 'accNum':
         data = get_fasta(serializer.initial_data['data'])
         data = data.splitlines()
         i = 1
         if serializer.initial_data['species'] == '':
-            serializer.initial_data['species'], i = extract_fasta_header(data)
-        serializer.initial_data['data'] = ''.join(data[i:])
-    serializer.initial_data['hash'] = hashlib.md5(serializer.initial_data['data'].encode()).hexdigest()
-    return serializer
+            updated_data['species'], i = extract_fasta_header(data)
+        updated_data['data'] = ''.join(data[i:])
+    updated_data['hash'] = hashlib.md5(serializer.initial_data['data'].encode()).hexdigest()
+    updated_data['species'] = serializer.initial_data['species'].replace(' ', '_')
+    return JobSerializer(data=updated_data)
 
 
 def extract_fasta_header(lines):

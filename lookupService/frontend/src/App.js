@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { AboutPage } from './components/About'
-import { SearchForm } from './components/Form'
-import Job from './components/JobPage'
-import Header from './components/Header'
-import Retrieval from "./components/Retrieval"
-import Tree from './components/Tree'
+import { AboutPage } from './components/about/About'
+import { SearchForm } from './components/form/Form'
+import Job from './components/job/JobPage'
+import Header from './components/frame/Header'
+import Retrieval from "./components/retrieval/Retrieval"
+import Tree from './components/form/Tree'
 import { Switch, Route, useLocation } from 'react-router-dom'
 
 

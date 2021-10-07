@@ -1,3 +1,5 @@
+import {JobFetchError, JobPostError} from "./Errors";
+
 const baseURL = 'http://localhost:8000/api/'
 
 export const submitJob = async (data, file) => {
@@ -131,39 +133,4 @@ const getCookie = (name) => {
         }
     }
     return cookieValue;
-}
-
-export class JobFetchError extends Error {
-    constructor(message) {
-        super(message)
-        this.name = "JobFetchError"
-    }
-}
-
-export class JobPostError extends Error {
-    constructor(message) {
-        super(message)
-        this.name = "JobPostError"
-    }
-}
-
-export const validData = (data, file) => {
-    if(data.data === '' && !file) return false
-    else if(data.single_fam_mode && data.family === '') return false
-    else if(!data.single_fam_mode && data.node === '') return false
-    return validGenome(data.data)
-}
-
-const validGenome = (genome) => {
-    const lines = genome.split('\n')
-    const legalChars = 'agtcun'
-    for(let i = 0; i<lines.length; i++){
-        let line = lines[i]
-        if(line.startsWith('>') || line.startsWith(';')) continue
-        let lower = line.toLowerCase()
-        for(let i = 0; i < lower.length; i++){
-            if(!legalChars.includes(lower[i])) return false
-        }
-    }
-    return true
 }

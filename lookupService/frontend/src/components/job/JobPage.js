@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { fetchJob } from '../utils/Repository'
-import { connectToSocket } from '../utils/WebSockets'
+import { fetchJob } from '../../utils/Repository'
+import { connectToSocket } from '../../utils/WebSockets'
 import Loader from './Loader'
 
 const Job = () => {
@@ -24,12 +24,14 @@ const Job = () => {
         }
         getJobData()
         return () => {
-            if(socket && socket.readyState === 1) // 1 = OPEN
-                socket.close(1000, 'User left')
+            if(socket)
+                if(socket.readyState === 1) // 1 = OPEN
+                    socket.close(1000, 'User left')
         }
     },[])
     useEffect(() => {
-        if(socketMessage === 'halted' || socketMessage === 'completed'){
+        if((socketMessage === 'halted' || socketMessage === 'completed') && socket){
+            console.log('trying to close socket in socketMessage useEffect')
             socket.close(1000, 'Got required info')
         }
     },[socketMessage])

@@ -3,7 +3,7 @@ export const connectToSocket = (id, hook) => {
     const socket = new WebSocket(`ws://localhost:8000/ws/job/${id}`)
     // On open connection
     socket.addEventListener('open', (event) => {
-        socket.send('Nice to meet you')
+        socket.send('Current status please')
         console.log('connected to socket')
     })
     // Listen for messages
