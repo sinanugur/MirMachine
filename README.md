@@ -4,15 +4,13 @@ for the MirMachine lookup/annotation tool
 (see [MirMachine](https://github.com/sinanugur/MirMachine)) 
 
 ## Running Django
-### Setting up `pipenv`
-Firstly make sure you have the correct Python version installed.\
-This project requires that you have Python 3.8 installed.\
-You also need `pipenv` installed. This is done by using `pip install pipenv`. 
+### Setting up `conda`
+Firstly make sure you have the correct conda installed on your computer.\
 
-To install the project simply run `pipenv install` in the root folder.\
-Then run `pipenv shell` to spawn the virtual environment.\
+To install the project run `conda env create -n mirmachine -f environment.yml` in the root folder.\
+Then run `conda activate mirmachine` to spawn the virtual environment.\
 Now you are ready to start Django.\
-P.S. if you want to exit the environment type `exit`
+P.S. if you want to exit the environment type `conda deactivate`
 
 ### Running the Django server
 In the virtual environment you can run the following:
