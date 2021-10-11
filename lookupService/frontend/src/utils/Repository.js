@@ -1,5 +1,5 @@
 import {JobFetchError, JobPostError} from "./Errors";
-
+import { validFile } from './Validators'
 const baseURL = 'http://localhost:8000/api/'
 
 export const submitJob = async (data, file) => {
@@ -11,8 +11,11 @@ export const submitJob = async (data, file) => {
 
     if(data.mode == 'file'){
         if(!file) throw new JobPostError('Please select a file to upload')
+        let isValidFile = await validFile(file)
+        if(!isValidFile) throw new JobPostError('The selected file is invalid')
         formData.append('file', file)
     }
+
 
 
     const response = await fetch(baseURL + 'jobs/',{

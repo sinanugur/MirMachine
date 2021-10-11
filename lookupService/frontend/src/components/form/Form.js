@@ -117,7 +117,8 @@ export const SearchForm = () => {
               name={'query'} id={'query'} onSubmit={event => event.preventDefault()}>
             {modal && <Tree hook={setNode} show={setModal} nodes={nodes} edges={edges}/>}
             {submitting ? <span className={'default-margins'}>
-                <Spinner className='spinner' large={true}/></span> :
+                <Spinner className='spinner' large={true}/>
+                <p>Submitting... Please wait</p></span> :
             <>
             <span className={'input-cell'}>
                     <label className={'label'} htmlFor={'sequence'}>Sequence:</label>

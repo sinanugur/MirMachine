@@ -28,3 +28,12 @@ const validSpecies = (species) => {
     else if(species.includes('\\')) return false
     return true
 }
+
+export const validFile = async (file) => {
+    let genome = await new Promise((resolve) => {
+        let reader = new FileReader()
+        reader.onload = (e) => resolve(reader.result)
+        reader.readAsText(file, 'utf-8')
+    })
+    return validGenome(genome)
+}
