@@ -8,6 +8,8 @@ import Tree from './Tree'
 import SearchableDropdown from './SearchableDropdown'
 import OptionalSection from './OptionalSection'
 import FamilyList from './FamilyList'
+import HelpText from "./HelpText";
+import { Texts } from '../../utils/HelpTexts'
 
 export const SearchForm = () => {
     // Form states
@@ -121,7 +123,10 @@ export const SearchForm = () => {
                 <p>Submitting... Please wait</p></span> :
             <>
             <span className={'input-cell'}>
-                    <label className={'label'} htmlFor={'sequence'}>Sequence:</label>
+                    <span className={'input-info'}>
+                        <label className={'label'} htmlFor={'sequence'}>Sequence:</label>
+                        <HelpText text={Texts[0]}/>
+                    </span>
                 { inputMode === 'text' ?
                     <textarea id={'sequence'} name={'sequence'} rows={2}
                               placeholder={'Input sequence here'}/> :
@@ -134,7 +139,10 @@ export const SearchForm = () => {
                 }
                 </span>
             <span className={'input-cell'}>
+                <span className={'input-info'}>
                     <label className={'label'} htmlFor={'mode'}>Mode:</label>
+                    <HelpText text={Texts[1]}/>
+                </span>
                     <select id={'mode'} name={'mode'} onChange={event => {setInputMode(event.target.value)}}>
                         <option value={'text'}>Text input</option>
                         <option value={'file'}>File upload</option>
@@ -144,11 +152,17 @@ export const SearchForm = () => {
                 </span>
             <div className={'input-row'}>
                     <span className={'input-cell'}>
-                        <label className={'label'} htmlFor={'species'}>Species:</label>
+                        <span className={'input-info'}>
+                            <label className={'label'} htmlFor={'species'}>Species:</label>
+                            <HelpText text={Texts[2]}/>
+                        </span>
                         <input type={'text'} name={'species'} id={'species'} placeholder={'e.g. Caenorhabditis'}/>
                     </span>
                 <span className={'input-cell'}>
-                    <label className={'label'} htmlFor={'node'}>Node:</label>
+                    <span className={'input-info'}>
+                        <label className={'label'} htmlFor={'node'}>Node:</label>
+                        <HelpText text={Texts[3]}/>
+                    </span>
                         <span className={'same-line'}>
                             <SearchableDropdown
                                 data={nodes} selected={node}

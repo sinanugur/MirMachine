@@ -1,5 +1,6 @@
 import SearchableDropdown from "./SearchableDropdown";
-
+import HelpText from "./HelpText";
+import { Texts } from '../../utils/HelpTexts'
 
 const OptionalSection = (props) => {
     return(
@@ -7,7 +8,10 @@ const OptionalSection = (props) => {
             <span className={'default-margins pane-heading'}>Optional parameters</span>
                     <span className={'input-row'}>
                         <span className={'input-cell'}>
-                            <label htmlFor={'model'}>Model type:</label>
+                            <span className={'input-info'}>
+                                <label htmlFor={'model'}>Model type:</label>
+                                <HelpText text={Texts[4]}/>
+                            </span>
                             <select id={'model'} name={'model'}>
                                 <option value={'combined'}>Combined</option>
                                 <option value={'proto'}>Proto</option>
@@ -24,11 +28,15 @@ const OptionalSection = (props) => {
                                 <label htmlFor={'singleFam'}>Single family mode</label>
                             </span>
                             { props.singleFam ?
+                                <>
+                                    <span className={'special-case-wrapper'}>
+                                        <HelpText text={Texts[5]}/>
+                                    </span>
                                 <SearchableDropdown data={props.families} selected={props.selectedFamily}
                                                     setSelected={props.setSelectedFamily} disabled={false}
                                                     placeholder={'e.g. Mir-71'} identifier={'family'}
                                                     displayParam={'name'} filterParam={'name'}
-                                /> : null
+                                /></> : null
                             }
                             <span>
                                 <input type={'checkbox'} id={'singleNode'} checked={props.singleNode}
@@ -40,8 +48,11 @@ const OptionalSection = (props) => {
                             </span>
                         </span>
                     </span>
-            <span className={'input-cell'}>
-                        <label className={'label'} htmlFor={'email'}>Mail address:</label>
+                    <span className={'input-cell'}>
+                        <span className={'input-info'}>
+                            <label className={'label'} htmlFor={'email'}>Mail address:</label>
+                            <HelpText text={Texts[6]}/>
+                        </span>
                         <input type={'text'} id={'email'} name={'email'} placeholder={'example@example.com'}/>
                     </span>
         </div>
