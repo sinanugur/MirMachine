@@ -29,7 +29,8 @@ const OptionalSection = (props) => {
                             </span>
                             { props.singleFam ?
                                 <>
-                                    <span className={'special-case-wrapper'}>
+                                    <span className={'input-info'}>
+                                        <label htmlFor={'family'} className={'label'}>Family name</label>
                                         <HelpText text={Texts[5]}/>
                                     </span>
                                 <SearchableDropdown data={props.families} selected={props.selectedFamily}

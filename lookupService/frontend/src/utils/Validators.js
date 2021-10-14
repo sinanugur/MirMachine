@@ -4,7 +4,7 @@ export const validData = (data, file) => {
     else if(data.single_fam_mode && data.family === '') return 'Select a family to use in single family mode'
     else if(!data.single_fam_mode && data.node === '') return 'Select a node to base the search on'
     else if(!validSpecies(data.species)) return 'Your species contains illegal characters'
-    else if(!validGenome(data.data)) return 'The genome you entered is invalid'
+    else if(!validGenome(data.data)) return 'The genome you entered is invalid. The only accepted characters are "agtcun". '
     return ''
 }
 

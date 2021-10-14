@@ -1,5 +1,6 @@
 import os
 import subprocess
+from shlex import quote
 from pathlib import Path
 
 base_dir = os.path.dirname(__file__)
@@ -8,7 +9,7 @@ meta_directory = os.path.join(mirmachine_path, 'meta')
 workflows_dir = os.path.join(mirmachine_path, 'workflows/')
 
 
-def run_mirmachine(job_object):
+def run_mirmachine(job_object, stop):
     Path("engine/data/yamls").mkdir(parents=True, exist_ok=True)
     Path("engine/data/temp").mkdir(parents=True, exist_ok=True)
     if job_object.mode != 'file':
@@ -56,14 +57,25 @@ def run_mirmachine(job_object):
                        "--rerun-incomplete --config meta_directory={meta_directory} model={model} " \
                        "mirmachine_path={mirmachine_path} --configfile engine/data/yamls/{species}.yaml " \
                        "--cores {cpu}".format(
-        species=job_object.species,
+        species=quote(job_object.species),
         cpu=4,
         workdir='engine/',
-        model=job_object.model_type,
+        model=quote(job_object.model_type),
         meta_directory=meta_directory,
         mirmachine_path=mirmachine_path)
 
-    out = subprocess.run(snakemake_argument, shell=True)
+    out = subprocess.Popen(snakemake_argument, shell=True)
+    while out.poll() is None:
+        if stop():
+            print('#'*50)
+            print('JOB CANCELLED')
+            print('#'*50)
+            out.kill()
+            raise RuntimeError('Interrupted, restarting thread')
+    # snakemake('engine/mirmachine/workflows/mirmachine_search.smk', workdir='engine/',
+    #           config={'meta_directory': meta_directory, 'model': job_object.model_type,
+    #                   'mirmachine_path': mirmachine_path},
+    #           configfiles=['engine/data/yamls/{species}.yaml'.format(species=job_object.species)], cores=4)
     return out, job_object
 
 

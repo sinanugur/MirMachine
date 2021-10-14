@@ -1,3 +1,4 @@
+import HelpText from './HelpText'
 
 const FamilyList = (props) => {
     return(
@@ -5,6 +6,7 @@ const FamilyList = (props) => {
                 <span className={'default-margins pane-heading'}>
                     {props.node && 'Families that will be included in the search'}
                     {!props.node && 'Select a node and hit the refresh button'}
+                    <HelpText text={'You can click on a family to view additional details in MirGeneDB'}/>
                 </span>
             <span className={'button button--default'} onClick={async () => {
                 props.handleIncludedFamilyFetching(true)
@@ -14,7 +16,9 @@ const FamilyList = (props) => {
             <div className={'scrolling-list-wrapped'}>
                 {props.includedFamilies &&
                 props.includedFamilies.families.map((it,i) => {
-                    return <span key={i} className={'default-margins'}>{it}</span>
+                    return <a key={i} href={`https://mirgenedb.org/browse/ALL?family=${it}`}
+                              target={'_blank'}
+                              className={'default-margins'}>{it}</a>
                 })}
             </div>
         </div>

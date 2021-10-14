@@ -12,7 +12,7 @@ export const submitJob = async (data, file) => {
     if(data.mode == 'file'){
         if(!file) throw new JobPostError('Please select a file to upload')
         let isValidFile = await validFile(file)
-        if(!isValidFile) throw new JobPostError('The selected file is invalid')
+        if(!isValidFile) throw new JobPostError('The selected file is invalid. \nLegal characters include "agtcun" excluding the header. ')
         formData.append('file', file)
     }
 
@@ -34,6 +34,8 @@ export const submitJob = async (data, file) => {
         throw new JobPostError('Invalid data, make sure you filled out the necessary fields')
     } else if(response.status === 404){
         throw new JobPostError('Invalid accession number')
+    } else if(response.status === 503){
+        throw new JobPostError('The NCBI database returned an error')
     }
     return response.json()
 }
@@ -62,6 +64,24 @@ export const fetchJob = async (id) => {
             break
     }
 }
+
+export const cancelJob = async (_id) => {
+    const csrftoken = getCookie('csrftoken')
+    const response = await fetch(baseURL + 'jobs/?id=' + _id,{
+        method: 'DELETE',
+        mode: 'same-origin',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Accept': '*/*',
+            'X-CSRFToken': csrftoken,
+            'Accept-Encoding': 'gzip, deflate, br'
+        }
+    });
+    if(response.status === 200) alert('Job successfully deleted')
+    else alert('Something went wrong when aborting job')
+}
+
 
 export const fetchTree = async () => {
     const csrftoken = getCookie('csrftoken')

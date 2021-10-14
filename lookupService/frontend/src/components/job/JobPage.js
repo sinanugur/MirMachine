@@ -1,12 +1,13 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, Redirect } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { fetchJob } from '../../utils/Repository'
+import { fetchJob, cancelJob } from '../../utils/Repository'
 import { connectToSocket } from '../../utils/WebSockets'
 import Loader from './Loader'
 
 const Job = () => {
     const { jobID } = useParams()
     const [jobData, setJobData] = useState()
+    const [redirect, setRedirect] = useState(false)
     const [error, setError] = useState()
     const [socket, setSocket] = useState()
     const [socketMessage, setSocketMessage] = useState()
@@ -61,6 +62,12 @@ const Job = () => {
                     <span>{`E-mail: ${jobData.mail_address}`}</span>
                 }
                 <Loader status={socketMessage}/>
+                <span className={'button button--reset'} onClick={() => {
+                    cancelJob(jobID)
+                    setRedirect(true)
+                }}>
+                    {socketMessage === 'ongoing' ? 'Cancel job' : 'Delete job'}
+                </span>
                 <div className={'info-pane'}>
                     Please store your job ID safely for later reference.<br/>
                     This is needed to access your results if you didn't register your email.<br/>
@@ -83,6 +90,9 @@ const Job = () => {
                     </span>
                 </Link>
             </>
+            }
+            {redirect &&
+                <Redirect to={'/'}/>
             }
         </div>
     )

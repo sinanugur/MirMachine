@@ -55,7 +55,7 @@ export const SearchForm = () => {
 
     const handleSubmit = async () => {
         setSubmitting(true)
-        let mode = document.getElementById('mode').value
+        let mode = inputMode
         let file
         if(mode == 'file'){
             file = document.getElementById('sequence').files[0]
@@ -63,7 +63,7 @@ export const SearchForm = () => {
         }
         const data = {
             data: document.getElementById('sequence').value,
-            mode: document.getElementById('mode').value,
+            mode: inputMode,
             node: node,
             species: document.getElementById('species').value,
             model_type: document.getElementById('model').value,
@@ -72,7 +72,9 @@ export const SearchForm = () => {
             family: singleFam ? selectedFamily : '',
             mail_address: document.getElementById('email').value
         }
-        let errorMessage = validData(data, file)
+        let errorMessage = ''
+        if(mode != 'accNum')
+            errorMessage = validData(data, file)
         if(errorMessage === '') {
             try {
                 const response = await submitJob(data, file)
@@ -143,7 +145,7 @@ export const SearchForm = () => {
                     <label className={'label'} htmlFor={'mode'}>Mode:</label>
                     <HelpText text={Texts[1]}/>
                 </span>
-                    <select id={'mode'} name={'mode'} onChange={event => {setInputMode(event.target.value)}}>
+                    <select id={'mode'} name={'mode'} value={inputMode} onChange={event => {setInputMode(event.target.value)}}>
                         <option value={'text'}>Text input</option>
                         <option value={'file'}>File upload</option>
                         <option value={'link'}>Genome link</option>
@@ -153,14 +155,14 @@ export const SearchForm = () => {
             <div className={'input-row'}>
                     <span className={'input-cell'}>
                         <span className={'input-info'}>
-                            <label className={'label'} htmlFor={'species'}>Species:</label>
+                            <label className={'label'} htmlFor={'species'}>Species tag:</label>
                             <HelpText text={Texts[2]}/>
                         </span>
                         <input type={'text'} name={'species'} id={'species'} placeholder={'e.g. Caenorhabditis'}/>
                     </span>
                 <span className={'input-cell'}>
                     <span className={'input-info'}>
-                        <label className={'label'} htmlFor={'node'}>Node:</label>
+                        <label className={'label'} htmlFor={'node'}>Phylogenetic node:</label>
                         <HelpText text={Texts[3]}/>
                     </span>
                         <span className={'same-line'}>

@@ -1,5 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
+from rest_framework.views import APIView
+
 from lookupService.helpers.job_pre_processor import process_form_data
 from lookupService.helpers.job_scheduler import schedule_job
 from .serializers import JobSerializer, NodeSerializer, \
@@ -14,6 +16,10 @@ from lookupService.helpers.family_importer import import_all_families, import_no
 from engine.scripts.MirMachine import show_node_families_args
 import json
 import threading
+
+
+stop_flag = False
+job_thread = None
 
 
 @ensure_csrf_cookie
@@ -38,25 +44,56 @@ def get_job(request, _id):
                                 status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST', 'GET'])
-def post_job(request):
-    if request.method == 'POST':
+class PostJob(APIView):
+
+    def post(self, request, format=None):
         try:
             serializer = process_form_data(request)
             if serializer.is_valid():
                 instance = serializer.save()
                 stripped = StrippedJobSerializer(instance)
-                job_thread = threading.Thread(target=schedule_job)
-                job_thread.start()
+                global job_thread
+                global stop_flag
+                if job_thread is None or not job_thread.is_alive():
+                    job_thread = threading.Thread(target=schedule_job, args=(lambda: stop_flag,))
+                    job_thread.start()
                 return JsonResponse(stripped.data, status=status.HTTP_201_CREATED)
         except ValueError:
             response = {"message": "Not a valid accession number"}
             return JsonResponse(response, status=status.HTTP_404_NOT_FOUND)
+        except RuntimeError:
+            response = {"message": "Could not get genome from NCBI"}
+            return JsonResponse(response, status=status.HTTP_503_SERVICE_UNAVAILABLE)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif request.method == 'GET':
+
+    def get(self, request, format=None):
         jobs = Job.objects.all()
         serializer = JobSerializer(jobs, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+    def delete(self, request, format=None):
+        try:
+            params = request.query_params
+            # print(params)
+            job = Job.objects.get(id=params["id"])
+            global stop_flag
+            global job_thread
+            if job.status == "ongoing" and job_thread is not None:
+                job.delete()
+                stop_flag = True
+                job_thread.join()
+                stop_flag = False
+                job_thread = threading.Thread(target=schedule_job, args=(lambda: stop_flag,))
+                job_thread.start()
+            else:
+                job.delete()
+            response = {"message": "Job has been canceled and removed from the database"}
+            return JsonResponse(response, status=status.HTTP_200_OK)
+        except Job.DoesNotExist:
+            response = {"message": "Object does not exist in database"}
+            return JsonResponse(response,
+                                status=status.HTTP_404_NOT_FOUND)
+
 
 
 @api_view(['GET'])
