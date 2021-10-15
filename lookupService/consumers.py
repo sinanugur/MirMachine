@@ -25,7 +25,8 @@ class MonitorConsumer(WebsocketConsumer):
         print(text_data)
         job = Job.objects.get(id=self._id)
         self.send(text_data=json.dumps({
-            'status': job.status
+            'status': job.status,
+            'progress': '0 steps (0%) done'
         }))
 
     def status_update(self, event):

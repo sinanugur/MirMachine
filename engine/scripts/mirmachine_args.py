@@ -1,5 +1,6 @@
 import os
 import subprocess
+import math
 from shlex import quote
 from pathlib import Path
 from lookupService.helpers.socket_helper import announce_status_change
@@ -68,6 +69,8 @@ def run_mirmachine(job_object, stop):
     out = subprocess.Popen(snakemake_argument, shell=True,
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     i = 0
+    interval = 1
+    found_job_size = False
     while out.poll() is None:
         if stop():
             print('#'*50)
@@ -78,7 +81,10 @@ def run_mirmachine(job_object, stop):
             raise RuntimeError('Interrupted, restarting thread')
         output = out.stderr.readline()
         if output.find('steps') > 0:
-            if i % 10 == 0:
+            if not found_job_size:
+                n_steps = output.split(' ')[2]
+                interval = math.ceil(int(n_steps)/20)
+            if i % interval == 0:
                 announce_status_change(job_object, progress=output)
             i += 1
         out.stderr.flush()

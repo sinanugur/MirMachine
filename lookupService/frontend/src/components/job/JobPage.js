@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { fetchJob, cancelJob } from '../../utils/Repository'
 import { connectToSocket } from '../../utils/WebSockets'
 import Loader from './Loader'
+import ProgressBar from "./ProgressBar";
 
 const Job = () => {
     const { jobID } = useParams()
@@ -10,15 +11,16 @@ const Job = () => {
     const [redirect, setRedirect] = useState(false)
     const [error, setError] = useState()
     const [socket, setSocket] = useState()
-    const [socketMessage, setSocketMessage] = useState()
+    const [socketStatus, setSocketStatus] = useState()
+    const [socketProgress, setSocketProgress] = useState()
     useEffect(() => {
         const getJobData = async () => {
             try {
                 let data = await fetchJob(jobID)
                 setJobData(data)
-                setSocketMessage(data.status)
+                setSocketStatus(data.status)
                 if(data.status !== 'halted' && data.status !== 'completed')
-                    setSocket(connectToSocket(jobID, setSocketMessage))
+                    setSocket(connectToSocket(jobID, setSocketStatus, setSocketProgress))
             } catch(err) {
                 setError(err.message)
             }
@@ -31,11 +33,11 @@ const Job = () => {
         }
     },[])
     useEffect(() => {
-        if((socketMessage === 'halted' || socketMessage === 'completed') && socket){
+        if((socketStatus === 'halted' || socketStatus === 'completed') && socket){
             console.log('trying to close socket in socketMessage useEffect')
             socket.close(1000, 'Got required info')
         }
-    },[socketMessage])
+    },[socketStatus])
     return(
         <div className={'flex-column'}>
             {jobData &&
@@ -43,7 +45,7 @@ const Job = () => {
             <h1> Your job</h1>
                 <span>ID: {jobData.id}</span>
                 <span>
-                    Status: {socketMessage && socketMessage}
+                    Status: {socketStatus && socketStatus}
                 </span>
                 <span>Initiated at: {jobData.initiated.split('T')[0] + ' @ ' + jobData.initiated.split('T')[1].substring(0,5) + ' GMT'}</span>
                 <span>Dataset hash: {jobData.hash}</span>
@@ -61,12 +63,13 @@ const Job = () => {
                 {jobData.mail_address == '' ? null :
                     <span>{`E-mail: ${jobData.mail_address}`}</span>
                 }
-                <Loader status={socketMessage}/>
+                <Loader status={socketStatus}/>
+                {socketProgress && <ProgressBar progress={socketProgress}/>}
                 <span className={'button button--reset'} onClick={() => {
                     cancelJob(jobID)
                     setRedirect(true)
                 }}>
-                    {socketMessage === 'ongoing' ? 'Cancel job' : 'Delete job'}
+                    {socketStatus === 'ongoing' ? 'Cancel job' : 'Delete job'}
                 </span>
                 <div className={'info-pane'}>
                     Please store your job ID safely for later reference.<br/>

@@ -51,3 +51,30 @@
     transform: rotate(360deg);
   }
 }
+
+.progress-container{
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-bar{
+  display: flex;
+  flex-direction: row;
+  height: 25px;
+  background-color: rgba(130,150,140,0.3);
+  width: 200px;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.progress{
+  display: flex;
+  flex-direction: row;
+  height: 25px;
+  background-color: @warning-yellow;
+  justify-content: center;
+  align-items: center;
+}

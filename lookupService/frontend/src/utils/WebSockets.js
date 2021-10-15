@@ -1,5 +1,5 @@
 
-export const connectToSocket = (id, hook) => {
+export const connectToSocket = (id, statusHook, progressHook) => {
     const socket = new WebSocket(`ws://localhost:8000/ws/job/${id}`)
     // On open connection
     socket.addEventListener('open', (event) => {
@@ -9,7 +9,13 @@ export const connectToSocket = (id, hook) => {
     // Listen for messages
     socket.addEventListener('message', (event) => {
         console.log('Message from server', event.data)
-        hook(JSON.parse(event.data).status)
+        let parsed = JSON.parse(event.data)
+        statusHook(parsed.status)
+        let progress = parsed.progress
+        if(progress !== ''){
+            let cleanedProgress = progress.split('(')[1].split(')')[0]
+            progressHook(cleanedProgress)
+        }
     })
 
     // Listen for errors
