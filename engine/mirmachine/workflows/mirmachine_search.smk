@@ -76,7 +76,6 @@ with open(cutoff_file) as tsv:
 	for line in tsv.readlines():
 		cutoffs_dict[line.split()[0] + ".PRE"]=line.split()[1]
 
-print('read cutoff dict starting rules')
 
 rule all:
 	input:

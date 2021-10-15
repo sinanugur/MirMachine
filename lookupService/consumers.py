@@ -31,5 +31,6 @@ class MonitorConsumer(WebsocketConsumer):
     def status_update(self, event):
         status = event['status']
         self.send(text_data=json.dumps({
-            'status': status
+            'status': status,
+            'progress': event['progress']
         }))

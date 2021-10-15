@@ -2,6 +2,7 @@ import os
 import subprocess
 from shlex import quote
 from pathlib import Path
+from lookupService.helpers.socket_helper import announce_status_change
 
 base_dir = os.path.dirname(__file__)
 mirmachine_path = os.path.join(base_dir, '../mirmachine/')
@@ -64,14 +65,24 @@ def run_mirmachine(job_object, stop):
         meta_directory=meta_directory,
         mirmachine_path=mirmachine_path)
 
-    out = subprocess.Popen(snakemake_argument, shell=True)
+    out = subprocess.Popen(snakemake_argument, shell=True,
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    i = 0
     while out.poll() is None:
         if stop():
             print('#'*50)
             print('JOB CANCELLED')
             print('#'*50)
+            out.stdout.close()
             out.kill()
             raise RuntimeError('Interrupted, restarting thread')
+        output = out.stderr.readline()
+        if output.find('steps') > 0:
+            if i % 10 == 0:
+                announce_status_change(job_object, progress=output)
+            i += 1
+        out.stderr.flush()
+    out.stdout.close()
     # snakemake('engine/mirmachine/workflows/mirmachine_search.smk', workdir='engine/',
     #           config={'meta_directory': meta_directory, 'model': job_object.model_type,
     #                   'mirmachine_path': mirmachine_path},

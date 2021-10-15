@@ -45,7 +45,6 @@ def get_job(request, _id):
 
 
 class PostJob(APIView):
-
     def post(self, request, format=None):
         try:
             serializer = process_form_data(request)
