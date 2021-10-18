@@ -25,13 +25,28 @@ class MonitorConsumer(WebsocketConsumer):
         print(text_data)
         job = Job.objects.get(id=self._id)
         self.send(text_data=json.dumps({
+            'type': 'status',
             'status': job.status,
             'progress': '0 steps (0%) done'
         }))
+        queued = Job.objects.filter(status='queued')
+        for i in range(len(queued)):
+            if queued[i].id == job.id:
+                self.send(text_data=json.dumps({
+                    'type': 'queue',
+                    'queuePos': i+1
+                }))
 
     def status_update(self, event):
         status = event['status']
         self.send(text_data=json.dumps({
+            'type': 'status',
             'status': status,
             'progress': event['progress']
+        }))
+
+    def queue_update(self, event):
+        self.send(text_data=json.dumps({
+            'type': 'queue',
+            'queuePos': event['queue_pos']
         }))

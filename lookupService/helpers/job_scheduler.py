@@ -1,6 +1,6 @@
 from ..models import Job
 from engine.scripts.mirmachine_args import run_mirmachine
-from .socket_helper import announce_status_change
+from .socket_helper import announce_status_change, announce_queue_position
 from .maintainer import clean_up_temporary_files
 
 
@@ -18,6 +18,8 @@ def schedule_job(stop):
     next_in_line.status = 'ongoing'
     next_in_line.save()
     announce_status_change(next_in_line)
+    for i in range(len(queued)):
+        announce_queue_position(queued[i], i+1)
     try:
         process, job_object = run_mirmachine(next_in_line, stop)
         handle_job_end(process, job_object)

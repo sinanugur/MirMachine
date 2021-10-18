@@ -13,6 +13,7 @@ const Job = () => {
     const [socket, setSocket] = useState()
     const [socketStatus, setSocketStatus] = useState()
     const [socketProgress, setSocketProgress] = useState()
+    const [queueNumber, setQueueNumber] = useState()
     useEffect(() => {
         const getJobData = async () => {
             try {
@@ -20,7 +21,7 @@ const Job = () => {
                 setJobData(data)
                 setSocketStatus(data.status)
                 if(data.status !== 'halted' && data.status !== 'completed')
-                    setSocket(connectToSocket(jobID, setSocketStatus, setSocketProgress))
+                    setSocket(connectToSocket(jobID, setSocketStatus, setSocketProgress, setQueueNumber))
             } catch(err) {
                 setError(err.message)
             }
@@ -47,6 +48,8 @@ const Job = () => {
                 <span>
                     Status: {socketStatus && socketStatus}
                 </span>
+                {socketStatus && queueNumber && socketStatus === 'queued' ?
+                <span>Position in queue: {queueNumber}</span> : null}
                 <span>Initiated at: {jobData.initiated.split('T')[0] + ' @ ' + jobData.initiated.split('T')[1].substring(0,5) + ' GMT'}</span>
                 <span>Dataset hash: {jobData.hash}</span>
                 <span>Species tag: {jobData.species}</span>

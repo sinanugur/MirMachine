@@ -73,9 +73,7 @@ def run_mirmachine(job_object, stop):
     found_job_size = False
     while out.poll() is None:
         if stop():
-            print('#'*50)
             print('JOB CANCELLED')
-            print('#'*50)
             out.stdout.close()
             out.kill()
             raise RuntimeError('Interrupted, restarting thread')
@@ -84,6 +82,7 @@ def run_mirmachine(job_object, stop):
             if not found_job_size:
                 n_steps = output.split(' ')[2]
                 interval = math.ceil(int(n_steps)/20)
+                found_job_size = True
             if i % interval == 0:
                 announce_status_change(job_object, progress=output)
             i += 1
