@@ -2,7 +2,7 @@ import { useParams, Link, Redirect } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { fetchJob, cancelJob } from '../../utils/Repository'
 import { connectToSocket } from '../../utils/WebSockets'
-import { formatDjangoTime } from '../../utils/Formatters'
+import { formatDjangoTime, updateClockAndFormatString } from '../../utils/Formatters'
 import Loader from './Loader'
 import ProgressBar from "./ProgressBar";
 
@@ -17,13 +17,16 @@ const Job = () => {
     const [queueNumber, setQueueNumber] = useState()
     const [initTime, setInitTime] = useState()
     const [completedTime, setCompletedTime] = useState()
+    const [elapsed, setElapsed] = useState()
+    const [intervalMethod, setIntervalMethod] = useState()
+
     useEffect(() => {
         const getJobData = async () => {
             try {
                 let data = await fetchJob(jobID)
                 setJobData(data)
-                setSocketStatus(data.status)
                 setInitTime(data.initiated)
+                setSocketStatus(data.status)
                 setCompletedTime(data.completed)
                 if(data.status !== 'halted' && data.status !== 'completed')
                     setSocket(connectToSocket(jobID, setSocketStatus,
@@ -41,10 +44,22 @@ const Job = () => {
     },[])
     useEffect(() => {
         if((socketStatus === 'halted' || socketStatus === 'completed') && socket){
-            console.log('trying to close socket in socketMessage useEffect')
             socket.close(1000, 'Got required info')
+            if(intervalMethod){
+                console.log('Stopping interval')
+                clearInterval(intervalMethod)
+            }
+        } else if(socketStatus === 'ongoing'){
+            setIntervalMethod(initializeTimer(initTime))
         }
     },[socketStatus])
+
+    const initializeTimer = (startTime) => {
+        const timeInterval = setInterval(() => {
+            setElapsed(updateClockAndFormatString(startTime))
+        },1000)
+        return timeInterval
+    }
     return(
         <div className={'flex-column'}>
             {jobData &&
@@ -75,6 +90,7 @@ const Job = () => {
                     <span>{`E-mail: ${jobData.mail_address}`}</span>
                 }
                 <Loader status={socketStatus}/>
+                {elapsed && <span>{elapsed}</span>}
                 {socketProgress && <ProgressBar progress={socketProgress}/>}
                 <span className={'button button--reset'} onClick={() => {
                     cancelJob(jobID)
@@ -111,4 +127,6 @@ const Job = () => {
         </div>
     )
 }
+
+
 export default Job
