@@ -1,5 +1,5 @@
 
-export const connectToSocket = (id, statusHook, progressHook, queueHook) => {
+export const connectToSocket = (id, statusHook, progressHook, queueHook, initiationHook, completedHook) => {
     const socket = new WebSocket(`ws://localhost:8000/ws/job/${id}`)
     // On open connection
     socket.addEventListener('open', (event) => {
@@ -19,6 +19,10 @@ export const connectToSocket = (id, statusHook, progressHook, queueHook) => {
             }
         } else if(parsed.type === 'queue'){
             queueHook(parsed.queuePos)
+        } else if(parsed.type === 'initiation'){
+            initiationHook(parsed.time)
+        } else if(parsed.type === 'completed'){
+            completedHook(parsed.time)
         }
     })
 

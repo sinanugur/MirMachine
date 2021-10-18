@@ -2,6 +2,7 @@ import { useParams, Link, Redirect } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { fetchJob, cancelJob } from '../../utils/Repository'
 import { connectToSocket } from '../../utils/WebSockets'
+import { formatDjangoTime } from '../../utils/Formatters'
 import Loader from './Loader'
 import ProgressBar from "./ProgressBar";
 
@@ -14,14 +15,19 @@ const Job = () => {
     const [socketStatus, setSocketStatus] = useState()
     const [socketProgress, setSocketProgress] = useState()
     const [queueNumber, setQueueNumber] = useState()
+    const [initTime, setInitTime] = useState()
+    const [completedTime, setCompletedTime] = useState()
     useEffect(() => {
         const getJobData = async () => {
             try {
                 let data = await fetchJob(jobID)
                 setJobData(data)
                 setSocketStatus(data.status)
+                setInitTime(data.initiated)
+                setCompletedTime(data.completed)
                 if(data.status !== 'halted' && data.status !== 'completed')
-                    setSocket(connectToSocket(jobID, setSocketStatus, setSocketProgress, setQueueNumber))
+                    setSocket(connectToSocket(jobID, setSocketStatus,
+                        setSocketProgress, setQueueNumber, setInitTime, setCompletedTime))
             } catch(err) {
                 setError(err.message)
             }
@@ -50,7 +56,9 @@ const Job = () => {
                 </span>
                 {socketStatus && queueNumber && socketStatus === 'queued' ?
                 <span>Position in queue: {queueNumber}</span> : null}
-                <span>Initiated at: {jobData.initiated.split('T')[0] + ' @ ' + jobData.initiated.split('T')[1].substring(0,5) + ' GMT'}</span>
+                <span>Submitted at: {formatDjangoTime(jobData.submitted)}</span>
+                {initTime && <span>Initiated at: {formatDjangoTime(initTime)}</span>}
+                {completedTime && <span>Completed at: {formatDjangoTime(completedTime)}</span>}
                 <span>Dataset hash: {jobData.hash}</span>
                 <span>Species tag: {jobData.species}</span>
                 <span>Model type: {jobData.model_type === 'combined' ? jobData.model_type : jobData.model_type + 'stome'}</span>

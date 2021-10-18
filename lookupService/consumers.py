@@ -1,6 +1,7 @@
 from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
 from .models import Job
+from rest_framework import serializers
 import json
 
 
@@ -49,4 +50,18 @@ class MonitorConsumer(WebsocketConsumer):
         self.send(text_data=json.dumps({
             'type': 'queue',
             'queuePos': event['queue_pos']
+        }))
+
+    def initiation(self, event):
+        str_rep = serializers.DateTimeField().to_representation(event['time'])
+        self.send(text_data=json.dumps({
+            'type': 'initiation',
+            'time': str_rep
+        }))
+
+    def completed(self, event):
+        str_rep = serializers.DateTimeField().to_representation(event['time'])
+        self.send(text_data=json.dumps({
+            'type': 'completed',
+            'time': str_rep
         }))

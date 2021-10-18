@@ -1,7 +1,8 @@
 from ..models import Job
 from engine.scripts.mirmachine_args import run_mirmachine
-from .socket_helper import announce_status_change, announce_queue_position
+from .socket_helper import announce_status_change, announce_queue_position, announce_initiation, announce_completed
 from .maintainer import clean_up_temporary_files
+from django.utils import timezone
 
 
 def schedule_job(stop):
@@ -16,8 +17,10 @@ def schedule_job(stop):
         return
     next_in_line = queued[0]
     next_in_line.status = 'ongoing'
+    next_in_line.initiated = timezone.now()
     next_in_line.save()
     announce_status_change(next_in_line)
+    announce_initiation(next_in_line)
     for i in range(len(queued)):
         announce_queue_position(queued[i], i+1)
     try:
@@ -38,7 +41,9 @@ def handle_job_end(process, job_object):
         job_object.status = 'halted'
     else:
         job_object.status = 'completed'
+    job_object.completed = timezone.now()
     job_object.save()
+    announce_completed(job_object)
     announce_status_change(job_object)
 
 
