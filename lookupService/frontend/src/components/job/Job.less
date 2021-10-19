@@ -65,7 +65,7 @@
   height: 25px;
   background-color: rgba(130,150,140,0.3);
   width: 200px;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   overflow-x: hidden;
   border-radius: 5px;
@@ -78,4 +78,17 @@
   background-color: @warning-yellow;
   justify-content: center;
   align-items: center;
+}
+
+.bar-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  height: 25px;
+  width: 100%;
+}
+
+.progress-text{
+  z-index: 1;
+  position: absolute;
 }

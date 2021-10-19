@@ -5,8 +5,9 @@ const ProgressBar = (props) => {
     return(
         <div className={'progress-container'}>
             <span className={'progress-bar'}>
-                <span className={'progress'} style={{width: props.progress}}>
-                    {props.progress}
+                <p className={'no-margins progress-text'}>{props.progress}</p>
+                <span className={'bar-container'}>
+                    <span className={'progress'} style={{width: props.progress}}/>
                 </span>
             </span>
         </div>

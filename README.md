@@ -5,7 +5,7 @@ for the MirMachine lookup/annotation tool
 
 ## Running Django
 ### Setting up `conda`
-Firstly make sure you have the correct conda installed on your computer.\
+Firstly make sure you have the correct conda installed on your computer.
 
 To install the project run `conda env create -n mirmachine -f environment.yml` in the root folder.\
 Then run `conda activate mirmachine` to spawn the virtual environment.\
@@ -30,6 +30,8 @@ before using the following scripts.\
 If you require hot reloading we recommend using a separate 
 shell to build the frontend. 
 
+## Installing frontend
+Run `npm install` before running for the first time to install the necessary packages and set up the environment.
 ### `npm run dev`
 Runs the app in the development mode.\
 Enables hot reloading, making it the best choice when making changes to the frontend.\

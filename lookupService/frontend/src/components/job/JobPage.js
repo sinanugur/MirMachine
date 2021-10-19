@@ -2,7 +2,7 @@ import { useParams, Link, Redirect } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { fetchJob, cancelJob } from '../../utils/Repository'
 import { connectToSocket } from '../../utils/WebSockets'
-import { formatDjangoTime, updateClockAndFormatString } from '../../utils/Formatters'
+import { formatDjangoTime, updateClockAndFormatString, getTimeConsumed } from '../../utils/TimeManagers'
 import Loader from './Loader'
 import ProgressBar from "./ProgressBar";
 
@@ -31,6 +31,9 @@ const Job = () => {
                 if(data.status !== 'halted' && data.status !== 'completed')
                     setSocket(connectToSocket(jobID, setSocketStatus,
                         setSocketProgress, setQueueNumber, setInitTime, setCompletedTime))
+                else if(data.status !== 'queued'){
+                    setElapsed(getTimeConsumed(data.initiated, data.completed))
+                }
             } catch(err) {
                 setError(err.message)
             }
