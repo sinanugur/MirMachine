@@ -1,7 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
 from rest_framework.views import APIView
-
 from lookupService.helpers.job_pre_processor import process_form_data
 from lookupService.helpers.job_scheduler import schedule_job
 from .serializers import JobSerializer, NodeSerializer, \
@@ -14,6 +13,7 @@ from rest_framework.decorators import api_view
 from lookupService.helpers.tree_helper import parse_newick_tree
 from lookupService.helpers.family_importer import import_all_families, import_node_to_family_db
 from engine.scripts.MirMachine import show_node_families_args
+from lookupService.helpers.result_parser import get_and_parse_results
 import json
 import threading
 
@@ -154,3 +154,19 @@ def get_included_families(request):
         families.sort()
         response = {'families': families}
         return JsonResponse(response, status=status.HTTP_200_OK, safe=False)
+
+
+@api_view(['GET'])
+def get_results(request, _id):
+    if request.method == 'GET':
+        job_object = Job.objects.filter(id=_id)
+        if not job_object:
+            response = {'message': 'Invalid job ID'}
+            return JsonResponse(response, status=status.HTTP_400_BAD_REQUEST, safe=False)
+        job_object = job_object[0]
+        if job_object.status != 'completed':
+            response = {'message': 'This job has halted or is not yet complete'}
+            return JsonResponse(response, status=status.HTTP_400_BAD_REQUEST, safe=False)
+        tag = job_object.species
+        response = get_and_parse_results(tag)
+        return JsonResponse(response, status=status.HTTP_200_OK)

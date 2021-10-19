@@ -9,7 +9,8 @@ import ProgressBar from "./ProgressBar";
 const Job = () => {
     const { jobID } = useParams()
     const [jobData, setJobData] = useState()
-    const [redirect, setRedirect] = useState(false)
+    const [redirectHome, setRedirectHome] = useState(false)
+    const [redirectResults, setRedirectResults] = useState(false)
     const [error, setError] = useState()
     const [socket, setSocket] = useState()
     const [socketStatus, setSocketStatus] = useState()
@@ -77,7 +78,7 @@ const Job = () => {
                 <span>Submitted at: {formatDjangoTime(jobData.submitted)}</span>
                 {initTime && <span>Initiated at: {formatDjangoTime(initTime)}</span>}
                 {completedTime && <span>Completed at: {formatDjangoTime(completedTime)}</span>}
-                <span>Dataset hash: {jobData.hash}</span>
+                <span>Dataset hash (MD5): {jobData.hash}</span>
                 <span>Species tag: {jobData.species}</span>
                 <span>Model type: {jobData.model_type === 'combined' ? jobData.model_type : jobData.model_type + 'stome'}</span>
                 {jobData.single_fam_mode ? null :
@@ -95,9 +96,15 @@ const Job = () => {
                 <Loader status={socketStatus}/>
                 {elapsed && <span>{elapsed}</span>}
                 {socketProgress && <ProgressBar progress={socketProgress}/>}
+                {socketStatus === 'completed' ?
+                    <span className={'button button--action'} onClick={() => {
+                        setRedirectResults(true)
+                    }}>
+                        View results
+                    </span> : null}
                 <span className={'button button--reset'} onClick={() => {
                     cancelJob(jobID)
-                    setRedirect(true)
+                    setRedirectHome(true)
                 }}>
                     {socketStatus === 'ongoing' ? 'Cancel job' : 'Delete job'}
                 </span>
@@ -124,8 +131,11 @@ const Job = () => {
                 </Link>
             </>
             }
-            {redirect &&
+            {redirectHome &&
                 <Redirect to={'/'}/>
+            }
+            {redirectResults &&
+                <Redirect to={`/result/${jobID}`}/>
             }
         </div>
     )

@@ -12,3 +12,10 @@ export class JobPostError extends Error {
         this.name = "JobPostError"
     }
 }
+
+export class ResultFetchError extends Error {
+    constructor(message) {
+        super(message)
+        this.name = "ResultFetchError"
+    }
+}

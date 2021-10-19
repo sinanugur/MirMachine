@@ -82,6 +82,22 @@ export const cancelJob = async (_id) => {
     else alert('Something went wrong when aborting job')
 }
 
+export const getResults = async (_id) => {
+    const csrftoken = getCookie('csrftoken')
+    const response = await fetch(baseURL + `result/${_id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+    })
+    if(response.status === 200){
+       return response.json()
+    } else {
+        throw new ResultFetchError(response.json().message)
+    }
+}
+
 
 export const fetchTree = async () => {
     const csrftoken = getCookie('csrftoken')

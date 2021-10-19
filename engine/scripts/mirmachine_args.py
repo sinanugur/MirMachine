@@ -78,6 +78,7 @@ def run_mirmachine(job_object, stop):
             out.kill()
             raise RuntimeError('Interrupted, restarting thread')
         output = out.stderr.readline()
+        print(output, end='')
         if output.find('steps') > 0:
             if not found_job_size:
                 n_steps = output.split(' ')[2]
