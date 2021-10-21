@@ -2,6 +2,7 @@ import hashlib
 import json
 from lookupService.serializers import JobSerializer
 from lookupService.helpers.ncbi_fetcher import get_fasta
+from lookupService.models import Job
 
 
 def process_form_data(request):
@@ -9,7 +10,8 @@ def process_form_data(request):
 
     updated_data = {}
     updated_data.update(serializer.initial_data)
-    print(updated_data)
+    updated_data['user_cookie'] = request.COOKIES['csrftoken']
+    # print(updated_data)
     if serializer.initial_data['mode'] == 'file':
         file = request.FILES.get('file')
         updated_data['data_file'] = file
@@ -44,3 +46,11 @@ def extract_fasta_header(lines):
         i += 1
         next_line = lines[i]
     return header, i
+
+
+def user_can_post(token):
+    job_objects = Job.objects.filter(user_cookie=token)
+    for job in job_objects:
+        if job.status == 'ongoing' or job.status == 'queued':
+            return False
+    return True

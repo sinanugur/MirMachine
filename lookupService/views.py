@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
 from rest_framework.views import APIView
-from lookupService.helpers.job_pre_processor import process_form_data
+from lookupService.helpers.job_pre_processor import process_form_data, user_can_post
 from lookupService.helpers.job_scheduler import schedule_job
 from .serializers import JobSerializer, NodeSerializer, \
     EdgeSerializer, FamilySerializer, NodeFamilyRelationSerializer, StrippedJobSerializer
@@ -48,6 +48,9 @@ def get_job(request, _id):
 class PostJob(APIView):
     def post(self, request, format=None):
         try:
+            if not user_can_post(request.COOKIES['csrftoken']):
+                response = {"message": "You already have a queued or ongoing job, cancel it to add new"}
+                return JsonResponse(response, status=status.HTTP_403_FORBIDDEN)
             serializer = process_form_data(request)
             if serializer.is_valid():
                 instance = serializer.save()
@@ -65,11 +68,6 @@ class PostJob(APIView):
             response = {"message": "Could not get genome from NCBI"}
             return JsonResponse(response, status=status.HTTP_503_SERVICE_UNAVAILABLE)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, format=None):
-        jobs = Job.objects.all()
-        serializer = JobSerializer(jobs, many=True)
-        return JsonResponse(serializer.data, safe=False)
 
     def delete(self, request, format=None):
         try:

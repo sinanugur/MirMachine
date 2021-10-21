@@ -67,11 +67,11 @@ const Result = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {results && results.fasta.split('>').map((it) => {
+                        {results && results.fasta.split('>').map((it, i) => {
                             const separated = it.split('\n')
                             if(separated.length !== 0 && separated[0] !== '')
                             return(
-                                <tr>
+                                <tr key={i}>
                                     <td>{separated[0]}</td>
                                     <td>{separated[1]}</td>
                                 </tr>

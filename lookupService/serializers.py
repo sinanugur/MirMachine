@@ -5,7 +5,7 @@ from .models import Job, Node, Edge, Family, NodeFamilyRelation
 class StrippedJobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
-        exclude = ['data', 'data_file']
+        exclude = ['data', 'data_file', 'user_cookie']
 
 
 class JobSerializer(serializers.HyperlinkedModelSerializer):

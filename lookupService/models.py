@@ -43,6 +43,7 @@ class Job(models.Model):
         ('halted', 'Halted')
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user_cookie = models.TextField(blank=True)
     status = models.CharField(choices=STATUSES, max_length=15, default=status_default)
     hash = models.CharField(max_length=168, blank=True)
     submitted = models.DateTimeField(auto_now_add=True)

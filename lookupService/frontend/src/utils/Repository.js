@@ -36,6 +36,9 @@ export const submitJob = async (data, file) => {
         throw new JobPostError('Invalid accession number')
     } else if(response.status === 503){
         throw new JobPostError('The NCBI database returned an error')
+    } else if(response.status === 403){
+        let message = await response.json()
+        throw new JobPostError(message.message)
     }
     return response.json()
 }
