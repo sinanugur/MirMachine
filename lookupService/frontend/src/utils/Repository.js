@@ -1,4 +1,4 @@
-import {JobFetchError, JobPostError} from "./Errors";
+import { JobFetchError, JobPostError, ResultFetchError } from './Errors'
 import { validFile } from './Validators'
 const baseURL = 'http://localhost:8000/api/'
 
@@ -94,7 +94,8 @@ export const getResults = async (_id) => {
     if(response.status === 200){
        return response.json()
     } else {
-        throw new ResultFetchError(response.json().message)
+        let message = await response.json()
+        throw new ResultFetchError(message.message)
     }
 }
 
