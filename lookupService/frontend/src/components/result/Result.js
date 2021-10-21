@@ -79,9 +79,10 @@ const Result = () => {
                         })}
                     </tbody>
                 </table>
-                <span className={'button button--action'}>
+                <a className={'button button--action'}
+                   href={`http://localhost:8000/api/download/${jobID}`} download={'results.zip'}>
                     Download raw result
-                </span>
+                </a>
                 <span>{/*results.fasta*/}</span>
                 <span>{/*results.filtered_gff*/}</span>
                 <span>{/*results.heatmap*/}</span>
