@@ -7,6 +7,9 @@ const Result = () => {
     const { jobID } = useParams()
     const [results, setResults] = useState()
     const [gffData, setGffData] = useState()
+    const [modal, setModal] = useState(false)
+    const [modalSequence, setModalSequence] = useState()
+    const [selectedSequence, setSelectedSequence] = useState()
 
     useEffect(() => {
         const getResult = async () => {
@@ -22,6 +25,19 @@ const Result = () => {
     }, [])
     return(
         <div className={'result-container'}>
+        {modal &&
+            <div className={'modal'}>
+                <div className={'flex-column'}>
+                    <div className={'sequence-modal'}>
+                        <span className={'close'} onClick={() => {setModal(false)}}>&times;</span>
+                        <span className={'flex-column'}>
+                            <p className={'no-margins'}><b>30NT sequence for {selectedSequence}:</b></p>
+                            {modalSequence}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        }
         {results &&
             <>
                 <span className={'black-text'}>GFF results</span>
@@ -43,14 +59,20 @@ const Result = () => {
                     </thead>
                     <tbody>
                         {gffData && gffData.map((it, i) => {
-                            if(it.length !== 0)
+                            if(it.length !== 0 && it[0])
                             return(
                             <tr key={i}>
                                 {it.map((e, j) => {
-                                    return(<td key={j}>{e}</td>)
+                                    if(j !== it.length-1 && e !== '')
+                                        return(<td key={j}>{e}</td>)
                                 })}
-                                <td className={''}>
-                                    <span className={'button button--default cell-button'}>
+                                <td>
+                                    <span className={'button button--default cell-button'}
+                                        onClick={() => {
+                                            setSelectedSequence(it[8])
+                                            setModalSequence(it[it.length-1])
+                                            setModal(!modal)
+                                        }}>
                                         View
                                     </span>
                                 </td>

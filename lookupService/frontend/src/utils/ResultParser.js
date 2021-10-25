@@ -15,7 +15,7 @@ export const parseGFF = (plainText) => {
         for(let k = 0; k < attributes.length; k++){
             attributes[k] = attributes[k].split('=')[1]
         }
-        attributes.pop() //remove sequence
+        //attributes.pop() //remove sequence
         tempList.pop() //remove attributes entry
         data.push(tempList.concat(attributes))
     }
