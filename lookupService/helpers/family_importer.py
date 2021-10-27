@@ -30,7 +30,7 @@ def import_all_families():
 def get_strings_in_files(type):
     elems = []
     module_dir = os.path.dirname(__file__)
-    file_path = os.path.join(module_dir, '../engine/mirmachine/meta/cutoffs/' + type + '/mirmachine_trusted_cutoffs.tsv')
+    file_path = os.path.join(module_dir, '../../engine/mirmachine/meta/cutoffs/' + type + '/mirmachine_trusted_cutoffs.tsv')
     _file = open(file_path, 'r')
     _file.readline()
     line = _file.readline()
