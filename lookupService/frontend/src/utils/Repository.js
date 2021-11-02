@@ -33,7 +33,8 @@ export const submitJob = async (data, file) => {
     if(response.status === 400){
         throw new JobPostError('Invalid data, make sure you filled out the necessary fields')
     } else if(response.status === 404){
-        throw new JobPostError('Invalid accession number')
+        let message = await response.json()
+        throw new JobPostError(message.message)
     } else if(response.status === 503){
         throw new JobPostError('The NCBI database returned an error')
     } else if(response.status === 403){
@@ -151,7 +152,6 @@ export const getFamilies = async () => {
 
 export const getFamiliesIncludedInSearch = async (node, bothWays, singleNode) => {
     const csrftoken = getCookie('csrftoken')
-    // TODO: verify input
     const params = `?node=${node}&both_ways=${bothWays}&single_node=${singleNode}`
     const response = await fetch(baseURL + `relations/${params}`, {
         method: 'GET',

@@ -67,6 +67,9 @@ class PostJob(APIView):
         except RuntimeError:
             response = {"message": "Could not get genome from NCBI"}
             return JsonResponse(response, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+        except NameError:
+            response = {"message": "Not a valid species name. Special characters are not allowed"}
+            return JsonResponse(response, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, format=None):

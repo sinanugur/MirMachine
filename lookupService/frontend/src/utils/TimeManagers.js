@@ -1,12 +1,12 @@
 
 export const formatDjangoTime = (djangoTime) => {
-    return djangoTime.split('T')[0] + ' @ ' + djangoTime.split('T')[1].substring(0,5) + ' GMT'
+    return djangoTime.split('T')[0] + ' @ ' + djangoTime.split('T')[1].substring(0,5) + ' Oslo Time'
 }
 
 const getElapsedTime = (startTime, endTime) => {
     const start = Date.parse(startTime.split('T')[0] + ' ' + startTime.split('T')[1].split('.')[0])
     const now = endTime ? Date.parse(endTime.split('T')[0] + ' ' + endTime.split('T')[1].split('.')[0]) :
-        Date.parse(new Date().toLocaleString('en-US', {timeZone: 'UTC'}))
+        Date.parse(new Date().toLocaleString('en-US', {timeZone: 'Europe/Oslo'}))
     const elapsed = now - start
     const seconds = Math.floor((elapsed/1000) % 60)
     const minutes = Math.floor((elapsed/1000/60) % 60)

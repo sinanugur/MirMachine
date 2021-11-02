@@ -13,7 +13,7 @@ def schedule_job(stop):
     queued = Job.objects.filter(status='queued').order_by('initiated')
     # check if queue is empty
     if not queued.exists():
-        # clean_up_temporary_files()
+        clean_up_temporary_files()
         return
     next_in_line = queued[0]
     next_in_line.status = 'ongoing'

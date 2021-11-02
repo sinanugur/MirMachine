@@ -11,6 +11,9 @@ def process_form_data(request):
     updated_data = {}
     updated_data.update(serializer.initial_data)
     updated_data['user_cookie'] = request.COOKIES['csrftoken']
+    forbidden = ['.', '/', '\\']
+    if any(x in updated_data['species'] for x in forbidden):
+        raise NameError
     # print(updated_data)
     if serializer.initial_data['mode'] == 'file':
         file = request.FILES.get('file')
