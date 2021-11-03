@@ -28,7 +28,6 @@ class Job(models.Model):
     MODE_OPTIONS = [
         ('text','Text input'),
         ('file','File upload'),
-        ('link','Genome link'),
         ('accNum','Accession number')
     ]
     MODEL_TYPES = [
@@ -52,7 +51,7 @@ class Job(models.Model):
     data = models.TextField(blank=True)
     data_file = models.FileField(upload_to=name_uploaded_file, null=True, blank=True)
     mode = models.CharField(choices=MODE_OPTIONS, max_length=10)
-    species = models.TextField(blank=True, default=species_default)
+    species = models.TextField(default=species_default)
     node = models.CharField(max_length=100, blank=True)
     model_type = models.CharField(choices=MODEL_TYPES, max_length=15)
     single_node = models.BooleanField(default=boolean_default)

@@ -15,6 +15,8 @@ from lookupService.helpers.family_importer import import_all_families, import_no
 from engine.scripts.MirMachine import show_node_families_args
 from lookupService.helpers.result_parser import get_and_parse_results, zip_results
 from lookupService.helpers.request_verifier import validate_job_exists_and_complete
+from ratelimit.decorators import ratelimit
+from django.utils.decorators import method_decorator
 import json
 import threading
 
@@ -46,6 +48,7 @@ def get_job(request, _id):
 
 
 class PostJob(APIView):
+    @method_decorator(ratelimit(key='ip', rate='1/m', method='POST', block=True))
     def post(self, request, format=None):
         try:
             if not user_can_post(request.COOKIES['csrftoken']):

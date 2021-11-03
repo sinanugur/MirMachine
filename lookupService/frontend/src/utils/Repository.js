@@ -39,7 +39,11 @@ export const submitJob = async (data, file) => {
         throw new JobPostError('The NCBI database returned an error')
     } else if(response.status === 403){
         let message = await response.json()
-        throw new JobPostError(message.message)
+        if(message.message){
+            throw new JobPostError(message.message)
+        } else if(message.detail){
+            throw new JobPostError('Please wait before submitting more jobs')
+        }
     }
     return response.json()
 }

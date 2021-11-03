@@ -34,7 +34,8 @@ def process_form_data(request):
         updated_data['data'] = ''.join(data[i:])
     updated_data['hash'] = hashlib.md5(serializer.initial_data['data'].encode()).hexdigest()
     updated_data['species'] = serializer.initial_data['species'].replace(' ', '_')
-
+    if updated_data['species'] == '':
+        del updated_data['species']
     return JobSerializer(data=updated_data)
 
 

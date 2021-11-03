@@ -148,7 +148,6 @@ export const SearchForm = () => {
                     <select id={'mode'} name={'mode'} value={inputMode} onChange={event => {setInputMode(event.target.value)}}>
                         <option value={'text'}>Text input</option>
                         <option value={'file'}>File upload</option>
-                        <option value={'link'}>Genome link</option>
                         <option value={'accNum'}>GenBank accession number</option>
                     </select>
                 </span>
