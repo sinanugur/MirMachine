@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from lookupService.helpers.job_pre_processor import process_form_data, user_can_post
 from lookupService.helpers.job_scheduler import schedule_job
-from .serializers import JobSerializer, NodeSerializer, \
+from .serializers import NodeSerializer, \
     EdgeSerializer, FamilySerializer, NodeFamilyRelationSerializer, StrippedJobSerializer
 from .models import Job, Node, Edge, Family, NodeFamilyRelation
 from django.http import JsonResponse
@@ -17,9 +17,9 @@ from lookupService.helpers.result_parser import get_and_parse_results, zip_resul
 from lookupService.helpers.request_verifier import validate_job_exists_and_complete
 from ratelimit.decorators import ratelimit
 from django.utils.decorators import method_decorator
+from MirMachineWebapp import user_config as config
 import json
 import threading
-
 
 stop_flag = False
 job_thread = None
@@ -48,7 +48,8 @@ def get_job(request, _id):
 
 
 class PostJob(APIView):
-    @method_decorator(ratelimit(key='ip', rate='1/m', method='POST', block=True))
+    @method_decorator(ratelimit(key='ip', rate=config.JOB_SUBMIT_THROTTLE_RATE, method='POST',
+                                block=config.THROTTLE_JOB_SUBMIT))
     def post(self, request, format=None):
         try:
             if not user_can_post(request.COOKIES['csrftoken']):
@@ -64,8 +65,8 @@ class PostJob(APIView):
                     job_thread = threading.Thread(target=schedule_job, args=(lambda: stop_flag,))
                     job_thread.start()
                 return JsonResponse(stripped.data, status=status.HTTP_201_CREATED)
-        except ValueError:
-            response = {"message": "Not a valid accession number"}
+        except ValueError as e:
+            response = {"message": str(e)}
             return JsonResponse(response, status=status.HTTP_404_NOT_FOUND)
         except RuntimeError:
             response = {"message": "Could not get genome from NCBI"}
@@ -73,6 +74,9 @@ class PostJob(APIView):
         except NameError:
             response = {"message": "Not a valid species name. Special characters are not allowed"}
             return JsonResponse(response, status=status.HTTP_400_BAD_REQUEST)
+        except PermissionError as e:
+            response = {"message": str(e)}
+            return JsonResponse(response, status=status.HTTP_403_FORBIDDEN)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, format=None):
@@ -97,7 +101,6 @@ class PostJob(APIView):
             response = {"message": "Object does not exist in database"}
             return JsonResponse(response,
                                 status=status.HTTP_404_NOT_FOUND)
-
 
 
 @api_view(['GET'])
@@ -184,4 +187,3 @@ def download_results(request, _id):
         tag = job_object[0].species
         response = zip_results(tag)
         return response
-

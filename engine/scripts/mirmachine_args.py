@@ -4,6 +4,7 @@ import math
 from shlex import quote
 from pathlib import Path
 from lookupService.helpers.socket_helper import announce_status_change
+from MirMachineWebapp import user_config as config
 
 base_dir = os.path.dirname(__file__)
 mirmachine_path = os.path.join(base_dir, '../mirmachine/')
@@ -60,7 +61,7 @@ def run_mirmachine(job_object, stop):
                        "mirmachine_path={mirmachine_path} --configfile engine/data/yamls/{species}.yaml " \
                        "--cores {cpu}".format(
         species=quote(job_object.species),
-        cpu=4,
+        cpu=config.SNAKEMAKE_CPU_NUM,
         workdir='engine/',
         model=quote(job_object.model_type),
         meta_directory=meta_directory,
@@ -82,7 +83,7 @@ def run_mirmachine(job_object, stop):
         if output.find('steps') > 0:
             if not found_job_size:
                 n_steps = output.split(' ')[2]
-                interval = math.ceil(int(n_steps)/20)
+                interval = math.ceil(int(n_steps)/config.JOB_STATUS_UPDATE_FREQ)
                 found_job_size = True
             if i % interval == 0:
                 announce_status_change(job_object, progress=output)

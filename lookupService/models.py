@@ -9,7 +9,7 @@ def boolean_default():
 
 
 def species_default():
-    now = timezone.now().strftime('%H:%M:%S')
+    now = timezone.localtime(timezone.now()).strftime('%H:%M:%S')
     return 'job@' + now
 
 

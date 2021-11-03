@@ -3,6 +3,7 @@ from engine.scripts.mirmachine_args import run_mirmachine
 from .socket_helper import announce_status_change, announce_queue_position, announce_initiation, announce_completed
 from .maintainer import clean_up_temporary_files
 from django.utils import timezone
+from MirMachineWebapp import user_config as config
 
 
 def schedule_job(stop):
@@ -13,7 +14,8 @@ def schedule_job(stop):
     queued = Job.objects.filter(status='queued').order_by('initiated')
     # check if queue is empty
     if not queued.exists():
-        clean_up_temporary_files()
+        if config.AUTO_CLEANUP_TEMP_FILES:
+            clean_up_temporary_files()
         return
     next_in_line = queued[0]
     next_in_line.status = 'ongoing'

@@ -1,5 +1,6 @@
 import urllib3
 from xml.dom import minidom
+from MirMachineWebapp import user_config as config
 
 baseURL = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/'
 
@@ -23,6 +24,8 @@ def get_fasta(accession_num):
         baseURL + 'efetch.fcgi?db=Nucleotide&query_key=' + query_key +
         '&WebEnv=' + web_env + '&rettype=fasta&retmode=text'
     )
+    if len(response) > config.MAX_NCBI_GENOME_SIZE:
+        raise PermissionError('Genome exceeds the maximum size')
     decoded = response.data.decode('utf-8')
     if 'error' in decoded:
         raise RuntimeError
