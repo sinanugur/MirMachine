@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'manifest_loader',
     'rest_framework',
     'channels',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -149,3 +150,7 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend' #TODO change for prod
+
+CRONJOBS = [
+    ('0 0 * * 0', 'lookupService.helpers.maintainer.delete_expired_jobs')
+]

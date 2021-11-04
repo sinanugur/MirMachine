@@ -1,6 +1,8 @@
+import datetime
 import os
+from django.utils import timezone
 from ..models import Job
-
+from MirMachineWebapp import user_config as config
 
 def clean_up_temporary_files():
     print('Cleaning up temporary files')
@@ -26,20 +28,36 @@ def clean_up_temporary_files():
                 os.rmdir(directory_path)
 
 
-def delete_job_data(_id, species_tag):
-    job_object = Job.objects.get(id=_id)
+def delete_job_data(job_object):
+    _id = job_object.id
+    species_tag = job_object.species
+    print('Deleting results and DB entry for job with id {}'.format(str(_id)))
     job_object.delete()
     result_dir = 'engine/results/predictions'
 
-    file = os.path.join(result_dir, '/fasta/{species}.PRE.fasta'.format(species=species_tag))
+    file = os.path.join(result_dir, 'fasta/{species}.PRE.fasta'.format(species=species_tag))
     if os.path.exists(file):
         os.remove(file)
-    file = os.path.join(result_dir, '/filtered_gff/{species}.PRE.gff'.format(species=species_tag))
+    file = os.path.join(result_dir, 'filtered_gff/{species}.PRE.gff'.format(species=species_tag))
     if os.path.exists(file):
         os.remove(file)
-    file = os.path.join(result_dir, '/gff/{species}.PRE.gff'.format(species=species_tag))
+    file = os.path.join(result_dir, 'gff/{species}.PRE.gff'.format(species=species_tag))
     if os.path.exists(file):
         os.remove(file)
-    file = os.path.join(result_dir, '/heatmap/{species}.heatmap.tsv'.format(species=species_tag))
+    file = os.path.join(result_dir, 'heatmap/{species}.heatmap.tsv'.format(species=species_tag))
     if os.path.exists(file):
         os.remove(file)
+
+
+def delete_expired_jobs():
+    jobs = Job.objects.all().order_by('initiated')
+    for job in jobs:
+        if has_expired(job):
+            delete_job_data(job)
+        else:
+            return
+
+
+def has_expired(job_object):
+    expiration_threshold = timezone.localtime(timezone.now()) - datetime.timedelta(days=config.JOB_EXPIRATION_TIME)
+    return job_object.initiated < expiration_threshold

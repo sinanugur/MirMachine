@@ -22,6 +22,7 @@ dependencies:
     - configargparse==1.1
     - datrie==0.8.2
     - decorator==4.4.2
+    - django-crontab==0.7.1
     - django-environ==0.8.1
     - django-manifest-loader==1.0.0
     - django-ratelimit==3.0.1

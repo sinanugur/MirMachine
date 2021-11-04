@@ -15,6 +15,7 @@ from lookupService.helpers.family_importer import import_all_families, import_no
 from engine.scripts.MirMachine import show_node_families_args
 from lookupService.helpers.result_parser import get_and_parse_results, zip_results
 from lookupService.helpers.request_verifier import validate_job_exists_and_complete
+from lookupService.helpers.maintainer import delete_job_data
 from ratelimit.decorators import ratelimit
 from django.utils.decorators import method_decorator
 from MirMachineWebapp import user_config as config
@@ -94,7 +95,7 @@ class PostJob(APIView):
                 job_thread = threading.Thread(target=schedule_job, args=(lambda: stop_flag,))
                 job_thread.start()
             else:
-                job.delete()
+                delete_job_data(job)
             response = {"message": "Job has been canceled and removed from the database"}
             return JsonResponse(response, status=status.HTTP_200_OK)
         except Job.DoesNotExist:
