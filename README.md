@@ -10,7 +10,7 @@ Installation
 To install this package with conda run:
 
 ```
-conda install -c bioconda mirmachine
+conda install -c bioconda -c conda-forge mirmachine
 ```
 
 
