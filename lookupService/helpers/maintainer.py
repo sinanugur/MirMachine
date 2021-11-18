@@ -4,6 +4,7 @@ from django.utils import timezone
 from ..models import Job
 from MirMachineWebapp import user_config as config
 
+
 def clean_up_temporary_files():
     print('Cleaning up temporary files')
     base_dir = 'engine/'
@@ -47,6 +48,15 @@ def delete_job_data(job_object):
     file = os.path.join(result_dir, 'heatmap/{species}.heatmap.tsv'.format(species=species_tag))
     if os.path.exists(file):
         os.remove(file)
+    # Delete input files
+    if job_object.mode == 'file':
+        input_dir = 'media/uploads'
+        file = os.path.join(input_dir, '{id}.txt'.format(id=job_object.id))
+        if os.path.exists(file):
+            os.remove(file)
+        file = os.path.join(input_dir, '{id}.txt.fai'.format(id=job_object.id))
+        if os.path.exists(file):
+            os.remove(file)
 
 
 def delete_expired_jobs():

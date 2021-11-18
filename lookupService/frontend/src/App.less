@@ -28,6 +28,18 @@
   height: @header-height;
 }
 
+.app-footer{
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  background-color: @main-green;
+  bottom: 0;
+  position: absolute;
+}
+
 .no-margins{
   margin: 0;
 }
@@ -273,4 +285,27 @@
 .spinner::before{
   border-color: @main-green !important;
   border-top-color: transparent !important;
+}
+
+.footer-icon{
+  fill: black;
+  &:hover{
+    fill: @lighter-green;
+  }
+}
+
+.mirgenedb{
+  font-family: monospace;
+  &:hover{
+    filter: invert(75%);
+  }
+  &__red{
+    color: red;
+  }
+  &__blue{
+    color: blue;
+  }
+  &__black{
+    color: black;
+  }
 }

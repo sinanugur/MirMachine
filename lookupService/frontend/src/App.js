@@ -3,6 +3,7 @@ import { AboutPage } from './components/about/About'
 import { SearchForm } from './components/form/Form'
 import Job from './components/job/JobPage'
 import Header from './components/frame/Header'
+import Footer from './components/frame/Footer'
 import Retrieval from './components/retrieval/Retrieval'
 import Tree from './components/form/Tree'
 import Result from './components/result/Result'
@@ -30,6 +31,7 @@ const App = () => {
                 <Route path={'/result/:jobID'} component={Result}/>
             </Switch>
         </main>
+        <Footer/>
     </div>
   );
 }
