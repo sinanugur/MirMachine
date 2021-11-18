@@ -1,6 +1,6 @@
 import { JobFetchError, JobPostError, ResultFetchError } from './Errors'
 import { validFile } from './Validators'
-const baseURL = 'http://localhost:8000/api/'
+const baseURL = 'http://127.0.0.1:8000/api/'
 
 export const submitJob = async (data, file) => {
     const csrftoken = getCookie('csrftoken')

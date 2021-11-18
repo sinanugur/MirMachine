@@ -53,15 +53,13 @@ class MonitorConsumer(WebsocketConsumer):
         }))
 
     def initiation(self, event):
-        str_rep = serializers.DateTimeField().to_representation(event['time'])
         self.send(text_data=json.dumps({
             'type': 'initiation',
-            'time': str_rep
+            'time': event['time']
         }))
 
     def completed(self, event):
-        str_rep = serializers.DateTimeField().to_representation(event['time'])
         self.send(text_data=json.dumps({
             'type': 'completed',
-            'time': str_rep
+            'time': event['time']
         }))

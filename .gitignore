@@ -44,5 +44,6 @@ yarn-error.log*
 db.sqlite3
 lookupService/static/frontend/**
 package-lock.json
-
+static/**
 secret.txt
+

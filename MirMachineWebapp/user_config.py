@@ -12,4 +12,4 @@ JOB_STATUS_UPDATE_FREQ = 20     # Sends update at every 100/20th percent
 THROTTLE_JOB_SUBMIT = False
 JOB_SUBMIT_THROTTLE_RATE = '1/m'    # 1 per minute
 
-JOB_EXPIRATION_TIME = 7   # In days
+JOB_EXPIRATION_TIME = 2   # In days

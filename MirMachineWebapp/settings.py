@@ -30,7 +30,7 @@ SECRET_KEY = env('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mirmachine.org', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -92,11 +92,11 @@ DATABASES = {
 
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"   # TODO: change for production
-       # "CONFIG": {
-       #     "hosts": [("127.0.0.1", 6379)]
-       # }
-    }
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)]
+        },
+    },
 }
 
 
@@ -135,15 +135,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = 'static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'lookupService', 'static', 'assets'),
-    os.path.join(BASE_DIR, 'lookupService', 'static', 'styles')
+    os.path.join(BASE_DIR, 'lookupService', 'static', 'frontend'),
 )
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -152,5 +152,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend' #TODO change for prod
 
 CRONJOBS = [
-    ('0 0 * * 0', 'lookupService.helpers.maintainer.delete_expired_jobs')
+    ('0 0 * * 2,4,6', 'lookupService.helpers.maintainer.delete_expired_jobs')
 ]

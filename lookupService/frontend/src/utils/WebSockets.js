@@ -1,6 +1,6 @@
 
 export const connectToSocket = (id, statusHook, progressHook, queueHook, initiationHook, completedHook) => {
-    const socket = new WebSocket(`ws://localhost:8000/ws/job/${id}`)
+    const socket = new WebSocket(`ws://127.0.0.1:8000/ws/job/${id}`)
     // On open connection
     socket.addEventListener('open', (event) => {
         socket.send('Current status please')
@@ -23,6 +23,7 @@ export const connectToSocket = (id, statusHook, progressHook, queueHook, initiat
             initiationHook(parsed.time)
         } else if(parsed.type === 'completed'){
             completedHook(parsed.time)
+            progressHook('100%')
         }
     })
 
