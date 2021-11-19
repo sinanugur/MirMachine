@@ -14,6 +14,9 @@ const Footer = () => {
                     <span className={'mirgenedb__blue'}>DB</span>
                 </span>
             </a>
+            <a className={'default-margins uio-container'} href={'https://www.uio.no/english/'} target={'_blank'}>
+                <img src={'/static/assets/UiO-logo.svg'} alt={'UiO Logo'} className={'uio'}/>
+            </a>
         </footer>
     )
 }

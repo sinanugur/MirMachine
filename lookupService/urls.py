@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import get_job, PostJob, get_tree, get_families, get_included_families, get_results, download_results
+from .views import get_job, PostJob, get_tree, get_families, get_included_families, \
+    get_results, download_results, check_if_new_client
 from .consumers import MonitorConsumer
 
 urlpatterns = [
@@ -9,7 +10,8 @@ urlpatterns = [
     path('families/', get_families),
     path('relations/', get_included_families),
     path('result/<str:_id>', get_results),
-    path('download/<str:_id>', download_results)
+    path('download/<str:_id>', download_results),
+    path('cookiePrompt/', check_if_new_client)
 ]
 
 websocket_patterns = [

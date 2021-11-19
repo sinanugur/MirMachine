@@ -80,3 +80,7 @@ class Family(models.Model):
 class NodeFamilyRelation(models.Model):
     node = models.CharField(max_length=168)
     family = models.CharField(max_length=68)
+
+
+class Cookie(models.Model):
+    cookie = models.CharField(max_length=100)

@@ -167,6 +167,18 @@ export const getFamiliesIncludedInSearch = async (node, bothWays, singleNode) =>
     return response.json()
 }
 
+export const checkIfNewUser = async () => {
+    const csrftoken = getCookie('csrftoken')
+    const response = await fetch(baseURL + 'cookiePrompt/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+    })
+    return response.json()
+}
+
 const getCookie = (name) => {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {

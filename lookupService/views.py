@@ -5,7 +5,7 @@ from lookupService.helpers.job_pre_processor import process_form_data, user_can_
 from lookupService.helpers.job_scheduler import schedule_job
 from .serializers import NodeSerializer, \
     EdgeSerializer, FamilySerializer, NodeFamilyRelationSerializer, StrippedJobSerializer
-from .models import Job, Node, Edge, Family, NodeFamilyRelation
+from .models import Job, Node, Edge, Family, NodeFamilyRelation, Cookie
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
@@ -188,3 +188,17 @@ def download_results(request, _id):
         tag = job_object[0].species
         response = zip_results(tag)
         return response
+
+
+@api_view(['GET'])
+def check_if_new_client(request):
+    if request.method == 'GET':
+        cookie = request.COOKIES['csrftoken']
+        if not Cookie.objects.filter(cookie=cookie):
+            new = Cookie(cookie=cookie)
+            new.save()
+            response = {'message': 'new_user'}
+            return JsonResponse(response, status=status.HTTP_200_OK)
+        else:
+            response = {'message': 'old_user'}
+            return JsonResponse(response, status=status.HTTP_200_OK)
