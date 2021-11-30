@@ -34,7 +34,7 @@ dependencies:
     - pyyaml==5.3.1
     - ratelimiter==1.2.0.post0
     - smmap==3.0.1
-    - snakemake==5.11.1
+    - snakemake-minimal==5.11.1
     - toposort==1.5
     - traitlets==4.3.3
     - wrapt==1.12.1

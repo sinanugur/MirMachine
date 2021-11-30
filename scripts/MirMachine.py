@@ -33,6 +33,8 @@ except ImportError:
 meta_directory=os.path.dirname(meta.__file__)
 
 __author__ = 'sium'
+__version__= '0.2.11.1'
+
 
 __licence__="""
 MIT License
@@ -170,5 +172,5 @@ def main():
 
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='0.2.11')
+    arguments = docopt(__doc__, version=__version__)
     main()
