@@ -43,7 +43,7 @@ from yaml import load
 genome=config['genome']
 species=config['species']
 node=config['node']
-model=config.get('model','proto')
+model=config.get('model','combined')
 meta_directory=config.get('meta_directory','meta')
 mirmachine_path=config.get('mirmachine_path','mirmachine')
 mirna=[x.title() + ".PRE" for x in config['mirnas']]
@@ -57,8 +57,9 @@ gffheader="""##gff-version 3
 # CM Models: Built using MirGeneDB {MDBver}
 # Total families searched: {total}
 # Node: {node}
+# Model: {model}
 # Genome file: {genome}
-# Species: {species}""".format(version=__version__,MDBver=MDBver,total=len(mirna),node=node,genome=genome,species=species)
+# Species: {species}""".format(version=__version__,MDBver=MDBver,total=len(mirna),node=node,model=model,genome=genome,species=species)
 
 #pull out CMs, I added this part to check ready models
 #files, = glob_wildcards("analyses/cms/{files}.CM")
@@ -205,7 +206,7 @@ rule create_heatmap_csv:
 		"results/predictions/heatmap/{species}.heatmap.tsv"
 	shell:
 		"""
-		gawk '{{match($0,"gene_id=(.*).PRE",m); print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2"\t"$1}}' > {output[0]}
-		gawk '{{match($0,"gene_id=(.*).PRE",m); print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2"\t"$1}}' > {output[1]}
-		join -a 1 {output[0]} {output[1]} | awk -v species={wildcards.species} -v node={node} '{{print species,node,$0}}' > {output[2]}
+		gawk 'match($0,"gene_id=(.*).PRE",m) {{print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2"\t"$1}}' > {output[0]}
+		gawk 'match($0,"gene_id=(.*).PRE",m) {{print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2"\t"$1}}' > {output[1]}
+		join -a 1 {output[0]} {output[1]} | awk -v species={wildcards.species} -v node={node} 'BEGIN{{print "species","node","family","total_hits","filtered_hits"}}{{print species,node,$0}}' > {output[2]}
 		"""
