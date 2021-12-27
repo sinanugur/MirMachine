@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.2.11.1"
+__version__="0.2.11.2"
 MDBver="2.1"
 
 __licence__="""
@@ -59,7 +59,9 @@ gffheader="""##gff-version 3
 # Node: {node}
 # Model: {model}
 # Genome file: {genome}
-# Species: {species}""".format(version=__version__,MDBver=MDBver,total=len(mirna),node=node,model=model,genome=genome,species=species)
+# Species: {species}
+# Params: 
+# miRNAs families searched: {mirna}""".format(version=__version__,MDBver=MDBver,total=len(mirna),node=node,model=model,genome=genome,species=species,mirna=mirna)
 
 #pull out CMs, I added this part to check ready models
 #files, = glob_wildcards("analyses/cms/{files}.CM")
@@ -170,7 +172,7 @@ rule combine_fastas:
 	output:
 		"results/predictions/fasta/{species}.PRE.fasta"
 	run:
-		shell("cat analyses/output/{wildcards.species}/*filtered.fasta > {output}")
+		shell("cat analyses/output/{wildcards.species}/*filtered.fasta | awk '{{print}}' > {output}")
 
 
 rule combine_gffs:
@@ -182,7 +184,7 @@ rule combine_gffs:
 		header=gffheader
 	run:
 		shell("""echo "{params.header}" > {output}""")
-		shell("cat analyses/output/{wildcards.species}/*PRE.gff | grep PRE >> {output}")
+		shell("cat analyses/output/{wildcards.species}/*PRE.gff | awk '/PRE/' >> {output}")
 
 rule combine_filtered_gffs:
 	input:
@@ -193,7 +195,7 @@ rule combine_filtered_gffs:
 		header=gffheader
 	run:
 		shell("""echo "{params.header}" > {output}""")
-		shell("cat analyses/output/{wildcards.species}/*PRE.filtered.gff | grep PRE >> {output}")
+		shell("cat analyses/output/{wildcards.species}/*PRE.filtered.gff | awk '/PRE/' >> {output}")
 
 
 rule create_heatmap_csv:

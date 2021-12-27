@@ -15,6 +15,7 @@ import newick
 
 
 __author__ = 'sium'
+__version__="0.99"
 
 __licence__="""
 MIT License
@@ -97,10 +98,11 @@ def walk_on_tree(newick_file):
 
     r=re.compile("[A-Z][a-z]+")
 
-    for d in list(filter(r.match,descendants)):
-        print(d)
+    return(list(filter(r.match,descendants)))
+    #for d in list(filter(r.match,descendants)):
+    #    print(d)
 
-    return
+    #return
 
 
 
@@ -136,7 +138,10 @@ def print_tree(newick_file):
 
 def main():
     if arguments["--print-all-nodes"]:
-        walk_on_tree(arguments['<newick>'])
+        parsed_tree=walk_on_tree(arguments['<newick>'])
+        for d in parsed_tree:
+            print(d)
+
     elif arguments["--print-ascii-tree"]:
         print_tree(arguments['<newick>'])
     else:
@@ -144,5 +149,5 @@ def main():
 
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='0.98')
+    arguments = docopt(__doc__, version='0.99')
     main()

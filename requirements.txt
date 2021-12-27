@@ -25,3 +25,4 @@ toposort>=1.5
 traitlets>=4.3.3
 wrapt>=1.12.1
 zipp>=3.1.0
+rich>=10.16.1 
