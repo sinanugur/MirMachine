@@ -41,6 +41,7 @@ import os.path
 from yaml import load
 
 genome=config['genome']
+params=config['params']
 species=config['species']
 node=config['node']
 model=config.get('model','combined')
@@ -60,8 +61,8 @@ gffheader="""##gff-version 3
 # Model: {model}
 # Genome file: {genome}
 # Species: {species}
-# Params: 
-# miRNAs families searched: {mirna}""".format(version=__version__,MDBver=MDBver,total=len(mirna),node=node,model=model,genome=genome,species=species,mirna=mirna)
+# Params: {params}
+# miRNAs families searched: {mirna}""".format(version=__version__,MDBver=MDBver,total=len(mirna),node=node,model=model,genome=genome,species=species,mirna=mirna,params=params)
 
 #pull out CMs, I added this part to check ready models
 #files, = glob_wildcards("analyses/cms/{files}.CM")
@@ -92,8 +93,8 @@ rule prepare_genome:
 	input:
 		genome
 	output:
-		"data/genomes/" + species + ".fai",
-		"data/genomes/" + species + ".size"
+		temp("data/genomes/" + species + ".fai"),
+		temp("data/genomes/" + species + ".size")
 		#genome + ".fai",
 		#genome + ".size"
 	shell:

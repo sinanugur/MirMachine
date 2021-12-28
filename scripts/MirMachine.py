@@ -12,6 +12,7 @@ import re
 from docopt import docopt
 import newick
 import os
+import sys
 import subprocess
 from pathlib import Path
 from datetime import datetime
@@ -212,11 +213,11 @@ def print_available_families():
 
 def run_mirmachine():
 
-    
+    params="'{p}'".format(p=" ".join(sys.argv))
     dry_run="-n" if arguments["--dry"] else ""
     unlock="--unlock" if arguments["--unlock"] else ""
     remove="--delete-all-output" if arguments["--remove"] else ""
-    snakemake_argument="snakemake --rerun-incomplete {dry} {unlock} {remove} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
+    snakemake_argument="snakemake --rerun-incomplete {dry} {unlock} {remove} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} params={params} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
     species=arguments['--species'],
     cpu=arguments['--cpu'],
     model=arguments['--model'].lower(),
@@ -224,7 +225,8 @@ def run_mirmachine():
     mirmachine_path=mirmachine_path,
     dry=dry_run,
     unlock=unlock,
-    remove=remove)
+    remove=remove,
+    params=params)
     
     subprocess.check_call(snakemake_argument,shell=True)
 
