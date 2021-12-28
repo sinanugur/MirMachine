@@ -172,7 +172,8 @@ rule combine_fastas:
 	output:
 		"results/predictions/fasta/{species}.PRE.fasta"
 	run:
-		shell("cat analyses/output/{wildcards.species}/*filtered.fasta | awk '{{print}}' > {output}")
+		#shell("cat analyses/output/{wildcards.species}/*filtered.fasta | awk '{{print}}' > {output}")
+		shell("cat {input} | awk '{{print}}' > {output}")
 
 
 rule combine_gffs:
@@ -184,7 +185,8 @@ rule combine_gffs:
 		header=gffheader
 	run:
 		shell("""echo "{params.header}" > {output}""")
-		shell("cat analyses/output/{wildcards.species}/*PRE.gff | awk '/PRE/' >> {output}")
+		#shell("cat analyses/output/{wildcards.species}/*PRE.gff | awk '/PRE/' >> {output}")
+		shell("cat {input} | awk '/PRE/' >> {output}")
 
 rule combine_filtered_gffs:
 	input:
@@ -195,7 +197,8 @@ rule combine_filtered_gffs:
 		header=gffheader
 	run:
 		shell("""echo "{params.header}" > {output}""")
-		shell("cat analyses/output/{wildcards.species}/*PRE.filtered.gff | awk '/PRE/' >> {output}")
+		#shell("cat analyses/output/{wildcards.species}/*PRE.filtered.gff | awk '/PRE/' >> {output}")
+		shell("cat {input} | awk '/PRE/' >> {output}")
 
 
 rule create_heatmap_csv:

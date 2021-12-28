@@ -106,30 +106,6 @@ Options:
 
 """
 
-
-
-
-def run_mirmachine():
-
-    
-    dry_run="-n" if arguments["--dry"] else ""
-    unlock="--unlock" if arguments["--unlock"] else ""
-    remove="--delete-all-output" if arguments["--remove"] else ""
-   
-    
-
-    snakemake_argument="snakemake --rerun-incomplete {dry} {unlock} {remove} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
-    species=arguments['--species'],
-    cpu=arguments['--cpu'],
-    model=arguments['--model'].lower(),
-    meta_directory=meta_directory,
-    mirmachine_path=mirmachine_path,
-    dry=dry_run,
-    unlock=unlock,
-    remove=remove)
-    
-    subprocess.check_call(snakemake_argument,shell=True)
-
 def print_ascii_tree():
     tree_parser_argument="mirmachine-tree-parser.py {meta_directory}/tree.newick --print-ascii-tree".format(meta_directory=meta_directory)
     subprocess.check_call(tree_parser_argument,shell=True)
@@ -189,6 +165,7 @@ def validate_inputs():
 
     subprocess.check_call(snakemake_argument,shell=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     
+
 def print_available_families():
     
     console = Console()
@@ -231,6 +208,29 @@ def print_available_families():
     return
 
 
+
+
+def run_mirmachine():
+
+    
+    dry_run="-n" if arguments["--dry"] else ""
+    unlock="--unlock" if arguments["--unlock"] else ""
+    remove="--delete-all-output" if arguments["--remove"] else ""
+    snakemake_argument="snakemake --rerun-incomplete {dry} {unlock} {remove} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
+    species=arguments['--species'],
+    cpu=arguments['--cpu'],
+    model=arguments['--model'].lower(),
+    meta_directory=meta_directory,
+    mirmachine_path=mirmachine_path,
+    dry=dry_run,
+    unlock=unlock,
+    remove=remove)
+    
+    subprocess.check_call(snakemake_argument,shell=True)
+
+
+
+
 def main():
     if arguments["--print-all-nodes"]:
         print_all_nodes()
@@ -242,9 +242,7 @@ def main():
         show_node_families()
     else:
         start_time = datetime.now()
-
         create_yaml_file()
-
         parsed_tree=walk_on_tree.walk_on_tree("{meta_directory}/tree.newick".format(meta_directory=meta_directory))       
         if arguments["--node"] is not None and arguments["--node"].title() not in parsed_tree and arguments["--family"] is not None:
             print("Error, the node name argument is wrong !")
@@ -268,7 +266,15 @@ def main():
             print("Changing to the default model: combined")
             
             arguments["--model"]="combined"
-            validate_inputs()
+            try:
+                validate_inputs()
+            except:
+                print("")
+                print("Error, miRNA family not found.")
+                console = Console()
+                console.print("You can run [bold red]MirMachine.py --print-all-families [/bold red] to see available families")
+                return
+
 
 
         run_mirmachine()
