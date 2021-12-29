@@ -22,6 +22,7 @@ from rich.console import Console
 from rich.table import Column, Table
 from rich.columns import Columns
 from rich import print
+from rich.panel import Panel
 
 import importlib
 from collections import defaultdict
@@ -113,10 +114,17 @@ def print_ascii_tree():
 
 def print_all_nodes():
     tree_parser_argument="mirmachine-tree-parser.py {meta_directory}/tree.newick --print-all-nodes".format(meta_directory=meta_directory)
-    print("All available nodes (leaf node names excluded):")
+    
     all_nodes=subprocess.check_output(tree_parser_argument,shell=True).splitlines()
     #all_nodes=all_nodes.split("\n")
-    print(all_nodes)
+    #print(all_nodes)
+    nodes=[]
+    for x in all_nodes:
+        nodes.append(x.decode('utf-8'))
+    nodes.sort()
+    columns = Columns(nodes, equal=True, expand=True)
+    print("All available nodes (leaf node names excluded):")
+    print(columns)
 
 def show_node_families():
     both_ways= "--add-all-nodes" if arguments["--add-all-nodes"] else ""
@@ -124,7 +132,14 @@ def show_node_families():
         do grep $a {meta_directory}/nodes_mirnas_corrected.tsv; done \
         | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq""".format(node=arguments['--node'],meta_directory=meta_directory,both_ways=both_ways)
 
-    subprocess.check_call(yaml_argument,shell=True)
+    node_families=subprocess.check_output(yaml_argument,shell=True).splitlines()
+    families=[]
+    for x in node_families:
+        families.append(x.decode('utf-8'))
+    families.sort()
+    columns = Columns(families, equal=True, expand=True)
+    print("All available families of {node} node ".format(node=arguments['--node']))
+    print(columns)
 
 def create_yaml_file():
     Path("data/yamls").mkdir(parents=True,exist_ok=True)
@@ -170,14 +185,16 @@ def validate_inputs():
 def print_available_families():
     
     console = Console()
-    table = Table(show_header=True, header_style="bold magenta")
+    #table = Table(show_header=True, header_style="bold magenta")
     dct=defaultdict(list)
+
+    
 
     for model in ["combined","deutero", "proto"]:
         cutoff_file=meta_directory + "/cutoffs/" + model + "/mirmachine_trusted_cutoffs.tsv"
         
 
-        table.add_column(model)
+        #table.add_column(model)
         
         
         
@@ -186,29 +203,11 @@ def print_available_families():
             for line in tsv.readlines():
                 #print(line.split()[0])
                 dct[model].append(line.split()[0])
-                
-    dct["combined"].sort()
-    dct["deutero"].sort()
-    dct["proto"].sort()
-
-    for i in range(0,len(dct["combined"])):
-        crow=dct["combined"][i]
-        try:
-            drow=dct["deutero"][i]
-        except:
-            drow=""
-        try:
-            prow=dct["proto"][i]
-        except:
-            prow=""
-        
-        table.add_row(crow,drow,prow)
-        
-    console.print(table)
-        
+        dct[model].sort()
+        columns = Columns(dct[model], equal=True, expand=True)
+        console.print("[bold]All available families in {model} model. [/bold]".format(model=model))
+        print(columns)
     return
-
-
 
 
 def run_mirmachine():
@@ -234,39 +233,37 @@ def run_mirmachine():
 
 
 def main():
-    if arguments["--print-all-nodes"]:
-        print_all_nodes()
-    elif arguments["--print-ascii-tree"]:
+    parsed_tree=walk_on_tree.walk_on_tree("{meta_directory}/tree.newick".format(meta_directory=meta_directory))
+
+    #if arguments["--print-all-nodes"]:
+    #    if arguments["--node"].title() in parsed_tree:
+    #        print_all_nodes()
+    if arguments["--print-ascii-tree"]:
         print_ascii_tree()
     elif arguments["--print-all-families"]:
         print_available_families()
-    elif not arguments["--species"] and not arguments["--genome"]:
+    elif not arguments["--species"] and not arguments["--genome"] and arguments["--node"] and arguments["--node"].title() in parsed_tree:
         show_node_families()
     else:
+        if arguments["--node"] and arguments["--node"].title() not in parsed_tree and arguments["--family"] is None:
+
+            print(Panel.fit("""Error, the node name argument is wrong!\nThe node name given is: "{node}"\nPlease select one of the following:""".format(node=arguments["--node"])))
+            print_all_nodes()
+            return
+        elif arguments["--print-all-nodes"]:
+            print_all_nodes()
+            return
+        
         start_time = datetime.now()
         create_yaml_file()
-        parsed_tree=walk_on_tree.walk_on_tree("{meta_directory}/tree.newick".format(meta_directory=meta_directory))       
-        if arguments["--node"] is not None and arguments["--node"].title() not in parsed_tree and arguments["--family"] is not None:
-            print("Error, the node name argument is wrong !")
-            print("""The node name given is: "{node}" """.format(node=arguments["--node"]))
-            print("Please select one of the following: ")
-            print("")
-            print(parsed_tree)
-            return
 
         if arguments["--model"].lower() not in ["deutero", "proto", "combined"]:
-            print("Error, please select a correct model name !")
-            print("""The model given is: "{model}" """.format(model=arguments["--model"]))
-            print("""Possible values are: "deutero", "proto", "combined" """)
+            print(Panel.fit("""Error, please select a correct model name!"\nThe model given is: "{model}"\nPossible values are: "deutero", "proto", "combined" """.format(model=arguments["--model"])))
             return
         try:
             validate_inputs()
         except:
-            print("Error, model and node names are inconsistent.")
-            print("""The model given is: "{model}" """.format(model=arguments["--model"]))
-            print("""The node name given is: "{node}" """.format(node=arguments["--node"]))
-            print("Changing to the default model: combined")
-            
+            print(Panel.fit("""Error, model and node names are inconsistent!\nThe model given is: "{model}"\nThe node name given is: "{node}"\nChanging to the default model: combined""".format(model=arguments["--model"],node=arguments["--node"])))
             arguments["--model"]="combined"
             try:
                 validate_inputs()

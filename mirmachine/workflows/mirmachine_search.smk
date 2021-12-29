@@ -62,7 +62,7 @@ gffheader="""##gff-version 3
 # Genome file: {genome}
 # Species: {species}
 # Params: {params}
-# miRNAs families searched: {mirna}""".format(version=__version__,MDBver=MDBver,total=len(mirna),node=node,model=model,genome=genome,species=species,mirna=mirna,params=params)
+# miRNAs families searched: {mirna}""".format(version=__version__,MDBver=MDBver,total=len(mirna),node=node,model=model,genome=genome,species=species,mirna=config['mirnas'],params=params)
 
 #pull out CMs, I added this part to check ready models
 #files, = glob_wildcards("analyses/cms/{files}.CM")

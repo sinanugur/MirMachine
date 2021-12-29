@@ -11,6 +11,7 @@ dependencies:
   - samtools=1.6
   - infernal=1.1.2
   - moreutils=0.5.7
+  - coreutils=8.31 
   - pip:
     - appdirs==1.4.3
     - attrs==19.3.0
@@ -34,7 +35,7 @@ dependencies:
     - pyyaml==5.3.1
     - ratelimiter==1.2.0.post0
     - smmap==3.0.1
-    - snakemake-minimal==5.11.1
+    - snakemake-minimal==6.10.0
     - toposort==1.5
     - traitlets==4.3.3
     - wrapt==1.12.1
