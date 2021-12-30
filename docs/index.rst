@@ -9,6 +9,11 @@ Welcome to MirMachine's documentation!
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/latest_release_relative_date.svg)](https://anaconda.org/bioconda/mirmachine)  
 A command line tool to detect miRNA homologs in genome sequences.
 
+
+.. image:: https://www.repostatus.org/badges/latest/suspended.svg
+   :alt: Project Status: Suspended – Initial development has started, but there has not yet been a stable, usable release; work has been stopped for the time being but the author(s) intend on resuming work.
+   :target: https://www.repostatus.org/#suspended
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
