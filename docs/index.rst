@@ -13,10 +13,3 @@ Welcome to MirMachine's documentation!
    installation.md
    quick_start.md
    output.md
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
