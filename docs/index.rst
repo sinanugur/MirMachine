@@ -11,6 +11,8 @@ Welcome to MirMachine's documentation!
    :caption: Contents:
 
    installation.md
+   quick_start.md
+   output.md
 
 Indices and tables
 ==================
