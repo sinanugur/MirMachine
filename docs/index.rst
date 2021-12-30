@@ -10,7 +10,7 @@ Welcome to MirMachine's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   installation.md
 
 Indices and tables
 ==================
