@@ -14,14 +14,14 @@ You will see `results/predictions/` directory which contains:
 
 ```
 ##gff-version 3
-# MirMachine version: 0.2.11.2
-# CM Models: Built using MirGeneDB 2.1
-# Total families searched: 77
-# Node: Caenorhabditis
-# Model: combined
-# Genome file: sample/genomes/ce11.fa
-# Species: Astyanax_mexicanus
-# Params: /WORKING/apps/condas/sium_conda/bin/MirMachine.py --node Caenorhabditis --species Astyanax_mexicanus --genome sample/genomes/ce11.fa --cpu 20
-# miRNAs families searched:
+# MirMachine version: 0.2.11.2 (MirMachine version)
+# CM Models: Built using MirGeneDB 2.1 (DB version, usually suggests new families were included)
+# Total families searched: (Total families searched for this run)
+# Node: (Node name given)
+# Model: (selected model)
+# Genome file: (genome file location)
+# Species: (species name given)
+# Params: (Command line paramaters)
+# miRNAs families searched: (searched families)
 ```
 
