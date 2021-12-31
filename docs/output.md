@@ -32,12 +32,16 @@ chrI cmsearch ncRNA 6162306 6162369 45.3 - . gene_id=Mir-92.PRE;E-value=5.5e-07;
 ```
 
 Column 6 shows the bitscore of the hit.
-gene_id=miRNA family name.  
-sequence_with_30nt=Sequence of the miRNA hit and its 30nts upstream/downstream sequences.  
+__gene_id=__miRNA family name.  
+__sequence_with_30nt=__Sequence of the miRNA hit and its 30nts upstream/downstream sequences.  
 
 [GFF3 file format](https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md)
 
 ## FASTA files
 
-
+Example FASTA of a prediction:
+```
+>Mir-315.PRE_chrIV_7767483_7767548_(+)_LOWconf
+TTTTGATTGTTTTTCGATGATGTTCGTTAAATCGGTATAAGCGAACCATTGTAAACAATCAAAGAA
+```
 
