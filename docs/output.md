@@ -5,12 +5,12 @@ You will see `results/predictions/` directory which contains:
 
 `filtered_gff/` __High confidence miRNA family predictions after bitscore filtering. (This file is what you need in most cases)__  
 
-`gff/` __All predicted miRNA families.__  
+`gff/` __All predicted miRNA families.__  You can access all the predictions without filtering.
 
-`fasta/` __Both high and low confidence predictions in FASTA format.__  
+`fasta/` __Both high and low confidence predictions in FASTA format.__  Both predictions from filtered and unfiltered are included and you access FASTA sequences. See explanation of FASTA identifiers.
 
 
-### Explanation of GFF headers  
+## Explanation of GFF headers  
 
 ```
 ##gff-version 3
@@ -24,4 +24,6 @@ You will see `results/predictions/` directory which contains:
 # Params: (Command line paramaters)
 # miRNAs families searched: (searched families)
 ```
+
+## FASTA IDs
 
