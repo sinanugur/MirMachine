@@ -26,10 +26,16 @@ You will see `results/predictions/` directory which contains:
 # miRNAs families searched: (searched families)
 ```
 
-An example prediction: [GFF3 file format](https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md)
+An example prediction: 
 ```
 chrI cmsearch ncRNA 6162306 6162369 45.3 - . gene_id=Mir-92.PRE;E-value=5.5e-07;sequence_with_30nt=TGCTGAAAATCGTCCGAAGATATCAGGATCAGGCCTTGGCTGATTGCAAAATTGTTCACCGTGAAAATTAAATATTGCACTCTCCCCGGCCTGATCTGAGAGTAAGGCGAAGCTGAATTGACTT
 ```
+
+Column 6 shows the bitscore of the hit.
+gene_id=miRNA family name.  
+sequence_with_30nt=Sequence of the miRNA hit and its 30nts upstream/downstream sequences.  
+
+[GFF3 file format](https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md)
 
 ## FASTA files
 
