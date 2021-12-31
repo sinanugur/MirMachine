@@ -10,8 +10,9 @@ You will see `results/predictions/` directory which contains:
 `fasta/` __Both high and low confidence predictions in FASTA format.__  Both predictions from filtered and unfiltered are included and you access FASTA sequences. See explanation of FASTA identifiers.
 
 
-## Explanation of GFF headers  
+## Explanation of GFF files
 
+**Header**
 ```
 ##gff-version 3
 # MirMachine version: 0.2.11.2 (MirMachine version)
@@ -25,5 +26,11 @@ You will see `results/predictions/` directory which contains:
 # miRNAs families searched: (searched families)
 ```
 
-## FASTA IDs
+```
+chrI    cmsearch        ncRNA   6162306 6162369 45.3    -       .       gene_id=Mir-92.PRE;E-value=5.5e-07;sequence_with_30nt=TGCTGAAAATCGTCCGAAGATATCAGGATCAGGCCTTGGCTGATTGCAAAATTGTTCACCGTGAAAATTAAATATTGCACTCTCCCCGGCCTGATCTGAGAGTAAGGCGAAGCTGAATTGACTT
+```
+
+## FASTA files
+
+
 
