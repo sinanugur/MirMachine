@@ -1,5 +1,5 @@
 # Output
-------
+
 The `MirMachine` main executable will generate GFF annotations (filtered and unfiltered) and some other files.
 You will see `results/predictions/` directory which contains:
 
