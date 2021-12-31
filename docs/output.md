@@ -12,7 +12,7 @@ You will see `results/predictions/` directory which contains:
 
 ## Explanation of GFF files
 
-**Header**
+**Header:**
 ```
 ##gff-version 3
 # MirMachine version: 0.2.11.2 (MirMachine version)
@@ -26,8 +26,9 @@ You will see `results/predictions/` directory which contains:
 # miRNAs families searched: (searched families)
 ```
 
+An example prediction: [GFF3 file format](https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md)
 ```
-chrI    cmsearch        ncRNA   6162306 6162369 45.3    -       .       gene_id=Mir-92.PRE;E-value=5.5e-07;sequence_with_30nt=TGCTGAAAATCGTCCGAAGATATCAGGATCAGGCCTTGGCTGATTGCAAAATTGTTCACCGTGAAAATTAAATATTGCACTCTCCCCGGCCTGATCTGAGAGTAAGGCGAAGCTGAATTGACTT
+chrI cmsearch ncRNA 6162306 6162369 45.3 - . gene_id=Mir-92.PRE;E-value=5.5e-07;sequence_with_30nt=TGCTGAAAATCGTCCGAAGATATCAGGATCAGGCCTTGGCTGATTGCAAAATTGTTCACCGTGAAAATTAAATATTGCACTCTCCCCGGCCTGATCTGAGAGTAAGGCGAAGCTGAATTGACTT
 ```
 
 ## FASTA files
