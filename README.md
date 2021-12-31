@@ -15,18 +15,21 @@ To install this package with conda run:
 conda install -c bioconda -c conda-forge mirmachine
 ```
 
+Please add conda-forge as a channel.  
 
-Alternative method:
+Alternative method for installing dev version:
 ```
 git clone https://github.com/sinanugur/MirMachine.git
 cd MirMachine
 pip install .
 ```
 
-Check if the installation works by calling the main script.
+Check if the installation works by calling the main script.  
 ```
 MirMachine.py --help
 ```
+
+You have to install dependencies via conda if you prefer Github installation.  
 
 Quick start example
 -------------------
