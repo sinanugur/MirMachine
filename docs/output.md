@@ -10,9 +10,9 @@ You will see `results/predictions/` directory which contains:
 `fasta/` __Both high and low confidence predictions in FASTA format.__  
 
 
-### Explanation of GFF headers
+### Explanation of GFF headers  
 
-`
+```
 ##gff-version 3
 # MirMachine version: 0.2.11.2
 # CM Models: Built using MirGeneDB 2.1
@@ -23,5 +23,5 @@ You will see `results/predictions/` directory which contains:
 # Species: Astyanax_mexicanus
 # Params: /WORKING/apps/condas/sium_conda/bin/MirMachine.py --node Caenorhabditis --species Astyanax_mexicanus --genome sample/genomes/ce11.fa --cpu 20
 # miRNAs families searched:
-`
+```
 
