@@ -22,7 +22,7 @@ You can query all available nodes with:
 
 Selection of a correct node is important for accurate prediction with fewer false positives. This will also reduce run time.
 
-**Which families are available in a node**
+**Which families are available in a node:**
 
 You can see that with: 
 
@@ -68,13 +68,13 @@ Options:
 
 ### Troubleshooting
 
-**Dry run**
+**Dry run:**  
 You can test a run with `--dry`. It shows which files will be generated.
 
-**Unlocking the directory**
+**Unlocking the directory:**  
 If a job ends prematurely, Snakemake may lock the directory. You may have to rerun with `--unlock` argument. This will unlock the directory.
 
-**Cleaning the output files**
+**Cleaning the output files:**  
 You can clean the output files with `--remove` argument.
 
 
