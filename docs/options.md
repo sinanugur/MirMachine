@@ -1,4 +1,7 @@
 # Options and Arguments
+
+Required arguments for a MirMachine run are: __--node__, __--species__ and __--genome__.
+
 ```
 Usage:
     MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--dry]
