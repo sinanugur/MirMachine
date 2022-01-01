@@ -6,15 +6,22 @@ You can select any name for **species name**. It is simply defines how you want 
 
 The **genome file** must be a FASTA file. Its location is not important.
 
-For example:
+**A standard run:**
 
 `MirMachine.py --node Caenorhabditis --species foo --genome /path/tp/genome/example.fasta`
 
 This will start a MirMachine run and search for all miRNAs belong to __Caenorhabditis__ node.
 
+**How to see available nodes:**
+
 You can query all available nodes with: 
 
 `MirMachine.py --print-all-nodes`
+
+Selection of a correct node is important for accurate prediction with fewer false positives. This will also reduce run time.
+
+***Which families are available for a node**
+
 
     
 
