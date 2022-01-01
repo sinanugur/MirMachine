@@ -22,19 +22,15 @@ Selection of a correct node is important for accurate prediction with fewer fals
 
 **Which families are available in a node**
 
-This will show the miRNA families that will be searched by MirMachine.
+You can see that with: 
 
 `MirMachine.py --node Caenorhabditis`
 
-You will see all families
+This will show the miRNA families that will be searched by MirMachine if you select __Caenorhabditis__ node. These miRNA families are expected to be found by MirMachine.
 
 
 
-
-
-    
-
-
+**All options and arguments:**
 ```
 Usage:
     MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--dry]
@@ -67,7 +63,7 @@ Options:
     --version                           Show version.
 ```
 
-## Some examples
+
 
 
 
