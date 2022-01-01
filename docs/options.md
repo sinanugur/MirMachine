@@ -1,6 +1,8 @@
 # Options and Arguments
 
-Required arguments for a MirMachine run are: __--node__, __--species__ and __--genome__.
+### How to use MirMachine
+
+Required arguments for a MirMachine run are: `--node`, `--species` and `--genome`.
 
 You can select any name for **species name**. It is simply defines how you want to name your run.  
 
@@ -64,6 +66,16 @@ Options:
 ```
 
 
+### Troubleshooting
+
+**Dry run**
+You can test a run with `--dry`. It shows which files will be generated.
+
+**Unlocking the directory**
+If a job ends prematurely, Snakemake may lock the directory. You may have to rerun with `--unlock` argument. This will unlock the directory.
+
+**Cleaning the output files**
+You can clean the output files with `--remove` argument.
 
 
 
