@@ -2,6 +2,23 @@
 
 Required arguments for a MirMachine run are: __--node__, __--species__ and __--genome__.
 
+You can select any name for **species name**. It is simply defines how you want to name your run.  
+
+The **genome file** must be a FASTA file. Its location is not important.
+
+For example:
+
+`MirMachine.py --node Caenorhabditis --species foo --genome /path/tp/genome/example.fasta`
+
+This will start a MirMachine run and search for all miRNAs belong to __Caenorhabditis__ node.
+
+You can query all available nodes with: 
+
+`MirMachine.py --print-all-nodes`
+
+    
+
+
 ```
 Usage:
     MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--dry]
