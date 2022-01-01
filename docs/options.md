@@ -20,7 +20,16 @@ You can query all available nodes with:
 
 Selection of a correct node is important for accurate prediction with fewer false positives. This will also reduce run time.
 
-***Which families are available for a node**
+**Which families are available in a node**
+
+This will show the miRNA families that will be searched by MirMachine.
+
+`MirMachine.py --node Caenorhabditis`
+
+You will see all families
+
+
+
 
 
     
