@@ -3,12 +3,14 @@ import subprocess
 import math
 from shlex import quote
 from pathlib import Path
+
+from engine.scripts.mirmachine_tree_parser import search_tree_for_keyword
 from lookupService.helpers.socket_helper import announce_status_change
 from MirMachineWebapp import user_config as config
 
 base_dir = os.path.dirname(__file__)
 mirmachine_path = os.path.join(base_dir, '../mirmachine/')
-meta_directory = os.path.join(mirmachine_path, 'meta')
+meta_directory = os.path.join(mirmachine_path, 'meta/')
 workflows_dir = os.path.join(mirmachine_path, 'workflows/')
 
 
@@ -55,6 +57,10 @@ def run_mirmachine(job_object, stop):
 
     if out.returncode != 0:
         return out, job_object
+    try:
+        validate_inputs(job_object.species, job_object.model_type)
+    except:
+        print('Wrong model type selected, retry with combined type')
 
     snakemake_argument="snakemake -s engine/mirmachine/workflows/mirmachine_search.smk -d {workdir} " \
                        "--rerun-incomplete --config meta_directory={meta_directory} model={model} " \
@@ -103,3 +109,31 @@ def write_genome_to_temp_file(job_object, gen_file_path):
     genome_file.write('>{species}\n'.format(species=job_object.species))
     genome_file.write(job_object.data)
     genome_file.close()
+
+
+def validate_inputs(species, model):
+    snakemake_argument="snakemake -j {cpu} -s {mirmachine_path}workflows/validator.smk -d {workdir} --config meta_directory={meta_directory} model={model} mirmachine_path={mirmachine_path} --configfile=engine/data/yamls/{species}.yaml".format(
+        species=species,
+        cpu=2,
+        model=model,
+        workdir='engine/',
+        meta_directory=meta_directory,
+        mirmachine_path=mirmachine_path
+    )
+
+    subprocess.check_call(snakemake_argument, shell=True)
+
+
+def show_node_families_args(both_ways, node, relations):
+    ancestors, descendants = search_tree_for_keyword(os.path.join(meta_directory, 'tree.newick'), node,
+                                                     use_args=False, both_ways=both_ways)
+    families = []
+    for ancestor in ancestors:
+        families = families + ([obj.family for obj in relations
+                                if obj.node == ancestor and obj.family not in families])
+    if both_ways:
+        for descendant in descendants:
+            families = families + ([obj.family for obj in relations
+                                    if obj.node == descendant and obj.family not in families])
+    return families
+

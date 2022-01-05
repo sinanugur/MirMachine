@@ -35,6 +35,10 @@ def schedule_job(stop):
     except RuntimeError:
         print('Interrupted, exiting thread')
         return
+    except AttributeError:
+        next_in_line.status = 'halted'
+        next_in_line.save()
+        announce_status_change(next_in_line) # TODO add extra parameter letting them know to try different input
     schedule_job(stop)
 
 

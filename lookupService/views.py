@@ -12,7 +12,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from lookupService.helpers.tree_helper import parse_newick_tree
 from lookupService.helpers.family_importer import import_all_families, import_node_to_family_db
-from engine.scripts.MirMachine import show_node_families_args
+from engine.scripts.mirmachine_args import show_node_families_args
 from lookupService.helpers.result_parser import get_and_parse_results, zip_results
 from lookupService.helpers.request_verifier import validate_job_exists_and_complete
 from lookupService.helpers.maintainer import delete_job_data

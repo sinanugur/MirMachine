@@ -15,6 +15,7 @@ import newick
 
 
 __author__ = 'sium'
+__version__="0.99"
 
 __licence__="""
 MIT License
@@ -44,11 +45,11 @@ SOFTWARE.
 __doc__="""Parse tree to find node miRNAs.
 
 Usage:
-    mirmachine_tree_parser.py <newick> <keyword> [--add-all-nodes]
-    mirmachine_tree_parser.py <newick> --print-all-nodes
-    mirmachine_tree_parser.py <newick> --print-ascii-tree
-    mirmachine_tree_parser.py (-h | --help)
-    mirmachine_tree_parser.py --version
+    mirmachine-tree-parser.py <newick> <keyword> [--add-all-nodes]
+    mirmachine-tree-parser.py <newick> --print-all-nodes
+    mirmachine-tree-parser.py <newick> --print-ascii-tree
+    mirmachine-tree-parser.py (-h | --help)
+    mirmachine-tree-parser.py --version
 
 Arguments:
     newick                              A newick tree.
@@ -92,15 +93,17 @@ def walk_on_tree(newick_file):
         if node.name is not None and not node.is_leaf: #I skip leaf nodes.
             y=[x.strip() for x in node.name.split("_")]
             descendants.extend(list(filter(lambda x: len(x) > 2,y)))
-    
-    while "group" in descendants: descendants.remove("group") 
+
+    while "group" in descendants: descendants.remove("group")
 
     r=re.compile("[A-Z][a-z]+")
 
-    for d in list(filter(r.match,descendants)):
-        print(d)
+    return(list(filter(r.match,descendants)))
+    #for d in list(filter(r.match,descendants)):
+    #    print(d)
 
-    return
+    #return
+
 
 
 def search_tree_for_keyword(newick_file, keyword, use_args=True, both_ways=False):
@@ -108,12 +111,12 @@ def search_tree_for_keyword(newick_file, keyword, use_args=True, both_ways=False
     descendants = []
     tree = newick.read(newick_file)
     for node in tree[0].walk():
-        # if node.name is not None and node.name.find(keyword.strip()) != -1:
+        #if node.name is not None and node.name.find(keyword.strip()) != -1:
         if node.name is not None and re.search(keyword.strip().title(), node.name):
             detect_ancestors(node, ancestors)
             detect_descendants([node], descendants)
-            while "group" in descendants: descendants.remove("group") 
-            while "group" in ancestors: ancestors.remove("group") 
+            while "group" in descendants: descendants.remove("group")
+            while "group" in ancestors: ancestors.remove("group")
             if use_args:
                 both_ways = arguments['--add-all-nodes']
             if both_ways:
@@ -121,12 +124,10 @@ def search_tree_for_keyword(newick_file, keyword, use_args=True, both_ways=False
                     print(d)
             for a in ancestors:
                 print(a)
-
             break
-    if not use_args:
-        return ancestors, descendants
+        if not use_args:
+            return ancestors, descendants
     return
-
 
 
 def print_tree(newick_file):
@@ -136,7 +137,10 @@ def print_tree(newick_file):
 
 def main():
     if arguments["--print-all-nodes"]:
-        walk_on_tree(arguments['<newick>'])
+        parsed_tree=walk_on_tree(arguments['<newick>'])
+        for d in parsed_tree:
+            print(d)
+
     elif arguments["--print-ascii-tree"]:
         print_tree(arguments['<newick>'])
     else:
@@ -144,5 +148,5 @@ def main():
 
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='0.98')
+    arguments = docopt(__doc__, version='0.99')
     main()

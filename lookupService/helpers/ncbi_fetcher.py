@@ -24,9 +24,9 @@ def get_fasta(accession_num):
         baseURL + 'efetch.fcgi?db=Nucleotide&query_key=' + query_key +
         '&WebEnv=' + web_env + '&rettype=fasta&retmode=text'
     )
-    if len(response) > config.MAX_NCBI_GENOME_SIZE:
-        raise PermissionError('Genome exceeds the maximum size')
     decoded = response.data.decode('utf-8')
+    if len(decoded) > config.MAX_NCBI_GENOME_SIZE:
+        raise PermissionError('Genome exceeds the maximum size')
     if 'error' in decoded:
         raise RuntimeError
     print(decoded)
