@@ -1,3 +1,12 @@
+## [0.2.11.2] - 2021-12-29
+### Added
+- Family and node printing.
+- Exception handling for wrong model selection.
+- Exception handling for single family mode.
+### Changed
+- New header for GFFs.
+- Snakemake workflow update to better handle output files.
+
 ## [0.2.11.1] - 2021-09-29
 ### Changed
 - Bioconda installation problem is fixed by updating requirements.txt.
