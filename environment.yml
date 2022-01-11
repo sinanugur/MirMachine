@@ -10,7 +10,7 @@ dependencies:
   - python=3.6.10
   - samtools=1.6
   - infernal=1.1.2
-  - moreutils=0.5.7
+  - moreutils=0.65
   - coreutils=8.31 
   - pip:
     - appdirs==1.4.3
