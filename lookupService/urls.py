@@ -15,5 +15,5 @@ urlpatterns = [
 ]
 
 websocket_patterns = [
-    path('ws/job/<str:_id>', MonitorConsumer.as_asgi())
+    path('ws/job/<str:species>', MonitorConsumer.as_asgi())
 ]

@@ -1,18 +1,16 @@
 import os
 import subprocess
-import math
 from shlex import quote
 from pathlib import Path
 
 from engine.scripts.mirmachine_tree_parser import search_tree_for_keyword
-from lookupService.helpers.socket_helper import announce_status_change
+from lookupService.helpers.socket_helper import announce_changed_model
 from MirMachineWebapp import user_config as config
 
 base_dir = os.path.dirname(__file__)
 mirmachine_path = os.path.join(base_dir, '../mirmachine/')
 meta_directory = os.path.join(mirmachine_path, 'meta/')
 workflows_dir = os.path.join(mirmachine_path, 'workflows/')
-
 
 def run_mirmachine(job_object, stop):
     Path("engine/data/yamls").mkdir(parents=True, exist_ok=True)
@@ -60,12 +58,15 @@ def run_mirmachine(job_object, stop):
     try:
         validate_inputs(job_object.species, job_object.model_type)
     except:
-        print('Wrong model type selected, retry with combined type')
+        job_object.model_type = 'combined'
+        job_object.save()
+        announce_changed_model(job_object)
+
 
     snakemake_argument="snakemake -s engine/mirmachine/workflows/mirmachine_search.smk -d {workdir} " \
-                       "--rerun-incomplete --config meta_directory={meta_directory} model={model} " \
+                       "--config meta_directory={meta_directory} model={model} " \
                        "mirmachine_path={mirmachine_path} --configfile engine/data/yamls/{species}.yaml " \
-                       "--cores {cpu}".format(
+                       "--cores {cpu} --log-handler-script lookupService/helpers/socket_helper.py".format(
         species=quote(job_object.species),
         cpu=config.SNAKEMAKE_CPU_NUM,
         workdir='engine/',
@@ -73,34 +74,13 @@ def run_mirmachine(job_object, stop):
         meta_directory=meta_directory,
         mirmachine_path=mirmachine_path)
 
-    out = subprocess.Popen(snakemake_argument, shell=True,
-                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    i = 0
-    interval = 1
-    found_job_size = False
+    out = subprocess.Popen(snakemake_argument, shell=True)
+
     while out.poll() is None:
         if stop():
             print('JOB CANCELLED')
-            out.stdout.close()
             out.kill()
             raise RuntimeError('Interrupted, restarting thread')
-        output = out.stderr.readline()
-        if config.PRINT_SNAKEMAKE_OUTPUT:
-            print(output, end='')
-        if output.find('steps') > 0:
-            if not found_job_size:
-                n_steps = output.split(' ')[2]
-                interval = math.ceil(int(n_steps)/config.JOB_STATUS_UPDATE_FREQ)
-                found_job_size = True
-            if i % interval == 0:
-                announce_status_change(job_object, progress=output)
-            i += 1
-        out.stderr.flush()
-    out.stdout.close()
-    # snakemake('engine/mirmachine/workflows/mirmachine_search.smk', workdir='engine/',
-    #           config={'meta_directory': meta_directory, 'model': job_object.model_type,
-    #                   'mirmachine_path': mirmachine_path},
-    #           configfiles=['engine/data/yamls/{species}.yaml'.format(species=job_object.species)], cores=4)
     return out, job_object
 
 

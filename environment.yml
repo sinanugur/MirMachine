@@ -8,7 +8,7 @@ dependencies:
   - coreutils=8.31
   - django=3.2.6
   - gawk=5.0.1
-  - moreutils=0.65
+  - moreutils==0.65
   - pip=20.0.2
   - python=3.8
   - samtools=1.9
@@ -45,8 +45,9 @@ dependencies:
     - pyyaml==5.3.1
     - ratelimiter==1.2.0.post0
     - smmap==3.0.1
-    - snakemake==5.11.1
+    - snakemake==6.13.1
     - toposort==1.5
     - traitlets==4.3.3
+    - websocket-client==1.2.3
     - wrapt==1.12.1
     - zipp==3.1.0

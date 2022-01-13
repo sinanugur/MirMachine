@@ -30,7 +30,7 @@ const Job = () => {
                 setSocketStatus(data.status)
                 setCompletedTime(data.completed)
                 if(data.status !== 'halted' && data.status !== 'completed')
-                    setSocket(connectToSocket(jobID, setSocketStatus,
+                    setSocket(connectToSocket(data.species, setSocketStatus,
                         setSocketProgress, setQueueNumber, setInitTime, setCompletedTime))
                 else if(data.status !== 'queued'){
                     setElapsed(getTimeConsumed(data.initiated, data.completed))
