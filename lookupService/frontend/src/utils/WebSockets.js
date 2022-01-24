@@ -1,6 +1,9 @@
+import { baseURL } from '../config'
+
+const wsURL = 'ws://' + baseURL + '/ws'
 
 export const connectToSocket = (species, statusHook, progressHook, queueHook, initiationHook, completedHook) => {
-    const socket = new WebSocket(`ws://127.0.0.1:8000/ws/job/${species}`)
+    const socket = new WebSocket(wsURL + `/job/${species}`)
     // On open connection
     socket.addEventListener('open', (event) => {
         socket.send('request status')

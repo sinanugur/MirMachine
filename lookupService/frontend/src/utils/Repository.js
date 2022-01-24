@@ -1,6 +1,8 @@
 import { JobFetchError, JobPostError, ResultFetchError } from './Errors'
 import { validFile } from './Validators'
-const baseURL = 'http://127.0.0.1:8000/api/'
+import { baseURL } from '../config'
+
+const apiURL = 'http://' + baseURL + '/api/'
 
 export const submitJob = async (data, file) => {
     const csrftoken = getCookie('csrftoken')
@@ -18,7 +20,7 @@ export const submitJob = async (data, file) => {
 
 
 
-    const response = await fetch(baseURL + 'jobs/',{
+    const response = await fetch(apiURL + 'jobs/',{
         method: 'POST',
         mode: 'same-origin',
         cache: 'no-cache',
@@ -50,7 +52,7 @@ export const submitJob = async (data, file) => {
 
 export const fetchJob = async (id) => {
     const csrftoken = getCookie('csrftoken')
-    const response = await fetch(baseURL + `job/${id}`, {
+    const response = await fetch(apiURL + `job/${id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -75,7 +77,7 @@ export const fetchJob = async (id) => {
 
 export const cancelJob = async (_id) => {
     const csrftoken = getCookie('csrftoken')
-    const response = await fetch(baseURL + 'jobs/?id=' + _id,{
+    const response = await fetch(apiURL + 'jobs/?id=' + _id,{
         method: 'DELETE',
         mode: 'same-origin',
         cache: 'no-cache',
@@ -92,7 +94,7 @@ export const cancelJob = async (_id) => {
 
 export const getResults = async (_id) => {
     const csrftoken = getCookie('csrftoken')
-    const response = await fetch(baseURL + `result/${_id}`, {
+    const response = await fetch(apiURL + `result/${_id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -110,7 +112,7 @@ export const getResults = async (_id) => {
 
 export const fetchTree = async () => {
     const csrftoken = getCookie('csrftoken')
-    const response = await fetch(baseURL + `tree/`, {
+    const response = await fetch(apiURL + `tree/`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -144,7 +146,7 @@ export const processTreeResponse = (response) => {
 
 export const getFamilies = async () => {
     const csrftoken = getCookie('csrftoken')
-    const response = await fetch(baseURL + `families/`, {
+    const response = await fetch(apiURL + `families/`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -157,7 +159,7 @@ export const getFamilies = async () => {
 export const getFamiliesIncludedInSearch = async (node, bothWays, singleNode) => {
     const csrftoken = getCookie('csrftoken')
     const params = `?node=${node}&both_ways=${bothWays}&single_node=${singleNode}`
-    const response = await fetch(baseURL + `relations/${params}`, {
+    const response = await fetch(apiURL + `relations/${params}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -169,7 +171,7 @@ export const getFamiliesIncludedInSearch = async (node, bothWays, singleNode) =>
 
 export const checkIfNewUser = async () => {
     const csrftoken = getCookie('csrftoken')
-    const response = await fetch(baseURL + 'cookiePrompt/', {
+    const response = await fetch(apiURL + 'cookiePrompt/', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getResults } from '../../utils/Repository'
 import { parseGFF } from '../../utils/ResultParser'
+import { baseURL } from '../../config'
 
 const Result = () => {
     const { jobID } = useParams()
@@ -102,7 +103,7 @@ const Result = () => {
                     </tbody>
                 </table>
                 <a className={'button button--action'}
-                   href={`http://localhost:8000/api/download/${jobID}`} download={'results.zip'}>
+                   href={'http://' + baseURL + `/api/download/${jobID}`} download={'results.zip'}>
                     Download raw result
                 </a>
                 <span>{/*results.fasta*/}</span>
