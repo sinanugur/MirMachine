@@ -1,7 +1,7 @@
 import hashlib
 import json
 from lookupService.serializers import JobSerializer
-from lookupService.helpers.ncbi_fetcher import get_fasta
+from lookupService.helpers.ncbi_fetcher import fetch_from_ftp
 from lookupService.models import Job
 
 
@@ -24,13 +24,13 @@ def process_form_data(request):
                 updated_data['species'], i = extract_fasta_header(lines)
                 break
     elif serializer.initial_data['mode'] == 'accNum':
-        data = get_fasta(serializer.initial_data['data'])
-        data = data.splitlines()
-        i = 1
-        if serializer.initial_data['species'] == '':
-            updated_data['species'], i = extract_fasta_header(data)
-        updated_data['data'] = ''.join(data[i:])
-    updated_data['hash'] = hashlib.md5(serializer.initial_data['data'].encode()).hexdigest()
+        data, _hash = fetch_from_ftp(serializer.initial_data['data'])
+        if data == '':
+            raise RuntimeError
+        updated_data['data'] = data
+        updated_data['hash'] = _hash
+    if 'hash' not in updated_data:
+        updated_data['hash'] = hashlib.md5(serializer.initial_data['data'].encode()).hexdigest()
     updated_data['species'] = serializer.initial_data['species'].replace(' ', '_')
     updated_data['species'] = provide_unique_species(updated_data['species'])
     if updated_data['species'] == '':

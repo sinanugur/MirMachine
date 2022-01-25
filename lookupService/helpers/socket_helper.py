@@ -62,6 +62,8 @@ def log_handler(msg):
         if msg.get('level') == 'job_info':
             print(msg)
             wildcards = msg['wildcards']
+            if 'species' not in wildcards:
+                return
             species = wildcards['species']
             current_job = species
     if msg.get('level') == 'progress':

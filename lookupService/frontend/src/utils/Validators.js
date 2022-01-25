@@ -10,7 +10,7 @@ export const validData = (data, file) => {
 
 const validGenome = (genome) => {
     const lines = genome.split('\n')
-    const legalChars = 'agtcun'
+    const legalChars = 'agtcun-'
     for(let i = 0; i<lines.length; i++){
         let line = lines[i]
         if(line.startsWith('>') || line.startsWith(';')) continue

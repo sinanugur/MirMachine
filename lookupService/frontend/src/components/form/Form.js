@@ -135,7 +135,7 @@ export const SearchForm = () => {
                     <input
                         type={inputMode === 'file' ? 'file' : 'text'}
                         placeholder={`Input ${inputMode === 'link' ? 'link' : 'accession number'} here`}
-                        name={'sequence'} accept={'.txt,.fa,.fasta'}
+                        name={'sequence'} accept={'.txt,.fa,.fasta,.fas'}
                         id={'sequence'}
                     />
                 }
