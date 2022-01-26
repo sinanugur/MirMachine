@@ -2,6 +2,7 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from rest_framework import serializers
 from websocket import create_connection
+from MirMachineWebapp.user_config import PROGRESS_BROADCAST_PORT
 import math
 
 
@@ -20,7 +21,7 @@ def announce_changed_model(job_object):
 
 
 def announce_progress(species, progress):
-    ws = create_connection('ws://127.0.0.1:8000/ws/job/{species}'.format(species=species))
+    ws = create_connection('ws://127.0.0.1:{port}/ws/job/{species}'.format(species=species, port=PROGRESS_BROADCAST_PORT))
     ws.send(progress)
     ws.close()
 
@@ -65,12 +66,15 @@ def log_handler(msg):
             if 'species' not in wildcards:
                 return
             species = wildcards['species']
+            if species is None:
+                return
             current_job = species
-    if msg.get('level') == 'progress':
-        print(msg)
-        cur = msg['done']
-        total = msg['total']
-        interval = math.ceil(total/20)
-        if cur % interval == 0:
-            progress = '{cur} of {total} steps ({percent}%) done'.format(cur=cur, total=total, percent=int((cur/total)*100))
-            announce_progress(current_job, progress)
+    else:
+        if msg.get('level') == 'progress':
+            print(msg)
+            cur = msg['done']
+            total = msg['total']
+            interval = math.ceil(total/20)
+            if cur % interval == 0:
+                progress = '{cur} of {total} steps ({percent}%) done'.format(cur=cur, total=total, percent=int((cur/total)*100))
+                announce_progress(current_job, progress)

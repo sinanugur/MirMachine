@@ -125,8 +125,8 @@ def search_tree_for_keyword(newick_file, keyword, use_args=True, both_ways=False
             for a in ancestors:
                 print(a)
             break
-        if not use_args:
-            return ancestors, descendants
+    if not use_args:
+        return ancestors, descendants
     return
 
 

@@ -58,9 +58,14 @@ def delete_job_data(job_object):
         if os.path.exists(file):
             os.remove(file)
     if job_object.mode == 'accNum':
-        file = os.path.join('media/uploads', job_object.data + '.fa')
+        input_dir = 'media/uploads'
+        file = os.path.join(input_dir, job_object.data + '.fa')
         if os.path.exists(file):
             os.remove(file)
+        file = os.path.join(input_dir, job_object.data + '.fa.fai')
+        if os.path.exists(file):
+            os.remove(file)
+
 
 
 def delete_expired_jobs():

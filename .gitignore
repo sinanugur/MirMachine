@@ -15,6 +15,7 @@ media/*
 *.py[cod]
 *.egg-info/
 *.egg
+*.log
 .DS_Store
 
 # dependencies
