@@ -91,14 +91,25 @@ def prune_tree(nodes, edges):
     # remove edges to leaf nodes
     filtered_edges = [x for x in edges if x.get('to_node') not in nodes_to_remove]
 
-    # second pass to remove artificial nodes that now are leaf nodes
-    nodes_to_remove = []
+    # multiple passes to remove artificial nodes that now are leaf nodes
     artificial_nodes = [x for x in filtered_nodes if x.get('id').startswith('Artificial-node')]
-    for node in artificial_nodes:
-        outgoing = [e for e in filtered_edges if e.get('from_node') == node.get('id')]
-        if len(outgoing) == 0:
-            nodes_to_remove.append(node.get('id'))
-    filtered_edges = [x for x in filtered_edges if x.get('to_node') not in nodes_to_remove]
+    done = False
+    nodes_to_remove = []
+    while not done:
+        old_to_remove = nodes_to_remove.copy()
+        nodes_to_remove = prune_artificial_leaves(artificial_nodes, filtered_edges, nodes_to_remove.copy())
+        if old_to_remove == nodes_to_remove:
+            done = True
+        filtered_edges = [x for x in filtered_edges if x.get('to_node') not in nodes_to_remove]
     filtered_nodes = [x for x in filtered_nodes if x not in nodes_to_remove]
     return filtered_nodes, filtered_edges
 
+
+def prune_artificial_leaves(artificial_nodes, filtered_edges, nodes_to_remove):
+    for node in artificial_nodes:
+        if node.get('id') in nodes_to_remove:
+            continue
+        outgoing = [e for e in filtered_edges if e.get('from_node') == node.get('id')]
+        if len(outgoing) == 0:
+            nodes_to_remove.append(node.get('id'))
+    return nodes_to_remove

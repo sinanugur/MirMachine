@@ -88,9 +88,9 @@ class PostJob(APIView):
             global stop_flag
             global job_thread
             if job.status == "ongoing" and job_thread is not None:
-                job.delete()
                 stop_flag = True
                 job_thread.join()
+                delete_job_data(job)
                 stop_flag = False
                 job_thread = threading.Thread(target=schedule_job, args=(lambda: stop_flag,))
                 job_thread.start()

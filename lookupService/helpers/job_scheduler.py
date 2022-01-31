@@ -11,7 +11,7 @@ def schedule_job(stop):
     # check if already job running
     if ongoing.exists():
         return
-    queued = Job.objects.filter(status='queued').order_by('initiated')
+    queued = Job.objects.filter(status='queued').order_by('submitted')
     # check if queue is empty
     if not queued.exists():
         if config.AUTO_CLEANUP_TEMP_FILES:

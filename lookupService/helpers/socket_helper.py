@@ -2,7 +2,6 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from rest_framework import serializers
 from websocket import create_connection
-from MirMachineWebapp.user_config import PROGRESS_BROADCAST_PORT
 import math
 
 
@@ -21,7 +20,7 @@ def announce_changed_model(job_object):
 
 
 def announce_progress(species, progress):
-    ws = create_connection('ws://127.0.0.1:{port}/ws/job/{species}'.format(species=species, port=PROGRESS_BROADCAST_PORT))
+    ws = create_connection('ws://127.0.0.1:8000/ws/job/{species}'.format(species=species))
     ws.send(progress)
     ws.close()
 
