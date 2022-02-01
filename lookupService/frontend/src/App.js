@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AboutPage } from './components/about/About'
 import { SearchForm } from './components/form/Form'
+import NotFound from './components/NotFound'
 import Job from './components/job/JobPage'
 import Header from './components/frame/Header'
 import Footer from './components/frame/Footer'
@@ -43,6 +44,7 @@ const App = () => {
                 <Route path={'/retrieve'} component={Retrieval}/>
                 <Route path={'/tree'} component={Tree}/>
                 <Route path={'/result/:jobID'} component={Result}/>
+                <Route component={NotFound}/>
             </Switch>
         </main>
         <Footer/>
