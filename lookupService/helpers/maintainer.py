@@ -3,6 +3,7 @@ import os
 from django.utils import timezone
 from ..models import Job
 from MirMachineWebapp import user_config as config
+from .result_parser import get_result_paths
 
 
 def clean_up_temporary_files():
@@ -34,18 +35,14 @@ def delete_job_data(job_object):
     species_tag = job_object.species
     print('Deleting results and DB entry for job with id {}'.format(str(_id)))
     job_object.delete()
-    result_dir = 'engine/results/predictions'
+    paths, result_dir = get_result_paths(species_tag, True)
 
-    file = os.path.join(result_dir, 'fasta/{species}.PRE.fasta'.format(species=species_tag))
-    if os.path.exists(file):
-        os.remove(file)
-    file = os.path.join(result_dir, 'filtered_gff/{species}.PRE.gff'.format(species=species_tag))
-    if os.path.exists(file):
-        os.remove(file)
-    file = os.path.join(result_dir, 'gff/{species}.PRE.gff'.format(species=species_tag))
-    if os.path.exists(file):
-        os.remove(file)
-    file = os.path.join(result_dir, 'heatmap/{species}.heatmap.tsv'.format(species=species_tag))
+    for path in paths:
+        file = os.path.join(result_dir, path)
+        if os.path.exists(file):
+            os.remove(file)
+
+    file = os.path.join(result_dir, '{species}_meta.txt'.format(species=species_tag))
     if os.path.exists(file):
         os.remove(file)
     # Delete input files

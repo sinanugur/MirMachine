@@ -1,6 +1,7 @@
 import os
 import zipfile
 from django.http import HttpResponse
+from ..models import Job
 
 
 def get_and_parse_results(tag):
@@ -30,6 +31,8 @@ def get_result_paths(tag, get_result_dir_and_relative=False):
 def zip_results(tag):
     file_paths, result_dir = get_result_paths(tag, get_result_dir_and_relative=True)
     file_paths.append('gff/{}.PRE.gff'.format(tag))
+    generate_meta_data(tag)
+    file_paths.append('{}_meta.txt'.format(tag))
     os.chdir(result_dir)
     response = HttpResponse(content_type='application/zip')
     zip_file = zipfile.ZipFile(response, 'w')
@@ -38,3 +41,15 @@ def zip_results(tag):
     response['Content-Disposition'] = 'attachment; filename={}_results.zip'.format(tag)
     zip_file.close()
     return response
+
+
+def generate_meta_data(tag):
+    job_object = Job.objects.get(species=tag)
+    base_dir = os.path.dirname(__file__)
+    meta_file_path = os.path.join(base_dir, '../../engine/results/predictions/{tag}_meta.txt'.format(tag=tag))
+    meta_file = open(meta_file_path, 'x')
+    parameters = {'id': 'ID', 'submitted': 'Submitted', 'initiated': 'Initiated', 'completed': 'Completed', 'hash': 'Dataset hash', 'species': 'Species', 'model_type': 'Model Type', 'node': 'Node', 'single_fam_mode': 'Single Family Mode', 'single_node': 'Single node'}
+    for _key in parameters.keys():
+        param = getattr(job_object, _key)
+        meta_file.write(parameters[_key] + ':\t' + str(param) + '\n')
+    meta_file.close()
