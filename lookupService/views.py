@@ -202,3 +202,12 @@ def check_if_new_client(request):
         else:
             response = {'message': 'old_user'}
             return JsonResponse(response, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def check_if_user_can_post(request):
+    if request.method == 'GET':
+        cookie = request.COOKIES['csrftoken']
+        ability = user_can_post(cookie)
+        response = {'message': ability}
+        return JsonResponse(response, status=status.HTTP_200_OK)

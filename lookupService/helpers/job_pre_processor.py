@@ -10,13 +10,13 @@ def process_form_data(request):
     updated_data = {}
     updated_data.update(serializer.initial_data)
     updated_data['user_cookie'] = request.COOKIES['csrftoken']
-    forbidden = ['.', '/', '\\']
+    forbidden = ['.', '/', '\\', '|']
     if any(x in updated_data['species'] for x in forbidden):
         raise NameError
     if serializer.initial_data['mode'] == 'file':
         file = request.FILES.get('file')
         updated_data['data_file'] = file
-        _list = []
+        updated_data['hash'] = hashlib.md5(file)
         if serializer.initial_data['species'] == '':
             for chunk in file.chunks():
                 decoded = chunk.decode('utf-8')

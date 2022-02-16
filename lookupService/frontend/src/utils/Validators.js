@@ -26,6 +26,7 @@ const validSpecies = (species) => {
     if(species.includes('/')) return false
     else if(species.includes('.')) return false
     else if(species.includes('\\')) return false
+    else if(species.includes('|')) return false
     return true
 }
 

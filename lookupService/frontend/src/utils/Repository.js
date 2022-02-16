@@ -6,7 +6,10 @@ const apiURL = 'http://' + baseURL + '/api/'
 
 export const submitJob = async (data, file) => {
     const csrftoken = getCookie('csrftoken')
-
+    const userAllowed = await checkIfUserCanPost(csrftoken)
+    if(!userAllowed.message){
+        throw new JobPostError('Please cancel ongoing or queued jobs before submitting a new one')
+    }
     let formData = new FormData()
     const jsonString = JSON.stringify(data,null, '    ')
     formData.append('data', jsonString)
@@ -176,6 +179,16 @@ export const checkIfNewUser = async () => {
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrftoken,
+        },
+    })
+    return response.json()
+}
+
+const checkIfUserCanPost = async (cookie) => {
+    const response = await fetch(apiURL + 'userCanPost/',{
+        method: 'GET',
+        headers: {
+            'X-CSRFToken': cookie,
         },
     })
     return response.json()
