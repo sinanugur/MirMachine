@@ -124,13 +124,16 @@ export const SearchForm = () => {
                 <Spinner className='spinner' large={true}/>
                 <p>Submitting... Please wait</p></span> :
             <>
+            <span className={'section-text'}>
+                <h3 className={'section-title'}>Genome</h3>
+            <span className={'section-wrapper'}>
             <span className={'input-cell'}>
                     <span className={'input-info'}>
                         <label className={'label'} htmlFor={'sequence'}>Sequence:</label>
                         <HelpText text={Texts[0]}/>
                     </span>
                 { inputMode === 'text' ?
-                    <textarea id={'sequence'} name={'sequence'} rows={2}
+                    <textarea id={'sequence'} name={'sequence'} rows={4} cols={40}
                               placeholder={'Input sequence here'}/> :
                     <input
                         type={inputMode === 'file' ? 'file' : 'text'}
@@ -151,6 +154,11 @@ export const SearchForm = () => {
                         <option value={'accNum'}>GenBank accession number</option>
                     </select>
                 </span>
+                </span>
+                </span>
+                <span className={'section-text'}>
+                    <h3 className={'section-title'}>Species <br/>info</h3>
+                <span className={'section-wrapper'}>
             <div className={'input-row'}>
                     <span className={'input-cell'}>
                         <span className={'input-info'}>
@@ -176,11 +184,16 @@ export const SearchForm = () => {
                         </span>
                     </span>
             </div>
+            </span>
+            </span>
             <span className={'button button--action'} id={'submit'} onClick={() => {
                 handleSubmit()
             }}>
                     Run MirMachine <ForstorrelsesglassIkon className={'icon icon--run'}/>
             </span>
+            <span className={'section-text'}>
+                <h3 className={'section-title'}>Options</h3>
+            <span className={'section-wrapper'}>
             <span className={'input-row'}>
                 <span className={'button button--default button__bigger'}
                       onClick={() => {setOptionalActive(!optionalActive)}}>
@@ -195,6 +208,8 @@ export const SearchForm = () => {
                         onClick={() => {addDemoInput()}}>
                     Demo parameters
                 </span>
+            </span>
+            </span>
             </span>
             <OptionalSection
                 optionalActive={optionalActive}
@@ -213,6 +228,13 @@ export const SearchForm = () => {
                 showIncluded={showIncluded}
             />
             </>}
+            <span className={'section-text'}>
+                <h3 className={'section-title'}>Cite us</h3>
+            <span className={'section-wrapper'}>
+                <p>Accurate microRNA annotation of animal genomes using covariance models of curated microRNA complements
+                Umu S, Trondsen H, Buschmann T, Rounge T, Peterson KJ, Fromm B*; in prep.</p>
+            </span>
+            </span>
             {redirect && <Redirect to={`/job/${redirect}`}/>}
         </form>
     )

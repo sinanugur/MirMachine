@@ -1,4 +1,4 @@
-@header-height: 50px;
+@header-height: 65px;
 
 .App {
   text-align: center;
@@ -37,7 +37,7 @@
   height: @header-height;
   background-color: @main-green;
   bottom: 0;
-  position: absolute;
+  position: sticky;
 }
 
 .no-margins{
@@ -52,13 +52,34 @@
 }
 
 .content{
-  margin: 0;
+  margin: 20px;
   color: white;
+  min-height: calc(100vh - @header-height);
 }
 
 .limit-width{
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
+}
+
+.section-wrapper{
+  border: whitesmoke dashed 2px;
+  padding: 5px;
+  width: 75%;
+  margin: 15px;
+}
+
+.section-text{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.section-title{
+  position: absolute;
+  left: 0;
 }
 
 .input-row {
@@ -81,8 +102,10 @@
   display: flex;
   width: 100%;
   flex-flow: row nowrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: end;
+  position: relative;
+
 }
 
 .same-line {
@@ -205,6 +228,7 @@
 
   &--header{
     background-color: @main-green;
+    height: 50%;
     &:hover{
       background-color: @lighter-green;
     }
@@ -217,6 +241,8 @@
     background-color: @main-green;
     border-color: @darker-green;
     font-size: 1.3em;
+    width: 200px;
+    height: 35px;
     &:hover{
       background-color: @lighter-green;
     }
@@ -345,4 +371,8 @@
   margin-right: 5px;
   color: white;
   cursor: pointer;
+}
+
+.mirmachine-logo{
+  height: calc(@header-height - 10px);
 }
