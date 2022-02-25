@@ -10,9 +10,6 @@ def process_form_data(request):
     updated_data = {}
     updated_data.update(serializer.initial_data)
     updated_data['user_cookie'] = request.COOKIES['csrftoken']
-    forbidden = ['.', '/', '\\', '|']
-    if any(x in updated_data['species'] for x in forbidden):
-        raise NameError
     if serializer.initial_data['mode'] == 'file':
         file = request.FILES.get('file')
         updated_data['data_file'] = file
@@ -33,6 +30,9 @@ def process_form_data(request):
         updated_data['hash'] = hashlib.md5(serializer.initial_data['data'].encode()).hexdigest()
     updated_data['species'] = serializer.initial_data['species'].replace(' ', '_')
     updated_data['species'] = provide_unique_species(updated_data['species'])
+    forbidden = ['.', '/', '\\', '|']
+    if any(x in updated_data['species'] for x in forbidden):
+        raise NameError
     if updated_data['species'] == '':
         del updated_data['species']
     return JobSerializer(data=updated_data)
