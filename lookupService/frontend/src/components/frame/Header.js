@@ -5,7 +5,7 @@ const Header = (props) => {
     return(
         <header className="App-header">
             <div className={'header-content'}>
-                <img className={'default-margins mirmachine-logo'} src={'/static/assets/mirmachine-logo.png'}/>
+                <img className={'mirmachine-logo'} src={'/static/assets/mirm_cropped.png'} alt={'mirmachine-logo'}/>
                 <Link to='/' className={`button button--header ${props.activeHeader==='/' ? 'button--header__active' : ''}`}>
                     Lookup Service
                 </Link>

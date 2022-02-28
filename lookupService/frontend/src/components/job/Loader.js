@@ -18,7 +18,7 @@ const Loader = (props) => {
     } else {
         return(
             <div className={'loading-container'}>
-                <img src={'/static/assets/mir.svg'} alt='Mir logo' className={'loader'}/>
+                <img src={'/static/assets/mirm_logo.png'} alt='Mir logo' className={'loader'}/>
                 <p>Working...</p>
             </div>
         )
