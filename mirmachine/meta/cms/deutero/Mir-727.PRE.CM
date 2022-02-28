@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.2 | July 2016]
+INFERNAL1/a [1.1.4 | Dec 2020]
 NAME     Mir-727.PRE
 STATES   205
 NODES    47
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Tue Apr  6 18:32:28 2021
+DATE     Tue Feb 15 02:07:52 2022
 COM      [1] cmbuild -F analyses/cms/Mir-727.PRE.CM analyses/secondary_structures/Mir-727.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-727.PRE.CM
 PBEGIN   0.05
@@ -282,7 +282,7 @@ CM
                                              [ END    46 ]      -      - - - - -
      E   204   203 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.1b3 | July 2016]
+HMMER3/f [3.3.2 | Nov 2020]
 NAME  Mir-727.PRE
 LENG  67
 MAXL  151
@@ -292,7 +292,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Tue Apr  6 18:32:28 2021
+DATE  Tue Feb 15 02:07:52 2022
 COM   [1] cmbuild -F analyses/cms/Mir-727.PRE.CM analyses/secondary_structures/Mir-727.PRE.sto
 NSEQ  6
 EFFN  2.797852

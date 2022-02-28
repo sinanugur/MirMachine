@@ -7,8 +7,8 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.2.11.2"
-MDBver="2.1"
+__version__="0.2.11.2022"
+MDBver="2.1(2022)"
 
 __licence__="""
 MIT License

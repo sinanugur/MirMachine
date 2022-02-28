@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.2 | July 2016]
+INFERNAL1/a [1.1.4 | Dec 2020]
 NAME     Mir-1010.PRE
 STATES   223
 NODES    47
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Mon Apr  5 04:11:40 2021
+DATE     Sat Jan 29 04:49:35 2022
 COM      [1] cmbuild -F analyses/cms/Mir-1010.PRE.CM analyses/secondary_structures/Mir-1010.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-1010.PRE.CM
 PBEGIN   0.05
@@ -300,7 +300,7 @@ CM
                                              [ END    46 ]      -      - - - - -
      E   222   221 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.1b3 | July 2016]
+HMMER3/f [3.3.2 | Nov 2020]
 NAME  Mir-1010.PRE
 LENG  73
 MAXL  171
@@ -310,7 +310,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Mon Apr  5 04:11:40 2021
+DATE  Sat Jan 29 04:49:35 2022
 COM   [1] cmbuild -F analyses/cms/Mir-1010.PRE.CM analyses/secondary_structures/Mir-1010.PRE.sto
 NSEQ  1
 EFFN  0.894531

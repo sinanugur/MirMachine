@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.2 | July 2016]
+INFERNAL1/a [1.1.4 | Dec 2020]
 NAME     Mir-2051.PRE
 STATES   172
 NODES    39
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Mon Apr  5 13:51:15 2021
+DATE     Sat Jan 29 09:41:21 2022
 COM      [1] cmbuild -F analyses/cms/Mir-2051.PRE.CM analyses/secondary_structures/Mir-2051.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-2051.PRE.CM
 PBEGIN   0.05
@@ -241,7 +241,7 @@ CM
                                              [ END    38 ]      -      - - - - -
      E   171   170 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.1b3 | July 2016]
+HMMER3/f [3.3.2 | Nov 2020]
 NAME  Mir-2051.PRE
 LENG  56
 MAXL  147
@@ -251,7 +251,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Mon Apr  5 13:51:15 2021
+DATE  Sat Jan 29 09:41:21 2022
 COM   [1] cmbuild -F analyses/cms/Mir-2051.PRE.CM analyses/secondary_structures/Mir-2051.PRE.sto
 NSEQ  1
 EFFN  0.832031

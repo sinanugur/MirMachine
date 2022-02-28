@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.2 | July 2016]
+INFERNAL1/a [1.1.4 | Dec 2020]
 NAME     Mir-7180.PRE
 STATES   178
 NODES    41
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Mon Apr  5 12:24:24 2021
+DATE     Sat Jan 29 03:38:58 2022
 COM      [1] cmbuild -F analyses/cms/Mir-7180.PRE.CM analyses/secondary_structures/Mir-7180.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-7180.PRE.CM
 PBEGIN   0.05
@@ -21,7 +21,7 @@ N3OMEGA  1.52588e-05
 ELSELF   -0.08926734
 NSEQ     1
 EFFN     1.000000
-CKSUM    293664859
+CKSUM    2848280421
 NULL     0.000  0.000  0.000  0.000 
 EFP7GF   -1.7510 0.76569
 ECMLC    0.65668    -4.97014     3.66760     1600000      348814  0.003440
@@ -249,7 +249,7 @@ CM
                                              [ END    40 ]      -      - - - - -
      E   177   176 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.1b3 | July 2016]
+HMMER3/f [3.3.2 | Nov 2020]
 NAME  Mir-7180.PRE
 LENG  58
 MAXL  150
@@ -259,11 +259,11 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Mon Apr  5 12:24:24 2021
+DATE  Sat Jan 29 03:38:58 2022
 COM   [1] cmbuild -F analyses/cms/Mir-7180.PRE.CM analyses/secondary_structures/Mir-7180.PRE.sto
 NSEQ  1
 EFFN  0.730469
-CKSUM 293664859
+CKSUM 2848280421
 STATS LOCAL MSV       -8.8498  0.76569
 STATS LOCAL VITERBI  -10.9403  0.76569
 STATS LOCAL FORWARD   -2.0695  0.76569
