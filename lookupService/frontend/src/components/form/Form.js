@@ -227,14 +227,15 @@ export const SearchForm = () => {
                 includedFamilies={includedFamilies}
                 showIncluded={showIncluded}
             />
-            </>}
             <span className={'section-text'}>
                 <h3 className={'section-title'}>Cite us</h3>
-            <span className={'section-wrapper'}>
-                <p>Accurate microRNA annotation of animal genomes using covariance models of curated microRNA complements
-                Umu S, Trondsen H, Buschmann T, Rounge T, Peterson KJ, Fromm B*; in prep.</p>
+                <span className={'section-wrapper'}>
+                    <p>Accurate microRNA annotation of animal genomes using covariance models of curated microRNA complements
+                    Umu S, Trondsen H, Buschmann T, Rounge T, Peterson KJ, Fromm B*; in prep.</p>
             </span>
             </span>
+            </>}
+
             {redirect && <Redirect to={`/job/${redirect}`}/>}
         </form>
     )

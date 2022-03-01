@@ -4,7 +4,7 @@ import { Texts } from '../../utils/HelpTexts'
 
 const OptionalSection = (props) => {
     return(
-        <div className={`optional-section optional-section__${props.optionalActive ? 'active' : 'passive'}`}>
+        <div className={`index5 optional-section optional-section__${props.optionalActive ? 'active' : 'passive'}`}>
             <span className={'default-margins pane-heading'}>Optional parameters</span>
                     <span className={'input-row'}>
                         <span className={'input-cell'}>

@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.2 | July 2016]
+INFERNAL1/a [1.1.4 | Dec 2020]
 NAME     Mir-2328.PRE
 STATES   190
 NODES    43
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Wed Apr  7 04:13:30 2021
+DATE     Mon Feb 14 16:33:30 2022
 COM      [1] cmbuild -F analyses/cms/Mir-2328.PRE.CM analyses/secondary_structures/Mir-2328.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-2328.PRE.CM
 PBEGIN   0.05
@@ -263,7 +263,7 @@ CM
                                              [ END    42 ]      -      - - - - -
      E   189   188 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.1b3 | July 2016]
+HMMER3/f [3.3.2 | Nov 2020]
 NAME  Mir-2328.PRE
 LENG  62
 MAXL  155
@@ -273,7 +273,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Wed Apr  7 04:13:30 2021
+DATE  Mon Feb 14 16:33:30 2022
 COM   [1] cmbuild -F analyses/cms/Mir-2328.PRE.CM analyses/secondary_structures/Mir-2328.PRE.sto
 NSEQ  1
 EFFN  0.746094

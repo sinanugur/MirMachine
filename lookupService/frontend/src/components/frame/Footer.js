@@ -7,7 +7,7 @@ const Footer = () => {
             <a href={'https://twitter.com/bastianfromm'} target={'_blank'} className={'default-margins uio-container'}>
                 <img src={'/static/assets/fromm-lab.png'} alt={'The Fromm Lab logo'} className={'uio'}/>
             </a>
-            <a href={'https://github.com/selfjell/MirMachine/'} target={'_blank'} className={'default-margins'}>
+            <a href={'https://github.com/sinanugur/MirMachine/'} target={'_blank'} className={'default-margins'}>
                 <Github className={'footer-icon'} size={25}/>
             </a>
             <a href={'https://mirgenedb.org/'} target={'_blank'}>
