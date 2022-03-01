@@ -20,7 +20,7 @@
 
 .header-content{
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-evenly;
@@ -225,6 +225,14 @@
   &__bigger{
     font-size: 1.0em;
   }
+  &--back{
+    width: 200px;
+    background-color: @darker-green;
+    margin: 0 20px 0 0;
+    &:hover{
+      background-color: @lighter-green;
+    }
+  }
 
   &--header{
     background-color: @main-green;
@@ -374,10 +382,22 @@
 }
 
 .mirmachine-logo{
-  height: calc(@header-height - 10px);
-  padding-top: 2px;
+  height: @header-height;
+  padding: 5px 5px 0px 5px;
+}
+
+.logo-container{
+  &:hover{
+    opacity: 0.6;
+  }
 }
 
 .index5{
   z-index: 5;
   }
+
+.result-button-container{
+  display: flex;
+  width: 90%;
+  justify-content: flex-start;
+}

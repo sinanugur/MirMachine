@@ -5,9 +5,8 @@ const Header = (props) => {
     return(
         <header className="App-header">
             <div className={'header-content'}>
-                <img className={'mirmachine-logo'} src={'/static/assets/mirm_cropped.png'} alt={'mirmachine-logo'}/>
-                <Link to='/' className={`button button--header ${props.activeHeader==='/' ? 'button--header__active' : ''}`}>
-                    Lookup Service
+                <Link to={'/'} className={'logo-container'}>
+                    <img className={'mirmachine-logo'} src={'/static/assets/mirm_cropped.png'} alt={'mirmachine-logo'}/>
                 </Link>
                 <Link to={'/retrieve'} className={`button button--header ${props.activeHeader==='/retrieve' ? 'button--header__active' : ''}`}>
                     Ongoing job
