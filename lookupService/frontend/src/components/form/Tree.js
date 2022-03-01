@@ -4,8 +4,8 @@ const Tree = (props) => {
 
 
     return(
-        <div className={'modal'}>
-            <div className={'canvas-container'}>
+        <div className={'modal'} onClick={() => {props.show(false)}}>
+            <div className={'canvas-container'} onClick={(event) => {event.stopPropagation()}}>
                 <span className={'close'} onClick={() => {props.show(false)}}>&times;</span>
                 <h3 className={'no-margins'}>Click on the node you wish to select</h3>
                 {props.nodes && props.edges &&

@@ -27,11 +27,11 @@ const Result = () => {
     return(
         <div className={'result-container'}>
         {modal &&
-            <div className={'modal'}>
+            <div className={'modal'} onClick={() => {setModal(false)}}>
                 <div className={'flex-column'}>
                     <div className={'sequence-modal'}>
                         <span className={'close'} onClick={() => {setModal(false)}}>&times;</span>
-                        <span className={'flex-column'}>
+                        <span className={'flex-column'} onClick={(event) => {event.stopPropagation()}}>
                             <p className={'no-margins'}><b>30NT sequence for {selectedSequence}:</b></p>
                             {modalSequence}
                         </span>

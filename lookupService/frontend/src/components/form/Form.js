@@ -165,7 +165,7 @@ export const SearchForm = () => {
                             <label className={'label'} htmlFor={'species'}>Species tag:</label>
                             <HelpText text={Texts[2]}/>
                         </span>
-                        <input type={'text'} name={'species'} id={'species'} placeholder={'e.g. Caenorhabditis'}/>
+                        <input type={'text'} name={'species'} id={'species'} placeholder={'e.g. C_elegans'}/>
                     </span>
                 <span className={'input-cell'}>
                     <span className={'input-info'}>
@@ -176,7 +176,7 @@ export const SearchForm = () => {
                             <SearchableDropdown
                                 data={nodes} selected={node}
                                 setSelected={setNode} disabled={singleFam}
-                                placeholder={'e.g. C elegans'} identifier={'node'}
+                                placeholder={'e.g. Caenorhabditis'} identifier={'node'}
                                 displayParam={'text'} filterParam={'id'}
                             />
                             <span className={`button button--default default-margins ${singleFam ? 'disabled' : ''}`}
