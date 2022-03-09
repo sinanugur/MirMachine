@@ -66,7 +66,7 @@ def fetch_from_ftp(term):
     file_name = 'media/uploads/' + term + '.fa.gz'
     unzipped_name = file_name[:-3]
     if os.path.exists(unzipped_name):
-        f = open(unzipped_name, 'r')
+        f = open(unzipped_name, 'r', encoding='utf-8')
         _hash = hashlib.md5(f.read()).hexdigest()
         f.close()
         return unzipped_name, _hash
