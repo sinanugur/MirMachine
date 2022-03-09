@@ -7,7 +7,6 @@ import Header from './components/frame/Header'
 import Footer from './components/frame/Footer'
 import CookieBanner from './components/frame/CookieBanner'
 import Retrieval from './components/retrieval/Retrieval'
-import Tree from './components/form/Tree'
 import Result from './components/result/Result'
 import { Switch, Route, useLocation } from 'react-router-dom'
 import { checkIfNewUser } from './utils/Repository'
@@ -42,7 +41,6 @@ const App = () => {
                 <Route path={'/about'} component={AboutPage}/>
                 <Route path={'/job/:jobID'} component={Job}/>
                 <Route path={'/retrieve'} component={Retrieval}/>
-                <Route path={'/tree'} component={Tree}/>
                 <Route path={'/result/:jobID'} component={Result}/>
                 <Route component={NotFound}/>
             </Switch>

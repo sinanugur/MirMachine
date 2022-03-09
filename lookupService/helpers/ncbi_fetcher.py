@@ -62,12 +62,19 @@ def get_ftp_url(term):
 
 
 def fetch_from_ftp(term):
+    term = term.replace(' ','')
+    file_name = 'media/uploads/' + term + '.fa.gz'
+    unzipped_name = file_name[:-3]
+    if os.path.exists(unzipped_name):
+        f = open(unzipped_name, 'r')
+        _hash = hashlib.md5(f.read()).hexdigest()
+        f.close()
+        return unzipped_name, _hash
     ftp_url = get_ftp_url(term)
     if ftp_url is None:
         return ''
     http_url = 'http:' + ftp_url.split(':')[1]
-    file_name = 'media/uploads/' + term + '.fa.gz'
-    unzipped_name = file_name[:-3]
+
     http = urllib3.PoolManager()
     with http.request('GET', http_url, preload_content=False) as resp, open(file_name, 'wb') as out_file:
         shutil.copyfileobj(resp, out_file)
