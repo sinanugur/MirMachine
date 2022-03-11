@@ -11,7 +11,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: @header-text-color;
   position: relative;
   top: 0;
   left: 0;
@@ -53,7 +53,7 @@
 
 .content{
   padding: 20px;
-  color: white;
+  color: @text-color;
   min-height: calc(100vh - @header-height*2);
 }
 
@@ -63,7 +63,7 @@
 }
 
 .section-wrapper{
-  border: whitesmoke dashed 2px;
+  border: black dashed 2px;
   padding: 5px;
   width: 75%;
   margin: 15px;
@@ -132,7 +132,7 @@
   justify-content: space-around;
   align-items: center;
   width: 60%;
-  background-color: @main-green;
+  background-color: darkgrey;
   border-radius: 5px;
   margin: 5px;
   animation: growDown 300ms ease-in-out forwards;
@@ -212,7 +212,7 @@
   &--default{
     font-size: 0.85em;
     background-color: white;
-    border-color: grey;
+    border: 1px solid grey;
     color: black;
     padding-right: 3px !important;
     &:hover{
@@ -246,11 +246,12 @@
   }
 
   &--action{
-    background-color: @main-green;
-    border-color: @darker-green;
+    background-color: #dbdbdb;
+    border: black 2px solid;
     font-size: 1.3em;
     width: 200px;
     height: 35px;
+    color: @text-color !important;
     &:hover{
       background-color: @lighter-green;
     }
@@ -262,7 +263,7 @@
   &--reset{
     background-color: @warning-yellow;
     color: white;
-    border-color: @main-green;
+    border: 1px solid black;
     font-size: 1.1em;
     &:hover{
       background-color: @warning-yellow-transparent;
@@ -285,7 +286,7 @@
   }
   &--run {
     height: 14px;
-    fill: white;
+    fill: black;
   }
 }
 

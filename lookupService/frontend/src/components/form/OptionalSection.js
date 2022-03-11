@@ -49,13 +49,6 @@ const OptionalSection = (props) => {
                             </span>
                         </span>
                     </span>
-                    <span className={'input-cell'}>
-                        <span className={'input-info'}>
-                            <label className={'label'} htmlFor={'email'}>Mail address:</label>
-                            <HelpText text={Texts[6]}/>
-                        </span>
-                        <input type={'text'} id={'email'} name={'email'} placeholder={'example@example.com'}/>
-                    </span>
         </div>
     )
 }

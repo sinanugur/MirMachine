@@ -125,7 +125,6 @@ export const SearchForm = () => {
                 <p>Submitting... Please wait</p></span> :
             <>
             <span className={'section-text'}>
-                <h3 className={'section-title'}>Genome</h3>
             <span className={'section-wrapper'}>
             <span className={'input-cell'}>
                     <span className={'input-info'}>
@@ -133,7 +132,7 @@ export const SearchForm = () => {
                         <HelpText text={Texts[0]}/>
                     </span>
                 { inputMode === 'text' ?
-                    <textarea id={'sequence'} name={'sequence'} rows={4} cols={40}
+                    <textarea id={'sequence'} name={'sequence'} rows={10} cols={45}
                               placeholder={'Input sequence here'}/> :
                     <input
                         type={inputMode === 'file' ? 'file' : 'text'}
@@ -191,6 +190,13 @@ export const SearchForm = () => {
             }}>
                     Run MirMachine <ForstorrelsesglassIkon className={'icon icon--run'}/>
             </span>
+            <span className={'input-cell'}>
+                    <span className={'input-info'}>
+                        <label className={'label'} htmlFor={'email'}>Mail address:</label>
+                        <HelpText text={Texts[6]}/>
+                    </span>
+                    <input type={'text'} id={'email'} name={'email'} placeholder={'Optional'}/>
+                </span>
             <span className={'section-text'}>
                 <h3 className={'section-title'}>Options</h3>
             <span className={'section-wrapper'}>
