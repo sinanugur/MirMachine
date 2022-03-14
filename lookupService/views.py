@@ -13,7 +13,7 @@ from rest_framework.decorators import api_view
 from lookupService.helpers.tree_helper import parse_newick_tree
 from lookupService.helpers.family_importer import import_all_families, import_node_to_family_db
 from engine.scripts.mirmachine_args import show_node_families_args
-from lookupService.helpers.result_parser import get_and_parse_results, zip_results
+from lookupService.helpers.result_parser import get_and_parse_results, zip_results, extract_included_families_from_gff
 from lookupService.helpers.request_verifier import validate_job_exists_and_complete
 from lookupService.helpers.maintainer import delete_job_data
 from ratelimit.decorators import ratelimit
@@ -175,18 +175,24 @@ def get_results(request, _id):
 
         tag = job_object[0].species
         response = get_and_parse_results(tag)
+        families = extract_included_families_from_gff(response['filtered_gff'])
+        relationships = NodeFamilyRelation.objects.filter(family__in=families)
+        serializer = NodeFamilyRelationSerializer(relationships, many=True)
+        response['families'] = serializer.data
         return JsonResponse(response, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
 def download_results(request, _id):
     if request.method == 'GET':
+        params = request.query_params
+        _type = params.get('type')
         job_object = Job.objects.filter(id=_id)
         message = validate_job_exists_and_complete(job_object)
         if message != '':
             return JsonResponse(message, status=status.HTTP_400_BAD_REQUEST, safe=False)
         tag = job_object[0].species
-        response = zip_results(tag)
+        response = zip_results(tag, _type)
         return response
 
 
