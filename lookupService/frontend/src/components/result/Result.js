@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getResults } from '../../utils/Repository'
-import { parseAndCountOccurrencesGFF, parseFamiliesInNodes, countHitsInFamilies } from '../../utils/ResultParser'
+import { parseAndCountOccurrencesGFF, parseFamiliesInNodes, countHitsInNodes } from '../../utils/ResultParser'
 import { baseURL } from '../../config'
 import { BarChart, BarSeries, Bar } from 'reaviz'
 import {white} from "@sb1/ffe-core";
@@ -27,7 +27,7 @@ const Result = () => {
         getResult()
     }, [])
     useEffect(() => {
-        if(nodeMap) setNodeCount(countHitsInFamilies(nodeMap, 10))
+        if(nodeMap) setNodeCount(countHitsInNodes(nodeMap, 10))
     }, [nodeMap])
     return(
         <div className={'flex-column'}>

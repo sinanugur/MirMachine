@@ -34,7 +34,6 @@ def delete_job_data(job_object):
     _id = job_object.id
     species_tag = job_object.species
     print('Deleting results and DB entry for job with id {}'.format(str(_id)))
-    job_object.delete()
     paths, result_dir = get_result_paths(species_tag, True)
 
     for path in paths:
@@ -55,14 +54,15 @@ def delete_job_data(job_object):
         if os.path.exists(file):
             os.remove(file)
     if job_object.mode == 'accNum':
-        input_dir = 'media/uploads'
-        file = os.path.join(input_dir, job_object.data + '.fa')
-        if os.path.exists(file):
-            os.remove(file)
-        file = os.path.join(input_dir, job_object.data + '.fa.fai')
-        if os.path.exists(file):
-            os.remove(file)
-
+        jobs = Job.objects.filter(data=job_object.data)
+        if jobs.count() <= 1: #check if multiple jobs use the same dataset
+            file = job_object.data
+            if os.path.exists(file):
+                os.remove(file)
+            file = job_object.data + '.fai'
+            if os.path.exists(file):
+                os.remove(file)
+    job_object.delete()
 
 
 def delete_expired_jobs():

@@ -76,7 +76,7 @@ export const parseFamiliesInNodes = (nodesAndFamilies, heatmap) => {
     return node_dict
 }
 
-export const countHitsInFamilies = (nodeMap, nItems) => {
+export const countHitsInNodes = (nodeMap, nItems) => {
     const keys = Object.keys(nodeMap)
     const pairedObjects = []
     for(let i = 0; i<keys.length; i++){
