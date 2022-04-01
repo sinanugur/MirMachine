@@ -46,7 +46,7 @@ export const parseAndCountOccurrencesGFF = (plainText, nItems) => {
     const filtered_counts = []
     let n = Math.min(nItems, pairedItems.length)
     for(let i = 0; i < n; i++){
-        filtered_counts.push({key: pairedItems[i][0], data: pairedItems[i][1]})
+        filtered_counts.push({key: pairedItems[i][0].toUpperCase(), data: pairedItems[i][1]})
     }
     return filtered_counts
 }
@@ -67,9 +67,9 @@ export const parseFamiliesInNodes = (nodesAndFamilies, heatmap) => {
         let family = cur_obj['family']
         if(found_families.includes(family.toLowerCase())) {
             if (node in node_dict) {
-                node_dict[node].push(family)
+                node_dict[node].push(family.toUpperCase())
             } else {
-                node_dict[node] = [family]
+                node_dict[node] = [family.toUpperCase()]
             }
         }
     }
