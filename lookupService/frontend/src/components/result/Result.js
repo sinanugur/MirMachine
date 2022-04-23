@@ -4,7 +4,6 @@ import { getResults } from '../../utils/Repository'
 import { parseAndCountOccurrencesGFF, parseFamiliesInNodes, countHitsInNodes } from '../../utils/ResultParser'
 import { baseURL } from '../../config'
 import { BarChart, BarSeries, Bar } from 'reaviz'
-import {white} from "@sb1/ffe-core";
 
 const Result = () => {
     const { jobID } = useParams()
@@ -20,6 +19,7 @@ const Result = () => {
                 setResults(data)
                 setGffData(parseAndCountOccurrencesGFF(data.filtered_gff, 10))
                 setNodeMap(parseFamiliesInNodes(data.families, data.heatmap))
+                if(data.fasta === '') alert('No hits for your search')
             } catch(err) {
                 alert(err.message)
             }
@@ -63,6 +63,7 @@ const Result = () => {
                         series={
                             <BarSeries
                                 colorScheme={(_data, index) => (index % 2 ? '#047576' : '#049F9E')}
+                                bar={<Bar gradient={null}/>}
                             />
                             }
                         margins={45}
@@ -78,6 +79,7 @@ const Result = () => {
                             series={
                                 <BarSeries
                                     colorScheme={(_data, index) => (index % 2 ? '#047576' : '#049F9E')}
+                                    bar={<Bar gradient={null}/>}
                                 />
                             }
                             margins={45}
@@ -100,7 +102,10 @@ const Result = () => {
                         <tr key={k}>
                             <td>{k} ({nodeMap[k].length})</td>
                             <td>{nodeMap[k].map((fam) => {
-                                return(fam + ' ')
+                                return(
+                                    <a href={`https://mirgenedb.org/browse/ALL?family=${fam}`}
+                                        target={'_blank'}>{fam + ' '}
+                                    </a>)
                             })}</td>
                         </tr>
                         )

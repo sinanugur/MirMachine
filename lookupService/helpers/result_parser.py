@@ -24,6 +24,8 @@ def extract_included_families_from_gff(content):
     line = lines[i]
     while line.startswith('#'):
         i += 1
+        if i == len(lines):
+            break
         line = lines[i]
     i -= 1
     families = lines[i]

@@ -13,7 +13,7 @@ def process_form_data(request):
     if serializer.initial_data['mode'] == 'file':
         file = request.FILES.get('file')
         updated_data['data_file'] = file
-        updated_data['hash'] = hashlib.md5(file)
+        updated_data['hash'] = hashlib.md5(file.read()).hexdigest()
         if serializer.initial_data['species'] == '':
             for chunk in file.chunks():
                 decoded = chunk.decode('utf-8')
