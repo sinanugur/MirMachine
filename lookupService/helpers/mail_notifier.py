@@ -1,4 +1,5 @@
 from django.core.mail import EmailMessage
+from django.conf import settings
 
 def generate_completed_job_mail(recipient, job):
     email = EmailMessage(
@@ -10,7 +11,7 @@ def generate_completed_job_mail(recipient, job):
         'Do not respond to this email, we will not receive it.\n' +
         'If you wish to contact us, see our website.\n\n' +
         'Regards,\nThe MirMachine Team'.format(job=job),
-        'mirmachine@gmail.com',
+        settings.EMAIL_HOST_USER,
         [recipient]
     )
     email.send()
@@ -25,7 +26,7 @@ def generate_job_initiated_mail(recipient, job):
         'Do not respond to this email, we will not receive it.\n' +
         'If you wish to contact us, see our website.\n\n' +
         'Regards,\nThe MirMachine Team'.format(job=job),
-        'mirmachine@gmail.com',
+        settings.EMAIL_HOST_USER,
         [recipient]
     )
     email.send()

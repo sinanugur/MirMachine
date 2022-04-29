@@ -153,7 +153,12 @@ MEDIA_URL = 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend' #TODO change for prod
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_HOST_USER = env('MAIL_USER')
+EMAIL_HOST_PASS = env('MAIL_PASS')
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
 
 CRONJOBS = [
     ('0 0 * * 2,4,6', 'lookupService.helpers.maintainer.delete_expired_jobs')
