@@ -4,6 +4,7 @@ from .socket_helper import announce_status_change, announce_queue_position, anno
 from .maintainer import clean_up_temporary_files
 from django.utils import timezone
 from MirMachineWebapp import user_config as config
+from .mail_notifier import manage_mail_notification
 
 
 def schedule_job(stop):
@@ -23,6 +24,7 @@ def schedule_job(stop):
     next_in_line.save()
     announce_status_change(next_in_line)
     announce_initiation(next_in_line)
+    manage_mail_notification(next_in_line, 'initial')
     for i in range(len(queued)):
         announce_queue_position(queued[i], i+1)
     try:
@@ -41,8 +43,10 @@ def schedule_job(stop):
 def handle_job_end(process, job_object):
     if process.returncode != 0:
         job_object.status = 'halted'
+        manage_mail_notification(job_object, 'halted')
     else:
         job_object.status = 'completed'
+        manage_mail_notification(job_object, 'completed')
     job_object.completed = timezone.now()
     job_object.save()
     announce_completed(job_object)

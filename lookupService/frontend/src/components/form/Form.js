@@ -69,8 +69,8 @@ export const SearchForm = () => {
             model_type: document.getElementById('model').value,
             single_node: singleNode,
             single_fam_mode: singleFam,
-            family: singleFam ? selectedFamily : ''
-            //mail_address: document.getElementById('email').value
+            family: singleFam ? selectedFamily : '',
+            mail_address: document.getElementById('email').value
         }
         let errorMessage = ''
         if(mode != 'accNum')

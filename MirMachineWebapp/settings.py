@@ -154,11 +154,12 @@ MEDIA_URL = 'media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp-mail.outlook.com'
-EMAIL_HOST_USER = env('MAIL_USER')
-EMAIL_HOST_PASS = env('MAIL_PASS')
-EMAIL_PORT = 465
-EMAIL_USE_TLS = False
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_USER = env('MAIL_USER')
+EMAIL_HOST_USER = env('MAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('MAIL_PASS')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 CRONJOBS = [
     ('0 0 * * 2,4,6', 'lookupService.helpers.maintainer.delete_expired_jobs')
