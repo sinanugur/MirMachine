@@ -10,6 +10,7 @@ import OptionalSection from './OptionalSection'
 import FamilyList from './FamilyList'
 import HelpText from "./HelpText";
 import { Texts } from '../../utils/HelpTexts'
+import { handleButtonKeyPress } from "../../utils/Buttons";
 
 export const SearchForm = () => {
     // Form states
@@ -185,8 +186,14 @@ export const SearchForm = () => {
             </div>
             </span>
             </span>
-            <span className={'button button--action'} id={'submit'} onClick={() => {
-                handleSubmit()
+            <span className={'button button--action'}
+                  tabindex={'0'}
+                  role={'button'}
+                  onKeyDown = {(event) => {
+                      handleButtonKeyPress(event)
+                  }}
+                  id={'submit'} onClick={() => {
+                        handleSubmit()
             }}>
                     Run MirMachine <ForstorrelsesglassIkon className={'icon icon--run'}/>
             </span>
@@ -202,15 +209,25 @@ export const SearchForm = () => {
             <span className={'section-wrapper'}>
             <span className={'input-row'}>
                 <span className={'button button--default button__bigger'}
+                      tabindex={'0'}
+                      role={'button'}
+                      onKeyDown = {(event) => handleButtonKeyPress(event)}
                       onClick={() => {setOptionalActive(!optionalActive)}}>
                         Optional params <ChevronIkon className={`icon icon--chevron ${optionalActive ? '' : 'icon--chevron__right'}`}/>
                 </span>
-                <span className={'button button--default button__bigger'} onClick={async () => {
-                    handleIncludedFamilyFetching(false)
+                <span className={'button button--default button__bigger'}
+                      tabindex={'0'}
+                      role={'button'}
+                      onKeyDown = {(event) => handleButtonKeyPress(event)}
+                      onClick={async () => {
+                          handleIncludedFamilyFetching(false)
                     }}>
                     Included families <ChevronIkon className={`icon icon--chevron ${showIncluded ? '' : 'icon--chevron__right'}`}/>
                 </span>
                 <span className={'button button--default button__bigger'}
+                        tabindex={'0'}
+                        role={'button'}
+                        onKeyDown = {(event) => handleButtonKeyPress(event)}
                         onClick={() => {addDemoInput()}}>
                     Demo parameters
                 </span>

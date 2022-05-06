@@ -4,14 +4,14 @@ const Loader = (props) => {
     if(props.status === 'halted'){
         return(
             <div className={'loading-container'}>
-                <KryssSirkelIkon className={'fill-warning-color'}/>
+                <KryssSirkelIkon className={'fill-warning-color'} alt={'Cross'}/>
                 <p>Something went wrong with your job</p>
             </div>
         )
     } else if(props.status === 'completed'){
         return(
             <div className={'loading-container'}>
-                <HakeSirkelIkon className={'fill-main-color'}/>
+                <HakeSirkelIkon className={'fill-main-color'} alt={'Checkmark'}/>
                 <p>Job completed!</p>
             </div>
         )
@@ -19,7 +19,7 @@ const Loader = (props) => {
         return(
             <div className={'loading-container'}>
                 <span className={'loader-circle'}>
-                <img src={'/static/assets/mirm_logo.png'} alt='Mir logo' className={'loader'}/>
+                <img src={'/static/assets/mirm_logo.png'} alt='Spinning Mir logo' className={'loader'}/>
                 </span>
                 <p>Working...</p>
             </div>

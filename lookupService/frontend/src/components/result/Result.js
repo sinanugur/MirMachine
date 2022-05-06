@@ -4,6 +4,7 @@ import { getResults } from '../../utils/Repository'
 import { parseAndCountOccurrencesGFF, parseFamiliesInNodes, countHitsInNodes } from '../../utils/ResultParser'
 import { baseURL } from '../../config'
 import { BarChart, BarSeries, Bar } from 'reaviz'
+import {handleButtonKeyPress} from "../../utils/Buttons";
 
 const Result = () => {
     const { jobID } = useParams()
@@ -32,27 +33,59 @@ const Result = () => {
     return(
         <div className={'flex-column'}>
             <span className={'result-button-container'}>
-                <Link className={'button button--back'} to={'/job/' + jobID}>Back to job page</Link>
-                <a className={'button button--back'}
-                   href={'http://' + baseURL + `/api/download/${jobID}?type=zip`} download={'results.zip'}>
-                        Download all results
-                </a>
-                <a className={'button button--back'}
-                   href={'http://' + baseURL + `/api/download/${jobID}?type=gff`} download={'results.zip'}>
-                        Download GFF file
-                </a>
-                <a className={'button button--back'}
-                   href={'http://' + baseURL + `/api/download/${jobID}?type=filtered_gff`} download={'results.zip'}>
-                        Download filtered GFF
-                </a>
-                <a className={'button button--back'}
-                   href={'http://' + baseURL + `/api/download/${jobID}?type=fasta`} download={'results.zip'}>
-                        Download FASTA file
-                </a>
-                <a className={'button button--back'}
-                   href={'http://' + baseURL + `/api/download/${jobID}?type=heatmap`} download={'results.zip'}>
-                        Download heatmap
-                </a>
+                <span
+                    tabindex={'0'}
+                    role={'button'}
+                    onKeyDown = {(event) => handleButtonKeyPress(event, true)}>
+                    <Link className={'button button--back'} to={'/job/' + jobID}>Back to job page</Link>
+                </span>
+                <span
+                    tabindex={'0'}
+                    role={'button'}
+                    onKeyDown = {(event) => handleButtonKeyPress(event, true)}
+                >
+                    <a className={'button button--back'}
+                       href={'http://' + baseURL + `/api/download/${jobID}?type=zip`} download={'results.zip'}>
+                            Download all results
+                    </a>
+                </span>
+                <span
+                    tabindex={'0'}
+                    role={'button'}
+                    onKeyDown = {(event) => handleButtonKeyPress(event, true)}
+                >
+                    <a className={'button button--back'}
+                       href={'http://' + baseURL + `/api/download/${jobID}?type=gff`} download={'results.zip'}>
+                            Download GFF file
+                    </a>
+                </span>
+                <span
+                    tabindex={'0'}
+                    role={'button'}
+                    onKeyDown = {(event) => handleButtonKeyPress(event, true)}>
+                    <a className={'button button--back'}
+                       href={'http://' + baseURL + `/api/download/${jobID}?type=filtered_gff`} download={'results.zip'}>
+                            Download filtered GFF
+                    </a>
+                </span>
+                <span
+                    tabindex={'0'}
+                    role={'button'}
+                    onKeyDown = {(event) => handleButtonKeyPress(event, true)}>
+                    <a className={'button button--back'}
+                       href={'http://' + baseURL + `/api/download/${jobID}?type=fasta`} download={'results.zip'}>
+                            Download FASTA file
+                    </a>
+                </span>
+                <span
+                    tabindex={'0'}
+                    role={'button'}
+                    onKeyDown = {(event) => handleButtonKeyPress(event, true)}>
+                    <a className={'button button--back'}
+                       href={'http://' + baseURL + `/api/download/${jobID}?type=heatmap`} download={'results.zip'}>
+                            Download heatmap
+                    </a>
+                </span>
             </span>
             <div className={'result-container'}>
                 <div className={'graph-row'}>

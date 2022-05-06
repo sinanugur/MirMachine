@@ -5,6 +5,7 @@ import { connectToSocket } from '../../utils/WebSockets'
 import { formatDjangoTime, updateClockAndFormatString, getTimeConsumed } from '../../utils/TimeManagers'
 import Loader from './Loader'
 import ProgressBar from "./ProgressBar";
+import {handleButtonKeyPress} from "../../utils/Buttons";
 
 const Job = () => {
     const { jobID } = useParams()
@@ -97,14 +98,22 @@ const Job = () => {
                 {elapsed && <span>{elapsed}</span>}
                 {socketProgress && <ProgressBar progress={socketProgress}/>}
                 {socketStatus === 'completed' ?
-                    <span className={'button button--action'} onClick={() => {
-                        setRedirectResults(true)
+                    <span className={'button button--action'}
+                          tabindex={'0'}
+                          role={'button'}
+                          onKeyDown = {(event) => handleButtonKeyPress(event)}
+                          onClick={() => {
+                                setRedirectResults(true)
                     }}>
                         View results
                     </span> : null}
-                <span className={'button button--reset'} onClick={() => {
-                    cancelJob(jobID)
-                    setRedirectHome(true)
+                <span className={'button button--reset'}
+                      tabindex={'0'}
+                      role={'button'}
+                      onKeyDown = {(event) => handleButtonKeyPress(event)}
+                      onClick={() => {
+                            cancelJob(jobID)
+                            setRedirectHome(true)
                 }}>
                     {socketStatus === 'ongoing' ? 'Cancel job' : 'Delete job'}
                 </span>
