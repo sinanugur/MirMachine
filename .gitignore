@@ -36,6 +36,7 @@ lookupService/frontend/.pnp
 .env.test.local
 .env.production.local
 .env
+.envdock
 
 npm-debug.log*
 yarn-debug.log*
