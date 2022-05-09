@@ -58,7 +58,7 @@ class Job(models.Model):
     single_fam_mode = models.BooleanField(default=boolean_default)
     family = models.CharField(blank=True, max_length=18)
     mail_address = models.EmailField(max_length=254, blank=True)
-
+    thread_num = models.IntegerField(blank=True, null=True)
 
 class Node(models.Model):
     id = models.CharField(primary_key=True, max_length=168)

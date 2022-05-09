@@ -66,7 +66,7 @@ def run_mirmachine(job_object, stop):
 
 
     snakemake_argument="snakemake -s engine/mirmachine/workflows/mirmachine_search.smk -d {workdir} " \
-                       "--config meta_directory={meta_directory} model={model} " \
+                       "--nolock --config meta_directory={meta_directory} model={model} " \
                        "mirmachine_path={mirmachine_path} --configfile engine/data/yamls/{species}.yaml " \
                        "--cores {cpu} --log-handler-script lookupService/helpers/socket_helper.py".format(
         species=quote(job_object.species),

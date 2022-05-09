@@ -18,7 +18,7 @@ const Result = () => {
             try{
                 const data = await getResults(jobID)
                 setResults(data)
-                setGffData(parseAndCountOccurrencesGFF(data.filtered_gff, 10))
+                setGffData(parseAndCountOccurrencesGFF(data.gff, 10))
                 setNodeMap(parseFamiliesInNodes(data.families, data.heatmap))
                 if(data.fasta === '') alert('No hits for your search')
             } catch(err) {
@@ -88,6 +88,7 @@ const Result = () => {
                 </span>
             </span>
             <div className={'result-container'}>
+                Shown results are unfiltered. Includes low confidence hits.
                 <div className={'graph-row'}>
                 {gffData &&
                     <span>

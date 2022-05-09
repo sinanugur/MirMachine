@@ -2,7 +2,7 @@
 
 MAX_NCBI_GENOME_SIZE = 100000   # In bytes, legacy => Not used
 
-SNAKEMAKE_CPU_NUM = 15          # Number of CPU threads used on jobs
+SNAKEMAKE_CPU_NUM = 5          # Number of CPU threads used on jobs
 
 AUTO_CLEANUP_TEMP_FILES = True
 
@@ -12,3 +12,5 @@ THROTTLE_JOB_SUBMIT = False
 JOB_SUBMIT_THROTTLE_RATE = '1/m'    # 1 per minute
 
 JOB_EXPIRATION_TIME = 2   # In days
+
+CONCURRENT_JOBS = 2

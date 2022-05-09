@@ -13,7 +13,7 @@ def get_and_parse_results(tag):
         contents.append(content)
         file.close()
     content_dict = {'fasta': contents[0],
-                    'filtered_gff': contents[1],
+                    'gff': contents[3],
                     'heatmap': contents[2]}
     return content_dict
 
@@ -43,7 +43,7 @@ def get_result_paths(tag, get_result_dir_and_relative=False):
     base_dir = os.path.dirname(__file__)
     result_dir = os.path.join(base_dir, '../../engine/results/predictions/')
     file_paths = ['fasta/{tag}.PRE.fasta'.format(tag=tag), 'filtered_gff/{tag}.PRE.gff'.format(tag=tag),
-                  'heatmap/{tag}.heatmap.tsv'.format(tag=tag)]
+                  'heatmap/{tag}.heatmap.tsv'.format(tag=tag), 'gff/{tag}.PRE.gff'.format(tag=tag)]
     if get_result_dir_and_relative:
         return file_paths, result_dir
     return [os.path.join(result_dir, x) for x in file_paths]
@@ -52,7 +52,6 @@ def get_result_paths(tag, get_result_dir_and_relative=False):
 def zip_results(tag, file_type):
     type_to_index = {'fasta': 0, 'filtered_gff': 1, 'heatmap': 2, 'gff': 3}
     file_paths, result_dir = get_result_paths(tag, get_result_dir_and_relative=True)
-    file_paths.append('gff/{}.PRE.gff'.format(tag))
     if file_type == 'zip':
         generate_meta_data(tag)
         file_paths.append('{}_meta.txt'.format(tag))

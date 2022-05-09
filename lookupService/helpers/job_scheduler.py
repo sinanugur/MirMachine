@@ -7,18 +7,19 @@ from MirMachineWebapp import user_config as config
 from .mail_notifier import manage_mail_notification
 
 
-def schedule_job(stop):
+def schedule_job(stop, bracket):
     ongoing = Job.objects.filter(status='ongoing')
     # check if already job running
-    if ongoing.exists():
+    if len(ongoing) == config.CONCURRENT_JOBS:
         return
     queued = Job.objects.filter(status='queued').order_by('submitted')
-    # check if queue is empty
-    if not queued.exists():
+    # check if queue is empty and no ongoing job
+    if not queued.exists() and not ongoing.exists():
         if config.AUTO_CLEANUP_TEMP_FILES:
             clean_up_temporary_files()
         return
     next_in_line = queued[0]
+    next_in_line.thread_num = bracket
     next_in_line.status = 'ongoing'
     next_in_line.initiated = timezone.now()
     next_in_line.save()
@@ -37,7 +38,7 @@ def schedule_job(stop):
     except RuntimeError:
         print('Interrupted, exiting thread')
         return
-    schedule_job(stop)
+    schedule_job(stop, bracket)
 
 
 def handle_job_end(process, job_object):

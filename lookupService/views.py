@@ -22,8 +22,8 @@ from MirMachineWebapp import user_config as config
 import json
 import threading
 
-stop_flag = False
-job_thread = None
+stop_flags = [False for _ in range(config.CONCURRENT_JOBS)]
+job_threads = [None for _ in range(config.CONCURRENT_JOBS)]
 
 
 @ensure_csrf_cookie
@@ -60,11 +60,21 @@ class PostJob(APIView):
             if serializer.is_valid():
                 instance = serializer.save()
                 stripped = StrippedJobSerializer(instance)
-                global job_thread
-                global stop_flag
-                if job_thread is None or not job_thread.is_alive():
-                    job_thread = threading.Thread(target=schedule_job, args=(lambda: stop_flag,))
-                    job_thread.start()
+                global job_threads
+                global stop_flags
+                if not all(job_threads) or not all([thread.is_alive() for thread in job_threads]):
+                    thread_num = 0
+                    for i in range(len(job_threads)):
+                        if job_threads[i] is None:
+                            thread_num = i
+                            break
+                        elif not job_threads[i].is_alive():
+                            thread_num = i
+                            break
+                    instance.thread_num = thread_num
+                    instance.save()
+                    job_threads[thread_num] = threading.Thread(target=schedule_job, args=(lambda: stop_flags[thread_num],thread_num))
+                    job_threads[thread_num].start()
                 return JsonResponse(stripped.data, status=status.HTTP_201_CREATED)
         except ValueError as e:
             response = {"message": str(e)}
@@ -85,15 +95,16 @@ class PostJob(APIView):
             params = request.query_params
             # print(params)
             job = Job.objects.get(id=params["id"])
-            global stop_flag
-            global job_thread
-            if job.status == "ongoing" and job_thread is not None:
-                stop_flag = True
-                job_thread.join()
+            bracket = job.thread_num
+            global stop_flags
+            global job_threads
+            if job.status == "ongoing" and job_threads[bracket] is not None:
+                stop_flags[bracket] = True
+                job_threads[bracket].join()
                 delete_job_data(job)
-                stop_flag = False
-                job_thread = threading.Thread(target=schedule_job, args=(lambda: stop_flag,))
-                job_thread.start()
+                stop_flags[bracket] = False
+                job_threads[bracket] = threading.Thread(target=schedule_job, args=(lambda: stop_flags[bracket],bracket))
+                job_threads[bracket].start()
             else:
                 delete_job_data(job)
             response = {"message": "Job has been canceled and removed from the database"}
@@ -175,7 +186,7 @@ def get_results(request, _id):
 
         tag = job_object[0].species
         response = get_and_parse_results(tag)
-        families = extract_included_families_from_gff(response['filtered_gff'])
+        families = extract_included_families_from_gff(response['gff'])
         relationships = NodeFamilyRelation.objects.filter(family__in=families)
         serializer = NodeFamilyRelationSerializer(relationships, many=True)
         response['families'] = serializer.data
