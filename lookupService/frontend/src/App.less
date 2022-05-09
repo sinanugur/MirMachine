@@ -2,6 +2,7 @@
 
 .App {
   text-align: center;
+  min-width: 100vw;
 }
 
 .App-header {
@@ -228,7 +229,7 @@
   &--back{
     width: 200px;
     background-color: @darker-green;
-    margin: 0 20px 0 0;
+    margin: 5px 20px 0 0;
     &:hover{
       background-color: @lighter-green;
     }
@@ -399,8 +400,10 @@
 
 .result-button-container{
   display: flex;
-  width: 90%;
-  justify-content: flex-start;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  min-width: 90%;
 }
 
 .black-text{

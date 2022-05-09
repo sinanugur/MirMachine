@@ -159,7 +159,7 @@ def get_included_families(request):
 
         if not relations:
             relations = import_node_to_family_db()
-            print(relations)
+            #print(relations)
             serializer = NodeFamilyRelationSerializer(data=relations, many=True)
             if serializer.is_valid():
                 serializer.save()
