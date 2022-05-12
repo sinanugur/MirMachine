@@ -13,7 +13,7 @@ def get_and_parse_results(tag):
         contents.append(content)
         file.close()
     content_dict = {'fasta': contents[0],
-                    'gff': contents[3],
+                    'filtered_gff': contents[1],
                     'heatmap': contents[2]}
     return content_dict
 

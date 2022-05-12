@@ -1,6 +1,6 @@
-import { baseURL } from '../config'
+import { baseURL, protocolWS } from '../config'
 
-const wsURL = 'ws://' + baseURL + '/ws'
+const wsURL = protocolWS + baseURL + '/ws'
 
 export const connectToSocket = (species, statusHook, progressHook, queueHook, initiationHook, completedHook) => {
     const socket = new WebSocket(wsURL + `/job/${species}`)
@@ -34,7 +34,8 @@ export const connectToSocket = (species, statusHook, progressHook, queueHook, in
 
     // Listen for errors
     socket.addEventListener('error', (event) => {
-        console.log('Error that occured: ', event)
+        //console.log('Error that occured: ', event)
+        return
     })
 
     // Listen for close

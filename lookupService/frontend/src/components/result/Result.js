@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getResults } from '../../utils/Repository'
 import { parseAndCountOccurrencesGFF, parseFamiliesInNodes, countHitsInNodes } from '../../utils/ResultParser'
-import { baseURL } from '../../config'
+import {baseURL, protocol} from '../../config'
 import { BarChart, BarSeries, Bar } from 'reaviz'
 import {handleButtonKeyPress} from "../../utils/Buttons";
 
@@ -18,7 +18,7 @@ const Result = () => {
             try{
                 const data = await getResults(jobID)
                 setResults(data)
-                setGffData(parseAndCountOccurrencesGFF(data.gff, 10))
+                setGffData(parseAndCountOccurrencesGFF(data.filtered_gff, 10))
                 setNodeMap(parseFamiliesInNodes(data.families, data.heatmap))
                 if(data.fasta === '') alert('No hits for your search')
             } catch(err) {
@@ -45,7 +45,7 @@ const Result = () => {
                     onKeyDown = {(event) => handleButtonKeyPress(event, true)}
                 >
                     <a className={'button button--back'}
-                       href={'http://' + baseURL + `/api/download/${jobID}?type=zip`} download={'results.zip'}>
+                       href={protocol + baseURL + `/api/download/${jobID}?type=zip`} download={'results.zip'}>
                             Download all results
                     </a>
                 </span>
@@ -55,7 +55,7 @@ const Result = () => {
                     onKeyDown = {(event) => handleButtonKeyPress(event, true)}
                 >
                     <a className={'button button--back'}
-                       href={'http://' + baseURL + `/api/download/${jobID}?type=gff`} download={'results.zip'}>
+                       href={protocol + baseURL + `/api/download/${jobID}?type=gff`} download={'results.zip'}>
                             Download GFF file
                     </a>
                 </span>
@@ -64,7 +64,7 @@ const Result = () => {
                     role={'button'}
                     onKeyDown = {(event) => handleButtonKeyPress(event, true)}>
                     <a className={'button button--back'}
-                       href={'http://' + baseURL + `/api/download/${jobID}?type=filtered_gff`} download={'results.zip'}>
+                       href={protocol + baseURL + `/api/download/${jobID}?type=filtered_gff`} download={'results.zip'}>
                             Download filtered GFF
                     </a>
                 </span>
@@ -73,7 +73,7 @@ const Result = () => {
                     role={'button'}
                     onKeyDown = {(event) => handleButtonKeyPress(event, true)}>
                     <a className={'button button--back'}
-                       href={'http://' + baseURL + `/api/download/${jobID}?type=fasta`} download={'results.zip'}>
+                       href={protocol + baseURL + `/api/download/${jobID}?type=fasta`} download={'results.zip'}>
                             Download FASTA file
                     </a>
                 </span>
@@ -82,13 +82,13 @@ const Result = () => {
                     role={'button'}
                     onKeyDown = {(event) => handleButtonKeyPress(event, true)}>
                     <a className={'button button--back'}
-                       href={'http://' + baseURL + `/api/download/${jobID}?type=heatmap`} download={'results.zip'}>
+                       href={protocol + baseURL + `/api/download/${jobID}?type=heatmap`} download={'results.zip'}>
                             Download heatmap
                     </a>
                 </span>
             </span>
             <div className={'result-container'}>
-                Shown results are unfiltered. Includes low confidence hits.
+                Showing filtered results
                 <div className={'graph-row'}>
                 {gffData &&
                     <span>
@@ -108,7 +108,7 @@ const Result = () => {
                 }
                 {nodeCount &&
                     <span>
-                        <h3>Nodes with the most hits</h3>
+                        <h3>Nodes with the most distinct families</h3>
                         <BarChart
                             series={
                                 <BarSeries

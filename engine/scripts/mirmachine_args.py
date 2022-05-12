@@ -94,7 +94,7 @@ def write_genome_to_temp_file(job_object, gen_file_path):
 
 
 def validate_inputs(species, model):
-    snakemake_argument="snakemake -j {cpu} -s {mirmachine_path}workflows/validator.smk -d {workdir} --config meta_directory={meta_directory} model={model} mirmachine_path={mirmachine_path} --configfile=engine/data/yamls/{species}.yaml".format(
+    snakemake_argument="snakemake -j {cpu} -s {mirmachine_path}workflows/validator.smk -d {workdir} --nolock --config meta_directory={meta_directory} model={model} mirmachine_path={mirmachine_path} --configfile=engine/data/yamls/{species}.yaml".format(
         species=species,
         cpu=2,
         model=model,

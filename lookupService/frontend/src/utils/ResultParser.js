@@ -59,7 +59,9 @@ export const parseFamiliesInNodes = (nodesAndFamilies, heatmap) => {
     for(let i = 1; i<heatmapLines.length; i++){
         let line = heatmapLines[i]
         if(line.trim() === '') continue
-        found_families.push(line.split(' ')[2].toLowerCase())
+        let separated = line.split(' ')
+        if(separated[4] !== '0') //ensure only filtered hits included
+            found_families.push(separated[2].toLowerCase())
     }
     for(let i = 0; i<nodesAndFamilies.length; i++){
         let cur_obj = nodesAndFamilies[i]

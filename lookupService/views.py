@@ -186,7 +186,7 @@ def get_results(request, _id):
 
         tag = job_object[0].species
         response = get_and_parse_results(tag)
-        families = extract_included_families_from_gff(response['gff'])
+        families = extract_included_families_from_gff(response['filtered_gff'])
         relationships = NodeFamilyRelation.objects.filter(family__in=families)
         serializer = NodeFamilyRelationSerializer(relationships, many=True)
         response['families'] = serializer.data

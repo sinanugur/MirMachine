@@ -76,6 +76,8 @@ export const SearchForm = () => {
         let errorMessage = ''
         if(mode != 'accNum')
             errorMessage = validData(data, file)
+        if(node === 'Metazoa')
+            errorMessage = 'There are no models for the Metazoa node. Select a different node.'
         if(errorMessage === '') {
             try {
                 const response = await submitJob(data, file)
@@ -103,16 +105,16 @@ export const SearchForm = () => {
             setShowIncluded(!showIncluded)
     }
 
-    const addDemoInput = () => {
+    const addDemoInput = async () => {
         if(confirm('Are you sure you want to enter demo values?\nThis will overwrite current input')) {
             //setNode('Caenorhabditis')
+            await setInputMode('text')
             document.getElementById('species').value = ''
             setOptionalActive(true)
             document.getElementById('model').value = 'proto'
             setSingleNode(false)
             setSingleFam(true)
             setSelectedFamily('Let-7')
-            document.getElementById('mode').value = 'text'
             document.getElementById('sequence').value = demoSequence
         }
     }
