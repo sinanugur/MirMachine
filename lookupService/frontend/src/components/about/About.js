@@ -11,11 +11,12 @@ export const AboutPage = () => {
                 The tool also calculates model-specific optimal score cut-off points to further increase accuracy. <br/>
 
                 If you want to use the tool locally, download the <a href={'https://github.com/sinanugur/MirMachine'} target={'_blank'} className={'black-text'}>CLI tool </a>
-                or our Docker image to run it on your local machine.<br/>
+                or our <a href={'https://hub.docker.com/r/selfjell/mirmachine'} target={'_blank'} className={'black-text'}>Docker image</a> to run it on your local machine.<br/>
                 This is especially useful if you possess a HPC unit. <br/><br/>
 
                 If you encounter any bugs in the site, please submit an issue on the application's
-                <a href={'https://github.com/selfjell/MirMachine'} target={'_blank'} className={'black-text'}> Github page</a>.
+                <a href={'https://github.com/selfjell/MirMachine'} target={'_blank'} className={'black-text'}> Github page</a>.<br/>
+                You may also contact us by mail through <b>support@mirmachine.org</b>
                 <br/><br/>
                 The MirMachine tool is created by Sinan Umu and Bastian Fromm.<br/>
                 This application is created by Håvard Trondsen.

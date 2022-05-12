@@ -88,7 +88,10 @@ const Result = () => {
                 </span>
             </span>
             <div className={'result-container'}>
-                Showing filtered results
+                <div>
+                    Remember to download your results.<br/>
+                    Jobs will be deleted from our servers four (4) days from completion.
+                </div>
                 <div className={'graph-row'}>
                 {gffData &&
                     <span>

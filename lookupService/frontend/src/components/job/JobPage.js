@@ -126,7 +126,8 @@ const Job = () => {
                     From there you can also choose to cancel your job if you want to make adjustments.<br/>
                     Therefore, you shouldn't share the ID with anyone you don't trust.<br/>
                     Once you have stored your id, you may close this page. <br/>
-                    If you registered your email, you will be notified when your job is complete.
+                    If you registered your email, you will be notified when your job is complete.<br/>
+                    Remember to download your results. Jobs will be deleted four (4) days after completion.
                 </div>
             </>
             }
