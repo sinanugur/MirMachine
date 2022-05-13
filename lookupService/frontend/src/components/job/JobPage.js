@@ -120,10 +120,10 @@ const Job = () => {
                 <div className={'info-pane'}>
                     Please store your job ID safely for later reference.<br/>
                     This is needed to access your results if you didn't register your email.<br/>
-                    Large MirMachine jobs can be quite time consuming,
+                    Large MirMachine jobs can be time consuming,
                     and your page may timeout in the meantime, which is why this is necessary.<br/>
                     To access your job, head over to the "Ongoing Job" section and enter your ID.<br/>
-                    From there you can also choose to cancel your job if you want to make adjustments.<br/>
+                    From there, you can also choose to cancel your job if you want to make adjustments.<br/>
                     Therefore, you shouldn't share the ID with anyone you don't trust.<br/>
                     Once you have stored your id, you may close this page. <br/>
                     If you registered your email, you will be notified when your job is complete.<br/>

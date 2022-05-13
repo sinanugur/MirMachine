@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
+from django.views.generic.base import TemplateView
 from lookupService.views import index_view
 
 
 urlpatterns = [
     path('mirmachine-administrator/', admin.site.urls),
     path('api/', include('lookupService.urls')),
+    path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     path('', index_view),
     re_path(r'^(?:.*)/?$', index_view)
 ]
