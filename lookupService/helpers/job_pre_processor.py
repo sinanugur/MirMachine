@@ -21,11 +21,14 @@ def process_form_data(request):
                 updated_data['species'], i = extract_fasta_header(lines)
                 break
     elif serializer.initial_data['mode'] == 'accNum':
-        data, _hash = fetch_from_ftp(serializer.initial_data['data'])
-        if data == '':
-            raise RuntimeError
-        updated_data['data'] = data
-        updated_data['hash'] = _hash
+        try:
+            data, _hash = fetch_from_ftp(serializer.initial_data['data'])
+            if data == '':
+                raise RuntimeError
+            updated_data['data'] = data
+            updated_data['hash'] = _hash
+        except Exception:
+            raise ValueError('Could not retrieve genome. Try a different accession number.')
     if 'hash' not in updated_data:
         updated_data['hash'] = hashlib.md5(serializer.initial_data['data'].encode()).hexdigest()
     updated_data['species'] = serializer.initial_data['species'].replace(' ', '_')
