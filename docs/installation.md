@@ -8,7 +8,7 @@ conda install mirmachine -c bioconda -c conda-forge
 
 You may want to install Mamba first, which will reduce installation time.
 
-To install this package with conda run:
+To install this package with Mamba run:
 
 ```
 conda install mamba -c conda-forge
