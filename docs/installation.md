@@ -3,9 +3,17 @@ Installation
 To install this package with conda run:
 
 ```
-conda install -c bioconda -c conda-forge mirmachine
+conda install mirmachine -c bioconda -c conda-forge 
 ```
 
+You may want to install Mamba first, which will reduce installation time.
+
+To install this package with conda run:
+
+```
+conda install mamba -c conda-forge
+mamba install mirmachine -c bioconda -c conda-forge 
+```
 
 Alternative method:
 ```
