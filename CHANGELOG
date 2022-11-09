@@ -1,3 +1,12 @@
+## [0.2.11.2022] - 2022-02-28
+### Changed
+- MirGeneDB v2.1(2022)
+- Proto: 143 but 326 models available
+- Deutero: 388 but 825 models available
+- Combined: 509 but 1157 models available
+### Added
+- Some minor additions.
+
 ## [0.2.11.2] - 2021-12-29
 ### Added
 - Family and node printing.
