@@ -38,6 +38,8 @@ Create a new directory and run MirMachine there after the installation. MirMachi
 MirMachine.py -n Caenorhabditis -s Caenorhabditis_elegans --genome sample/genomes/ce11.fa --cpu 20
 ```
 
+See our documentation for detailed explanations: https://mirmachine.readthedocs.io/
+
 Options and Arguments
 ---------------------
 ```
@@ -82,4 +84,7 @@ You will see `results/predictions/` directory which contains:
 `fasta/` __Both high and low confidence predictions in FASTA format.__  
 
 
-
+MirMachine's other repos
+------
+Web application repo: https://github.com/selfjell/MirMachine
+Supplementary files repo: https://github.com/sinanugur/MirMachine-supplementary
