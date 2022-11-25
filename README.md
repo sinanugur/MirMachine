@@ -88,3 +88,10 @@ MirMachine's other repos
 ------
 Web application repo: https://github.com/selfjell/MirMachine  
 Supplementary files repo: https://github.com/sinanugur/MirMachine-supplementary
+
+Citiation
+------
+Our preprint is here: https://www.biorxiv.org/content/10.1101/2022.11.23.517654v1
+Please cite if you find our tool useful.
+
+
