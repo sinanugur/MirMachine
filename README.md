@@ -12,10 +12,10 @@ Installation
 To install this package with conda run:
 
 ```
-conda install -c bioconda -c conda-forge mirmachine
+conda install mirmachine -c bioconda -c conda-forge
 ```
 
-Please add conda-forge as a channel.  
+Please add conda-forge as a channel and installing via Mamba(https://github.com/mamba-org/mamba) is also a good for a faster installation.
 
 Alternative method for installing dev version:
 ```
