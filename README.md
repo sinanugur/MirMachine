@@ -17,7 +17,7 @@ conda install mirmachine -c bioconda -c conda-forge
 
 Please add conda-forge as a channel and installing via [Mamba](https://github.com/mamba-org/mamba) is also a good for a faster installation.
 
-Alternative method for installing dev version:
+Alternative method for installing directly from the GitHub repo:
 ```
 git clone https://github.com/sinanugur/MirMachine.git
 cd MirMachine
@@ -29,7 +29,7 @@ Check if the installation works by calling the main script.
 MirMachine.py --help
 ```
 
-You have to install dependencies via conda if you prefer Github installation.  
+Note: You have to install dependencies if you prefer Github installation.  
 
 Quick start example
 -------------------
