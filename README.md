@@ -15,7 +15,7 @@ To install this package with conda run:
 conda install mirmachine -c bioconda -c conda-forge
 ```
 
-Please add conda-forge as a channel and installing via [Mamba](https://github.com/mamba-org/mamba) is also a good for a faster installation.  
+Please add conda-forge as a channel and installing via [Mamba](https://github.com/mamba-org/mamba) is also strongly recommended for a faster installation.  
 
 ```
 conda install mamba -c conda-forge
