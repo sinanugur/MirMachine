@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.2.11.2022"
+__version__="0.2.12"
 MDBver="2.1(2022)"
 
 __licence__="""
@@ -51,6 +51,7 @@ mirna=[x.title() + ".PRE" for x in config['mirnas']]
 
 cutoff_file=meta_directory + "/cutoffs/" + model + "/mirmachine_trusted_cutoffs.tsv"
 
+nodes_mirnas_file=meta_directory + "/nodes_mirnas_corrected.tsv"
 
 
 gffheader="""##gff-version 3
@@ -80,14 +81,21 @@ with open(cutoff_file) as tsv:
 	for line in tsv.readlines():
 		cutoffs_dict[line.split()[0] + ".PRE"]=line.split()[1]
 
+nodes_mirnas_dict=defaultdict(str)
+with open(nodes_mirnas_file) as tsv:
+	for line in tsv.readlines():
+		nodes_mirnas_dict[line.split()[1].title() + ".PRE"]=line.split()[0]
+
+
 
 
 rule all:
 	input:
 		expand("results/predictions/gff/{species}.PRE.gff",species=species),
         expand("results/predictions/filtered_gff/{species}.PRE.gff",species=species),
-		expand("results/predictions/heatmap/{species}.heatmap.tsv",species=species),
+		expand("results/predictions/heatmap/{species}.heatmap.csv",species=species),
 		expand("results/predictions/fasta/{species}.PRE.fasta",species=species)
+
 
 rule prepare_genome:
 	input:
@@ -202,17 +210,43 @@ rule combine_filtered_gffs:
 		shell("cat {input} | awk '/PRE/' >> {output}")
 
 
+rule mirna_node_tmp_file:
+	input:
+		nodes_mirnas_file
+	output:
+		"analyses/search/{species}.mirna_nodes.csv"
+	run:
+		for i in mirna:
+			node=nodes_mirnas_dict[i]
+			o=i.strip(".PRE")
+			shell("""echo {o}","{node} >> {output}""")
+
+
+
 rule create_heatmap_csv:
 	input:
 		"results/predictions/gff/{species}.PRE.gff",
-		"results/predictions/filtered_gff/{species}.PRE.gff"
+		"results/predictions/filtered_gff/{species}.PRE.gff",
+		"analyses/search/{species}.mirna_nodes.csv"
+
 	output:
 		temp("results/predictions/gff/{species}.csv"),
 		temp("results/predictions/filtered_gff/{species}.csv"),
-		"results/predictions/heatmap/{species}.heatmap.tsv"
-	shell:
-		"""
-		gawk 'match($0,"gene_id=(.*).PRE",m) {{print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2"\t"$1}}' > {output[0]}
-		gawk 'match($0,"gene_id=(.*).PRE",m) {{print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2"\t"$1}}' > {output[1]}
-		join -a 1 {output[0]} {output[1]} | awk -v species={wildcards.species} -v node={node} 'BEGIN{{print "species","node","family","total_hits","filtered_hits"}}{{print species,node,$0}}' > {output[2]}
-		"""
+		temp("results/predictions/heatmap/{species}.csv"),
+		"results/predictions/heatmap/{species}.heatmap.csv"
+
+	params:
+		header=gffheader
+	run:
+		shell("""
+		gawk 'match($0,"gene_id=(.*).PRE",m) {{print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2","$1}}' > {output[0]}
+		gawk 'match($0,"gene_id=(.*).PRE",m) {{print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2","$1}}' > {output[1]}
+
+		join -a 1 -t, {output[0]} {output[1]} > {output[2]}
+
+		echo "{params.header}" > {output[3]}
+		join -a 1 -t, {input[2]} {output[2]} | awk -v species={wildcards.species} -v query_node={node} 'BEGIN{{print "species,query_node,family,node,total_hits,filtered_hits"}}{{print species","query_node","$0}}' >> {output[3]}
+
+
+		""")
+
