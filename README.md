@@ -34,7 +34,13 @@ Check if the installation works by calling the main script.
 MirMachine.py --help
 ```
 
-Note: You have to install dependencies if you prefer Github installation.  
+Note: You have to install dependencies if you prefer Github installation.
+
+Warning for Apple Silicon users (e.g. M1 or M2), bedtools depedency is not available for arm64. You have to set your environment to osx-64.
+
+```
+conda config --env --set subdir osx-64
+```
 
 Quick start example
 -------------------
