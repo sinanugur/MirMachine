@@ -29,13 +29,9 @@ MirMachine.py --help
 
 Note: You have to install dependencies if you prefer GitHub or PyPi installation.
 
-A warning for Apple Silicon users (e.g. M1 or M2): bedtools depedency is not available for arm64 architecture. You have to set your environment to osx-64. You can do that like this:
+A warning for Apple Silicon users (e.g. M1 or M2): bedtools depedency is not available for arm64 architecture. You have to set your environment to osx-64. You can install like this, which create a new environment and will install MirMachine:
 ```
-conda create -n mirmachine #create a new environment
-conda activate mirmachine #activate the new environment
-conda config --env --set subdir osx-64 #set architecture to osx-64
-conda install mamba -c conda-forge #install mamba to this environment
-mamba install mirmachine -c bioconda -c conda-forge #install MirMachine using mamba
+CONDA_SUBDIR=osx-64 mamba create -n mirmachine -c conda-forge -c bioconda mirmachine
 ```
 
 Quick start example
