@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.2.12"
+__version__="0.2.13rc1"
 MDBver="2.1(2022)"
 
 __licence__="""
@@ -53,6 +53,8 @@ cutoff_file=meta_directory + "/cutoffs/" + model + "/mirmachine_trusted_cutoffs.
 
 nodes_mirnas_file=meta_directory + "/nodes_mirnas_corrected.tsv"
 
+
+inclusion_treshold=0.2
 
 gffheader="""##gff-version 3
 # MirMachine version: {version}
@@ -119,7 +121,7 @@ rule search_CM:
 	threads: 15
 	shell:
 		"""
-		cmsearch --cpu {threads} {input} {genome} > {output}
+		cmsearch --incE {inclusion_treshold} --cpu {threads} {input} {genome} > {output}
 
 		"""
 rule parse_output:
