@@ -1,6 +1,7 @@
 # MirMachine
 
-[![Build Status](https://app.travis-ci.com/sinanugur/MirMachine.svg?branch=master)](https://app.travis-ci.com/sinanugur/MirMachine)  
+[![Build Status](https://app.travis-ci.com/sinanugur/MirMachine.svg?branch=master)](https://app.travis-ci.com/sinanugur/MirMachine) [![Documentation Status](https://readthedocs.org/projects/mirmachine/badge/?version=latest)](https://mirmachine.readthedocs.io/en/latest/?badge=latest)  
+
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)  [![PyPI version](https://badge.fury.io/py/MirMachine.svg)](https://badge.fury.io/py/MirMachine)  [![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/version.svg)](https://anaconda.org/bioconda/mirmachine)  [![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/downloads.svg)](https://anaconda.org/bioconda/mirmachine)  
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/latest_release_relative_date.svg)](https://anaconda.org/bioconda/mirmachine)  
@@ -15,18 +16,10 @@ To install this package with conda run:
 conda install mirmachine -c bioconda -c conda-forge
 ```
 
-Please add conda-forge as a channel and installing via [Mamba](https://github.com/mamba-org/mamba) is also a good for a faster installation.  
-
+Please add conda-forge as a channel. Installing via [mamba](https://github.com/mamba-org/mamba) is also strongly recommended for a faster installation. You can install __mamba__ and later MirMachine like this:
 ```
 conda install mamba -c conda-forge
 mamba install mirmachine -c bioconda -c conda-forge
-```
-
-Alternative method for installing directly from the GitHub repo:
-```
-git clone https://github.com/sinanugur/MirMachine.git
-cd MirMachine
-pip install .
 ```
 
 Check if the installation works by calling the main script.  
@@ -34,7 +27,12 @@ Check if the installation works by calling the main script.
 MirMachine.py --help
 ```
 
-Note: You have to install dependencies if you prefer Github installation.  
+Note: You have to install dependencies if you prefer GitHub or PyPi installation.
+
+A warning for Apple Silicon users (e.g. M1 or M2): bedtools depedency is not available for arm64 architecture. You have to set your environment to osx-64. You can install like this, which create a new environment and will install MirMachine:
+```
+CONDA_SUBDIR=osx-64 mamba create -n mirmachine -c conda-forge -c bioconda mirmachine
+```
 
 Quick start example
 -------------------
