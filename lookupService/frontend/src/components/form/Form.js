@@ -256,10 +256,10 @@ export const SearchForm = () => {
                 <h3 className={'section-title'}>Cite us</h3>
                 <span className={'section-wrapper'}>
                     <p>
-                        Umu S, Paynter V, Trondsen H, Buschmann T, Rounge T, Peterson KJ, Fromm B;
-                        Accurate microRNA annotation of animal genomes using trained covariance models of curated microRNA complements in MirMachine
-                    </p>
-                    <a href={'https://doi.org/10.1016/j.xgen.2023.100348'} target={'_blank'}>Cell Genomics, 2023</a>
+                        Umu S, Paynter V, Trondsen H, Buschmann T, Rounge T, Peterson KJ and Fromm B,
+                        Accurate microRNA annotation of animal genomes using trained covariance models of curated microRNA complements in MirMachine, Cell Genomics, 2023.
+                    <br> 
+                    <a href={'https://doi.org/10.1016/j.xgen.2023.100348'} target={'_blank'}>https://doi.org/10.1016/j.xgen.2023.100348</a>
             </span>
             </span>
             </>}
