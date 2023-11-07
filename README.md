@@ -94,7 +94,7 @@ Supplementary files repo: https://github.com/sinanugur/MirMachine-supplementary
 
 Citiation
 ------
-Our preprint is here: https://www.biorxiv.org/content/10.1101/2022.11.23.517654v1
+Our Cell Genomics paper is here: [https://doi.org/10.1016/j.xgen.2023.100348](https://doi.org/10.1016/j.xgen.2023.100348)
 Please cite if you find our tool useful.
 
 
