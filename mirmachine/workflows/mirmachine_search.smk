@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.2.13rc1"
+__version__="0.2.13rc3"
 MDBver="2.1(2022)"
 
 __licence__="""
@@ -48,24 +48,16 @@ model=config.get('model','combined')
 meta_directory=config.get('meta_directory','meta')
 mirmachine_path=config.get('mirmachine_path','mirmachine')
 mirna=[x.title() + ".PRE" for x in config['mirnas']]
+losses=[x.title() + ".PRE" for x in config.get('losses',[])]
+
 
 cutoff_file=meta_directory + "/cutoffs/" + model + "/mirmachine_trusted_cutoffs.tsv"
 
 nodes_mirnas_file=meta_directory + "/nodes_mirnas_corrected.tsv"
+#losses_mirnas_file=meta_directory + "/losses_mirnas.tsv"
+seeds_file=meta_directory + "/family_seeds.tsv"
 
-
-inclusion_treshold=0.2
-
-gffheader="""##gff-version 3
-# MirMachine version: {version}
-# CM Models: Built using MirGeneDB {MDBver}
-# Total families searched: {total}
-# Node: {node}
-# Model: {model}
-# Genome file: {genome}
-# Species: {species}
-# Params: {params}
-# miRNAs families searched: {mirna}""".format(version=__version__,MDBver=MDBver,total=len(mirna),node=node,model=model,genome=genome,species=species,mirna=config['mirnas'],params=params)
+inclusion_treshold=0.2 #default inclusion treshold for cmsearch
 
 #pull out CMs, I added this part to check ready models
 #files, = glob_wildcards("analyses/cms/{files}.CM")
@@ -76,7 +68,7 @@ gffheader="""##gff-version 3
 #	mirna=files
 
 
-print (gffheader)
+
 
 cutoffs_dict=defaultdict(int)
 with open(cutoff_file) as tsv:
@@ -89,7 +81,34 @@ with open(nodes_mirnas_file) as tsv:
 		nodes_mirnas_dict[line.split()[1].title() + ".PRE"]=line.split()[0]
 
 
+seeds_dict=defaultdict(dict)
+with open(seeds_file) as tsv:
+	for line in tsv.readlines():
+		#Bantam_3p       NA      AAAGACC
+		m=line.split()[0].split("_")[0].title() + ".PRE"
+		if "5p" not in seeds_dict[m]:
+			seeds_dict[m]["5p"]=list()
+		if "3p" not in seeds_dict[m]:
+			seeds_dict[m]["3p"]=list()
+		if line.split()[1] != "NA":
+			seeds_dict[m]["5p"].append(line.split()[1])
+		if line.split()[2] != "NA":
+			seeds_dict[m]["3p"].append(line.split()[2])
 
+gffheader="""##gff-version 3
+# MirMachine version: {version}
+# CM Models: Built using MirGeneDB {MDBver}
+# Total families searched: {total}
+# Node: {node}
+# Model: {model}
+# Genome file: {genome}
+# Species: {species}
+# Params: {params}
+# miRNA families searched: {mirna}
+# Expected miRNA family losses: {losses} 
+# miRNA score: SCORE """.format(version=__version__,MDBver=MDBver,total=len(mirna),node=node,model=model,genome=genome,species=species,mirna=config['mirnas'],params=params,losses=losses)
+
+#print (gffheader)
 
 rule all:
 	input:
@@ -135,7 +154,7 @@ rule parse_output:
 		"analyses/output/{species}/{mirna}.unfiltered"
 
 	params:
-		parse=""" 'match($0,/\([0-9]+\)\s+!\s+.*/,m){{if($9 =="+") {{start=$7;end=$8}} else {{start=$8;end=$7}}; print $6"\tcmsearch\tncRNA\t"start"\t"end"\t"$4"\t"$9"\t.\tgene_id="id";E-value="$3}}' """,
+		parse=""" 'match($0,/\([0-9]+\)\s+!\s+.*/,m){{if($9 =="+") {{start=$7;end=$8}} else {{start=$8;end=$7}}; print $6"\tMirMachine\tncRNA\t"start"\t"end"\t"$4"\t"$9"\t.\tgene_id="id";E-value="$3}}' """,
 
 	shell:
 		"""
@@ -168,18 +187,22 @@ rule fastas:
 		"analyses/output/{species}/{mirna}.gff",
 		cutoff_file
 	output:
-		temp("analyses/output/{species}/{mirna}.filtered.fasta")
+		#temp("analyses/output/{species}/{mirna}.filtered.fasta")
+		"analyses/output/{species}/{mirna}.filtered.fasta"
 	params:
-		trusted=lambda wildcards: cutoffs_dict[wildcards.mirna]
+		trusted=lambda wildcards: cutoffs_dict[wildcards.mirna],
+		seeds5=lambda wildcards: seeds_dict[wildcards.mirna]["5p"],
+		seeds3=lambda wildcards: seeds_dict[wildcards.mirna]["3p"]
 	shell:
 		"""
 		paste <(cat {input[0]} | gawk -v id={wildcards.mirna} -v trusted={params.trusted} '{{if($6 >= trusted) o="HIGHconf"; else o="LOWconf"; print ">"id"_"$1"_"$4"_"$5"_("$7")_"o}}') <(bedtools getfasta -tab -s -fi {genome} -bed {input[0]} | awk '{{print $2}}') | awk '{{print $1"\\n"$2}}' > {output}
-
+		echo "'{params.seeds5}'" "'{params.seeds3}'"  >> blah.txt
+		seed_detector.py {output} {params.seeds5} {params.seeds3} | sponge {output}
 		"""
 		
 rule combine_fastas:
 	input:
-		expand("analyses/output/{species}/{mirna}.filtered.fasta",species=species,mirna=mirna)
+		expand("analyses/output/{species}/{mirna}.filtered.fasta",species=species,mirna=[item for item in mirna if item not in losses])
 	output:
 		"results/predictions/fasta/{species}.PRE.fasta"
 	run:
@@ -187,29 +210,37 @@ rule combine_fastas:
 		shell("cat {input} | awk '{{print}}' > {output}")
 
 
+
+
 rule combine_gffs:
 	input:
-		expand("analyses/output/{species}/{mirna}.gff",species=species,mirna=mirna)
+		expand("analyses/output/{species}/{mirna}.gff",species=species,mirna=[item for item in mirna if item not in losses])
 	output:
 		"results/predictions/gff/{species}.PRE.gff"
 	params:
-		header=gffheader
+		header=gffheader,
+		total=len(mirna) - len(losses)
 	run:
 		shell("""echo "{params.header}" > {output}""")
 		#shell("cat analyses/output/{wildcards.species}/*PRE.gff | awk '/PRE/' >> {output}")
 		shell("cat {input} | awk '/PRE/' >> {output}")
+		shell(""" SCORE=$(gawk -v total={params.total} 'match($0,"gene_id=(.*).PRE",m) {{a[m[1]]=0;}}END{{print (length(a)/total)*100}}' {output});
+		sed "s/SCORE/$SCORE/g" {output} | sponge {output}""")
 
 rule combine_filtered_gffs:
 	input:
-		expand("analyses/output/{species}/{mirna}.filtered.gff",species=species,mirna=mirna)
+		expand("analyses/output/{species}/{mirna}.filtered.gff",species=species,mirna=[item for item in mirna if item not in losses])
 	output:
 		"results/predictions/filtered_gff/{species}.PRE.gff"
 	params:
-		header=gffheader
+		header=gffheader,
+		total=len(mirna) - len(losses)
 	run:
 		shell("""echo "{params.header}" > {output}""")
 		#shell("cat analyses/output/{wildcards.species}/*PRE.filtered.gff | awk '/PRE/' >> {output}")
 		shell("cat {input} | awk '/PRE/' >> {output}")
+		shell(""" SCORE=$(gawk -v total={params.total} 'match($0,"gene_id=(.*).PRE",m) {{a[m[1]]=0;}}END{{print (length(a)/total)*100}}' {output});
+		sed "s/SCORE/$SCORE/g" {output} | sponge {output}""")
 
 
 rule mirna_node_tmp_file:
@@ -246,7 +277,7 @@ rule create_heatmap_csv:
 
 		join -a 1 -t, {output[0]} {output[1]} > {output[2]}
 
-		echo "{params.header}" > {output[3]}
+		echo "{params.header}" | grep -v SCORE > {output[3]}
 		join -a 1 -t, {input[2]} {output[2]} | awk -v species={wildcards.species} -v query_node={node} 'BEGIN{{print "species,query_node,family,node,total_hits,filtered_hits"}}{{print species","query_node","$0}}' >> {output[3]}
 
 

@@ -46,7 +46,7 @@ except ImportError:
 meta_directory=os.path.dirname(meta.__file__)
 
 __author__ = 'sium'
-__version__= '0.2.13rc1'
+__version__= '0.2.13rc3'
 
 
 __licence__="""
@@ -77,8 +77,8 @@ SOFTWARE.
 __doc__="""Main MirMachine executable
 
 Usage:
-    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--dry]
-    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--unlock|--remove] [--dry]
+    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry]
+    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry]
     MirMachine.py --node <text> [--add-all-nodes]
     MirMachine.py --print-all-nodes
     MirMachine.py --print-all-families
@@ -104,6 +104,7 @@ Options:
     -r, --remove                        Clear all output files (this won't remove input files).
     -d, --dry                           Dry run.
     -h, --help                          Show this screen.
+    --touch                             Touch output files (mark them up to date without really changing them).
     --version                           Show version.
 
 """
@@ -154,16 +155,28 @@ def create_yaml_file():
           genome=arguments['--genome'])
     
     else:
-        yaml_argument="""echo {node} {default_node_argument} | sort | uniq | while read a; \
+        yaml_argument="""
+        
+        echo {node} {default_node_argument} | sort | uniq | while read a; \
         do grep $a {meta_directory}/nodes_mirnas_corrected.tsv; done \
         | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq | \
-        awk -v genome={genome} -v species={species} -v node={node} 'BEGIN{{print "genome: "genome;print "species: "species;print "node: "node; print "mirnas:"}}{{print " - "$1}}' > data/yamls/{species}.yaml""".format(
+        awk -v genome={genome} -v species={species} -v node={node} 'BEGIN{{print "genome: "genome;print "species: "species;print "node: "node; print "mirnas:"}}{{print " - "$1}}' > data/yamls/{species}.yaml;  \
+        
+        echo {node} {default_node_argument} | sort | uniq | while read a; \
+        do grep $a {meta_directory}/losses_mirnas.tsv; done \
+        | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq | \
+        awk 'BEGIN{{print "losses:"}}{{print " - "$1}}' >> data/yamls/{species}.yaml;  \
+        
+        """.format(
           default_node_argument=default_node_argument,
           meta_directory=meta_directory,
           node=arguments['--node'],
             mirmachine_path=mirmachine_path,
           species=arguments['--species'],
           genome=arguments['--genome'])
+        
+
+
 
     subprocess.check_call(yaml_argument,shell=True)
 
@@ -215,8 +228,9 @@ def run_mirmachine():
     params="'{p}'".format(p=" ".join(sys.argv))
     dry_run="-n" if arguments["--dry"] else ""
     unlock="--unlock" if arguments["--unlock"] else ""
+    touch="--touch" if arguments["--touch"] else ""
     remove="--delete-all-output" if arguments["--remove"] else ""
-    snakemake_argument="snakemake --rerun-incomplete {dry} {unlock} {remove} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} params={params} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
+    snakemake_argument="snakemake --rerun-incomplete {touch} {dry} {unlock} {remove} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} params={params} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
     species=arguments['--species'],
     cpu=arguments['--cpu'],
     model=arguments['--model'].lower(),
@@ -224,6 +238,7 @@ def run_mirmachine():
     mirmachine_path=mirmachine_path,
     dry=dry_run,
     unlock=unlock,
+    touch=touch,
     remove=remove,
     params=params)
     
