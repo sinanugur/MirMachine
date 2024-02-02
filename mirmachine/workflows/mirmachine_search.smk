@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.2.13rc3"
+__version__="0.2.13rc4"
 MDBver="2.1(2022)"
 
 __licence__="""
@@ -154,12 +154,12 @@ rule parse_output:
 		"analyses/output/{species}/{mirna}.unfiltered"
 
 	params:
-		parse=""" 'match($0,/\([0-9]+\)\s+!\s+.*/,m){{if($9 =="+") {{start=$7;end=$8}} else {{start=$8;end=$7}}; print $6"\tMirMachine\tncRNA\t"start"\t"end"\t"$4"\t"$9"\t.\tgene_id="id";E-value="$3}}' """,
+		parse=""" 'match($0,/\([0-9]+\)\s+!\s+.*/,m){{if($9 =="+") {{start=$7;end=$8}} else {{start=$8;end=$7}}; print $6"\tMirMachine\tmicroRNA\t"start"\t"end"\t"$4"\t"$9"\t.\tgene_id="id";E-value="$3}}' """,
 
 	shell:
 		"""
 		#parse the result file into GFF file
-		awk '{{print}} /Hit alignments/ {{exit}}' {input[0]} | gawk -v id={wildcards.mirna} {params.parse} > {output[0]}
+		awk '{{print}} /Hit alignments/ {{exit}}' {input[0]} | gawk -v id={wildcards.mirna} {params.parse} | gawk '($5-$4)>=50{{print}}' > {output[0]}
 		bedtools slop -i {output[0]} -g {input[1]} -b 30 > {output[1]}
 
 		#write the sequences into the GFF file
