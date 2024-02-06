@@ -196,8 +196,8 @@ rule fastas:
 	shell:
 		"""
 		paste <(cat {input[0]} | gawk -v id={wildcards.mirna} -v trusted={params.trusted} '{{if($6 >= trusted) o="HIGHconf"; else o="LOWconf"; print ">"id"_"$1"_"$4"_"$5"_("$7")_"o}}') <(bedtools getfasta -tab -s -fi {genome} -bed {input[0]} | awk '{{print $2}}') | awk '{{print $1"\\n"$2}}' > {output}
-		echo "'{params.seeds5}'" "'{params.seeds3}'"  >> blah.txt
-		seed_detector.py {output} {params.seeds5} {params.seeds3} | sponge {output}
+		
+		seed_detector.py {output} "'{params.seeds5}"' "'{params.seeds3}"' | sponge {output}
 		"""
 		
 rule combine_fastas:
