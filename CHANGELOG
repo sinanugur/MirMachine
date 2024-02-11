@@ -4,7 +4,8 @@
   - fewer than 50 nucleotides are not considered as a hit anymore.
   - GFF files have "MirMachine" and "microRNA" fields that replaced the previous fields.
 ## Added
-  - microRNA score.
+  - microRNA score reported in GFF files.
+  - microRNA losses reported in GFF files
   - Seed match reported in FASTA headers.
 
 ## [0.2.12] - 2023-02-17
