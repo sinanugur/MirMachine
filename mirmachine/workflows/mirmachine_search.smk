@@ -49,8 +49,10 @@ meta_directory=config.get('meta_directory','meta')
 mirmachine_path=config.get('mirmachine_path','mirmachine')
 mirna=[x.title() + ".PRE" for x in config['mirnas']]
 
-
-losses=[x.title() + ".PRE" for x in config.get('losses',[]) if config.get('losses',[]) is not None else []]
+if config.get('losses',[]):
+	losses=[x.title() + ".PRE" for x in config.get('losses',[])]
+else:
+	losses=[]
 
 
 cutoff_file=meta_directory + "/cutoffs/" + model + "/mirmachine_trusted_cutoffs.tsv"
