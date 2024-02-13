@@ -46,7 +46,7 @@ except ImportError:
 meta_directory=os.path.dirname(meta.__file__)
 
 __author__ = 'sium'
-__version__= '0.2.13rc4'
+__version__= '0.2.13rc5'
 
 
 __licence__="""
@@ -268,7 +268,8 @@ def main():
         elif arguments["--print-all-nodes"]:
             print_all_nodes()
             return
-        
+
+
         start_time = datetime.now()
         create_yaml_file()
 
@@ -289,7 +290,9 @@ def main():
                 console.print("You can run [bold red]MirMachine.py --print-all-families [/bold red] to see available families")
                 return
 
-
+        if not os.path.isfile(arguments["--genome"]):
+            print(Panel.fit("""Error, the genome file does not exist!\nThe genome file given is: "{genome}"\nPlease select a correct genome file in uncompressed FASTA format.""".format(genome=arguments["--genome"])))
+            return
 
         run_mirmachine()
         end_time = datetime.now()

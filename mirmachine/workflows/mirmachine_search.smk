@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.2.13rc4"
+__version__="0.2.13rc5"
 MDBver="2.1(2022)"
 
 __licence__="""
@@ -199,7 +199,7 @@ rule fastas:
 		seeds3=lambda wildcards: seeds_dict[wildcards.mirna]["3p"]
 	shell:
 		"""
-		paste <(cat {input[0]} | gawk -v id={wildcards.mirna} -v trusted={params.trusted} '{{if($6 >= trusted) o="HIGHconf"; else o="LOWconf"; print ">"id"_"$1"_"$4"_"$5"_("$7")_"o}}') <(bedtools getfasta -tab -s -fi {genome} -bed {input[0]} | awk '{{print $2}}') | awk '{{print $1"\\n"$2}}' > {output}
+		paste <(cat {input[0]} | gawk -v id={wildcards.mirna} -v trusted={params.trusted} '{{if($6 >= trusted) o="HIGHconf"; else o="LOWconf"; print ">"id"_"$1"_"$4"_"$5"_("$7")_"$6"_"o}}') <(bedtools getfasta -tab -s -fi {genome} -bed {input[0]} | awk '{{print $2}}') | awk '{{print $1"\\n"$2}}' > {output}
 		seed_detector.py {output} "'{params.seeds5}'" "'{params.seeds3}'" | sponge {output}
 		"""
 		

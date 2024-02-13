@@ -14,8 +14,8 @@ import ast
 def check_patterns(patterns, target_sequence):
     for pattern in patterns:
         if pattern in target_sequence:
-            return True
-    return False
+            return pattern
+    return None
 
 def read_fasta(file_path):
     sequences = {}
@@ -48,14 +48,21 @@ def modify_header(sequence_dict):
     modified_sequences = {}
 
     for header, sequence in sequence_dict.items():
-        if check_patterns(patterns_5p, sequence[:10].upper()):
-            new_header = f"{header}_seed_matched"
-            modified_sequences[new_header] = sequence
-        elif check_patterns(patterns_3p, sequence[-28:][:16].upper()):
-            new_header = f"{header}_seed_matched"
-            modified_sequences[new_header] = sequence
-        else:
+        sequence=sequence.upper().replace('U','T')
+
+        p5 = check_patterns(patterns_5p, sequence[:10].upper())
+
+        p3 = check_patterns(patterns_3p, sequence[-28:][:16].upper())
+
+        if p3 is None and p5 is None: 
             modified_sequences[header] = sequence
+        else:
+            if p5 is not None:
+                new_header = f"{header}_p5_seed({p5})" 
+                modified_sequences[new_header] = sequence
+            if p3 is not None:
+                new_header = f"{header}_p3_seed({p3})"
+                modified_sequences[new_header] = sequence
 
     return modified_sequences
 
