@@ -57,12 +57,12 @@ def modify_header(sequence_dict):
         if p3 is None and p5 is None: 
             modified_sequences[header] = sequence
         else:
+            new_header=header
             if p5 is not None:
-                new_header = f"{header}_p5_seed({p5})" 
-                modified_sequences[new_header] = sequence
+                new_header = f"{new_header}_p5_seed({p5})" 
             if p3 is not None:
-                new_header = f"{header}_p3_seed({p3})"
-                modified_sequences[new_header] = sequence
+                new_header = f"{new_header}_p3_seed({p3})"
+            modified_sequences[new_header] = sequence
 
     return modified_sequences
 
