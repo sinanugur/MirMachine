@@ -3,7 +3,7 @@
   - cmsearch --incE 0.2 argument is added to the cmsearch command. 
   - fewer than 50 nucleotides are not considered as a hit anymore.
   - GFF files have "MirMachine" and "microRNA" fields that replaced the previous fields.
-  - Check if the genome file is available.
+  - Some bug fixes and improvements.
 ## Added
   - microRNA score reported in GFF files.
   - microRNA losses reported in GFF files

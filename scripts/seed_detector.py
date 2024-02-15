@@ -9,6 +9,7 @@ Seed detector
 
 
 import sys
+from Bio import SeqIO
 import ast
 
 def check_patterns(patterns, target_sequence):
@@ -19,28 +20,11 @@ def check_patterns(patterns, target_sequence):
 
 def read_fasta(file_path):
     sequences = {}
-    current_header = None
-    current_sequence = []
 
-    with open(file_path, 'r') as file:
-        for line in file:
-            line = line.strip()
-            if line.startswith('>'):
-                # If it's a header line
-                if current_header is not None:
-                    # Store the previous sequence
-                    sequences[current_header] = ''.join(current_sequence)
-                
-                # Update the current header
-                current_header = line[1:]
-                current_sequence = []
-            else:
-                # If it's a sequence line
-                current_sequence.append(line)
-
-        # Store the last sequence
-        if current_header is not None:
-            sequences[current_header] = ''.join(current_sequence)
+    for record in SeqIO.parse(file_path, "fasta"):
+        header = str(record.id)
+        sequence = str(record.seq)
+        sequences[header] = sequence
 
     return sequences
 
