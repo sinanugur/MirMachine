@@ -89,7 +89,7 @@ seeds_dict=defaultdict(dict)
 with open(seeds_file) as tsv:
 	for line in tsv.readlines():
 		#Bantam_3p       NA      AAAGACC
-		m=line.split()[0].split("_")[0].title() + ".PRE"
+		m=line.split()[0].split("_")[0].strip().title() + ".PRE"
 		if "5p" not in seeds_dict[m]:
 			seeds_dict[m]["5p"]=list()
 		if "3p" not in seeds_dict[m]:

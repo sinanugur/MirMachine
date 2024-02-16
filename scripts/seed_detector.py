@@ -13,10 +13,11 @@ from Bio import SeqIO
 import ast
 
 def check_patterns(patterns, target_sequence):
+    p=[]
     for pattern in patterns:
-        if pattern in target_sequence:
-            return pattern
-    return None
+        if pattern.strip() in target_sequence:
+            p.append(pattern)
+    return p
 
 def read_fasta(file_path):
     sequences = {}
@@ -38,14 +39,14 @@ def modify_header(sequence_dict):
 
         p3 = check_patterns(patterns_3p, sequence[-28:][:16].upper())
 
-        if p3 is None and p5 is None: 
+        if not p3 and not p5: 
             modified_sequences[header] = sequence
         else:
             new_header=header
-            if p5 is not None:
-                new_header = f"{new_header}_p5_seed({p5})" 
-            if p3 is not None:
-                new_header = f"{new_header}_p3_seed({p3})"
+            if p5:
+                new_header = "{new_header}_p5_seed({p5})".format(new_header=new_header, p5=','.join(p5))
+            if p3:
+                new_header = "{new_header}_p3_seed({p3})".format(new_header=new_header, p3=','.join(p3))
             modified_sequences[new_header] = sequence
 
     return modified_sequences
