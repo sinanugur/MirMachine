@@ -20,9 +20,9 @@ with open("README.md","r") as readme:
 
 setup(
     name="MirMachine",
-    version="0.2.12",
+    version="0.2.13",
     packages=find_packages(exclude=('tests*','testing*')),
-    scripts=["scripts/MirMachine.py","scripts/mirmachine-tree-parser.py","scripts/gff_sort_and_compete.sh"],
+    scripts=["scripts/MirMachine.py","scripts/mirmachine-tree-parser.py","scripts/gff_sort_and_compete.sh","scripts/seed_detector.py"],
     long_description=long_description,
     long_description_content_type="text/markdown",
     extras_require={"dev":["pytest>=3.7"]},
