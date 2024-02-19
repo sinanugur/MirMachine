@@ -1,4 +1,4 @@
-## [0.2.13rcX] - 2024-02-02
+## [0.2.13] - 2024-02-02
 ### Changed
   - cmsearch --incE 0.2 argument is added to the cmsearch command. 
   - fewer than 50 nucleotides are not considered as a hit anymore.
