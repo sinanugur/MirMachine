@@ -10,7 +10,8 @@ You can select any name for **species name**. It is simply defines how you want 
 
 The **genome file** must be a FASTA file. Its location is not important.
 
-**A standard run:**
+A standard run
+--------------
 
 .. code-block:: bash
 
@@ -18,11 +19,11 @@ The **genome file** must be a FASTA file. Its location is not important.
 
 This will start a MirMachine run and search for all miRNAs belong to **Caenorhabditis** node.
 
-What is a node and How to see available nodes?
+What is a node and how to see available nodes?
 ----------------------------------------------
 A node is a taxanomic node name to query the correct group of miRNA families. 
 
-For example, **Caenorhabditis** node contains all miRNA families that are expected to be found in **Caenorhabditis** species.
+For example, **Caenorhabditis** node contains all miRNA families that are expected to be found in **Caenorhabditis** genus.
 
 You can query all available nodes with:
 
@@ -51,7 +52,8 @@ Combined means the covariance models were built using all MirGeneDB species.
 
 Proto and deutero were built using only proto and deutero species, respectively. In theory, proto and deutero models should be more accurate.
 
-**All options and arguments:**
+All options and arguments
+-------------------------
 
 .. code-block::
 
@@ -85,18 +87,3 @@ Proto and deutero were built using only proto and deutero species, respectively.
         -h, --help                          Show this screen.
         --touch                             Touch output files (mark them up to date without really changing them).
         --version                           Show version.
-
-Troubleshooting
----------------
-
-**Dry run:**
-You can test a run with ``--dry``. It shows which files will be generated.
-
-**Unlocking the directory:**
-If a job ends prematurely, Snakemake may lock the directory. You may have to rerun with ``--unlock`` argument. This will unlock the directory.
-
-**Cleaning the output files:**
-You can clean the output files with ``--remove`` argument.
-
-**Touching the output files:**
-You can touch the output files with ``--touch`` argument. This will mark the output files as up to date without really changing them.

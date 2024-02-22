@@ -15,3 +15,4 @@ A command line tool to detect miRNA homologs in genome sequences.
    quick_start.rst
    output.rst
    options.rst
+   trouble.rst
