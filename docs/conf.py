@@ -18,11 +18,11 @@
 # -- Project information -----------------------------------------------------
 
 project = 'MirMachine'
-copyright = '2021, Sinan U. Umu'
+copyright = '2024, Sinan U. Umu'
 author = 'Sinan U. Umu'
 
 # The full version, including alpha/beta/rc tags
-release = '0.2.11.2'
+release = '0.2.13'
 
 
 # -- General configuration ---------------------------------------------------
@@ -47,7 +47,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # a list of builtin themes.
 #
 #html_theme = 'alabaster'
-html_theme = "sphinx_rtd_theme"
+html_theme = "sphinx_book_theme"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
