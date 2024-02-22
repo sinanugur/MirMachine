@@ -18,7 +18,11 @@ The **genome file** must be a FASTA file. Its location is not important.
 
 This will start a MirMachine run and search for all miRNAs belong to **Caenorhabditis** node.
 
-**How to see available nodes:**
+What is a node and How to see available nodes?
+----------------------------------------------
+A node is a taxanomic node name to query the correct group of miRNA families. 
+
+For example, **Caenorhabditis** node contains all miRNA families that are expected to be found in **Caenorhabditis** species.
 
 You can query all available nodes with:
 
@@ -28,7 +32,8 @@ You can query all available nodes with:
 
 Selection of a correct node is important for accurate prediction with fewer false positives. This will also reduce run time.
 
-**Which families are available in a node:**
+Which families are available in a node?
+---------------------------------------
 
 You can see that with:
 
@@ -37,6 +42,14 @@ You can see that with:
     MirMachine.py --node Caenorhabditis
 
 This will show the miRNA families that will be searched by MirMachine if you select **Caenorhabditis** node. These miRNA families are expected to be found by MirMachine.
+
+What is a model and how to select a model?
+------------------------------------------
+
+MirMachine has three models: **deutero**, **proto** and **combined**. 
+Combined means the covariance models were built using all MirGeneDB species. 
+
+Proto and deutero were built using only proto and deutero species, respectively. In theory, proto and deutero models should be more accurate.
 
 **All options and arguments:**
 
@@ -84,3 +97,6 @@ If a job ends prematurely, Snakemake may lock the directory. You may have to rer
 
 **Cleaning the output files:**
 You can clean the output files with ``--remove`` argument.
+
+**Touching the output files:**
+You can touch the output files with ``--touch`` argument. This will mark the output files as up to date without really changing them.
