@@ -21,16 +21,6 @@ Then, you can install MirMachine with Mamba:
 
     mamba install mirmachine -c bioconda -c conda-forge
 
-**Using pip:**
-
-Alternatively, you can install MirMachine directly from GitHub using pip:
-
-.. code-block:: console
-
-    git clone https://github.com/sinanugur/MirMachine.git
-    cd MirMachine
-    pip install .
-
 **Verifying installation:**
 
 Once installed, you can verify if MirMachine is working by running the main script with the help flag:
