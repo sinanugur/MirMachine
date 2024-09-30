@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-3617.PRE
 STATES   193
 NODES    44
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Mon Feb 14 21:07:39 2022
+DATE     Fri Sep 20 02:36:17 2024
 COM      [1] cmbuild -F analyses/cms/Mir-3617.PRE.CM analyses/secondary_structures/Mir-3617.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-3617.PRE.CM
 PBEGIN   0.05
@@ -267,7 +267,7 @@ CM
                                              [ END    43 ]      -      - - - - -
      E   192   191 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-3617.PRE
 LENG  63
 MAXL  157
@@ -277,7 +277,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Mon Feb 14 21:07:39 2022
+DATE  Fri Sep 20 02:36:17 2024
 COM   [1] cmbuild -F analyses/cms/Mir-3617.PRE.CM analyses/secondary_structures/Mir-3617.PRE.sto
 NSEQ  1
 EFFN  0.800781

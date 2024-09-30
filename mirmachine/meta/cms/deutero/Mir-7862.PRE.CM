@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-7862.PRE
 STATES   196
 NODES    42
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Mon Feb 14 22:09:41 2022
+DATE     Fri Sep 20 04:44:24 2024
 COM      [1] cmbuild -F analyses/cms/Mir-7862.PRE.CM analyses/secondary_structures/Mir-7862.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-7862.PRE.CM
 PBEGIN   0.05
@@ -268,7 +268,7 @@ CM
                                              [ END    41 ]      -      - - - - -
      E   195   194 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-7862.PRE
 LENG  64
 MAXL  158
@@ -278,7 +278,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Mon Feb 14 22:09:41 2022
+DATE  Fri Sep 20 04:44:24 2024
 COM   [1] cmbuild -F analyses/cms/Mir-7862.PRE.CM analyses/secondary_structures/Mir-7862.PRE.sto
 NSEQ  1
 EFFN  0.785156

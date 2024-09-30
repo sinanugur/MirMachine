@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-7184.PRE
 STATES   196
 NODES    46
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Mon Feb 14 16:44:27 2022
+DATE     Fri Sep 20 06:35:51 2024
 COM      [1] cmbuild -F analyses/cms/Mir-7184.PRE.CM analyses/secondary_structures/Mir-7184.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-7184.PRE.CM
 PBEGIN   0.05
@@ -272,7 +272,7 @@ CM
                                              [ END    45 ]      -      - - - - -
      E   195   194 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-7184.PRE
 LENG  64
 MAXL  158
@@ -282,7 +282,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Mon Feb 14 16:44:27 2022
+DATE  Fri Sep 20 06:35:51 2024
 COM   [1] cmbuild -F analyses/cms/Mir-7184.PRE.CM analyses/secondary_structures/Mir-7184.PRE.sto
 NSEQ  1
 EFFN  0.746094
@@ -457,7 +457,7 @@ HMM          A        C        G        U
      54   2.08558  1.40363  1.69906  0.80474     54 u - - >
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     55   1.79332  2.11282  0.52810  2.09581     55 G - - >
+     55   1.79333  2.11282  0.52810  2.09581     55 G - - >
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      56   1.79286  2.11253  0.52840  2.09524     56 G - - >

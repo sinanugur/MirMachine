@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-1363.PRE
 STATES   187
 NODES    43
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Sat Jan 29 08:35:58 2022
+DATE     Sat Sep  7 16:16:35 2024
 COM      [1] cmbuild -F analyses/cms/Mir-1363.PRE.CM analyses/secondary_structures/Mir-1363.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-1363.PRE.CM
 PBEGIN   0.05
@@ -260,7 +260,7 @@ CM
                                              [ END    42 ]      -      - - - - -
      E   186   185 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-1363.PRE
 LENG  61
 MAXL  154
@@ -270,7 +270,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Sat Jan 29 08:35:58 2022
+DATE  Sat Sep  7 16:16:35 2024
 COM   [1] cmbuild -F analyses/cms/Mir-1363.PRE.CM analyses/secondary_structures/Mir-1363.PRE.sto
 NSEQ  1
 EFFN  0.730469
@@ -346,7 +346,7 @@ HMM          A        C        G        U
      21   2.33249  0.61410  1.94261  1.52102     21 C - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     22   2.00862  2.21058  0.44042  2.18546     22 G - - <
+     22   2.00862  2.21058  0.44043  2.18546     22 G - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      23   1.77246  0.66250  2.29192  1.54434     23 C - - -

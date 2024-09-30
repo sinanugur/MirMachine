@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-9650.PRE
 STATES   175
 NODES    39
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Tue Feb 15 01:52:06 2022
+DATE     Fri Sep 20 13:54:20 2024
 COM      [1] cmbuild -F analyses/cms/Mir-9650.PRE.CM analyses/secondary_structures/Mir-9650.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-9650.PRE.CM
 PBEGIN   0.05
@@ -244,7 +244,7 @@ CM
                                              [ END    38 ]      -      - - - - -
      E   174   173 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-9650.PRE
 LENG  57
 MAXL  148
@@ -254,7 +254,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Tue Feb 15 01:52:06 2022
+DATE  Fri Sep 20 13:54:20 2024
 COM   [1] cmbuild -F analyses/cms/Mir-9650.PRE.CM analyses/secondary_structures/Mir-9650.PRE.sto
 NSEQ  1
 EFFN  0.871094
@@ -411,7 +411,7 @@ HMM          A        C        G        U
      48   2.14083  1.45276  1.75856  0.74186     48 u - - >
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     49   1.83354  2.20621  0.48535  2.16667     49 G - - >
+     49   1.83355  2.20621  0.48535  2.16667     49 G - - >
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      50   2.23500  1.27609  1.90365  0.76603     50 u - - >

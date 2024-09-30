@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-3003.PRE
 STATES   154
 NODES    35
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Sat Jan 29 04:01:07 2022
+DATE     Sat Sep  7 23:30:44 2024
 COM      [1] cmbuild -F analyses/cms/Mir-3003.PRE.CM analyses/secondary_structures/Mir-3003.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-3003.PRE.CM
 PBEGIN   0.05
@@ -219,7 +219,7 @@ CM
                                              [ END    34 ]      -      - - - - -
      E   153   152 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-3003.PRE
 LENG  50
 MAXL  133
@@ -229,7 +229,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Sat Jan 29 04:01:07 2022
+DATE  Sat Sep  7 23:30:44 2024
 COM   [1] cmbuild -F analyses/cms/Mir-3003.PRE.CM analyses/secondary_structures/Mir-3003.PRE.sto
 NSEQ  2
 EFFN  1.878906
@@ -260,7 +260,7 @@ HMM          A        C        G        U
       6   0.45310  2.49688  1.63605  2.43891      6 A - - <
           1.38629  1.38629  1.38629  1.38629
           0.04879  3.73767  3.73767  1.46634  0.26236  1.09861  0.40547
-      7   0.89908  2.34229  1.04300  1.93411      7 a - - -
+      7   0.89908  2.34229  1.04300  1.93412      7 a - - -
           1.38629  1.38629  1.38629  1.38629
           0.04879  3.73767  3.73767  1.46634  0.26236  1.09861  0.40547
       8   1.00508  1.96636  2.10906  0.98707      8 u - - -

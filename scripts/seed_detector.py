@@ -10,7 +10,7 @@ Seed detector
 
 import sys
 from Bio import SeqIO
-import ast
+#import ast
 
 def check_patterns(patterns, target_sequence):
     p=[]

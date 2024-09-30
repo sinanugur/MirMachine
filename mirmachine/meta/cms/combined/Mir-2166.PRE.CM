@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-2166.PRE
 STATES   199
 NODES    46
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Sat Jan 29 14:25:52 2022
+DATE     Sat Sep  7 00:54:01 2024
 COM      [1] cmbuild -F analyses/cms/Mir-2166.PRE.CM analyses/secondary_structures/Mir-2166.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-2166.PRE.CM
 PBEGIN   0.05
@@ -275,7 +275,7 @@ CM
                                              [ END    45 ]      -      - - - - -
      E   198   197 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-2166.PRE
 LENG  65
 MAXL  159
@@ -285,7 +285,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Sat Jan 29 14:25:52 2022
+DATE  Sat Sep  7 00:54:01 2024
 COM   [1] cmbuild -F analyses/cms/Mir-2166.PRE.CM analyses/secondary_structures/Mir-2166.PRE.sto
 NSEQ  1
 EFFN  0.902344
@@ -355,7 +355,7 @@ HMM          A        C        G        U
      19   2.42933  0.54735  2.06839  1.57487     19 C - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     20   0.85216  1.95366  1.25412  1.92123     20 a - - <
+     20   0.85216  1.95366  1.25411  1.92123     20 a - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      21   0.85215  1.95368  1.25410  1.92127     21 a - - <

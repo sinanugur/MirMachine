@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-652.PRE
 STATES   190
 NODES    41
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Tue Feb 15 03:09:44 2022
+DATE     Fri Sep 20 13:08:00 2024
 COM      [1] cmbuild -F analyses/cms/Mir-652.PRE.CM analyses/secondary_structures/Mir-652.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-652.PRE.CM
 PBEGIN   0.05
@@ -261,7 +261,7 @@ CM
                                              [ END    40 ]      -      - - - - -
      E   189   188 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-652.PRE
 LENG  62
 MAXL  155
@@ -271,7 +271,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Tue Feb 15 03:09:44 2022
+DATE  Fri Sep 20 13:08:00 2024
 COM   [1] cmbuild -F analyses/cms/Mir-652.PRE.CM analyses/secondary_structures/Mir-652.PRE.sto
 NSEQ  1
 EFFN  0.847656
@@ -302,7 +302,7 @@ HMM          A        C        G        U
       6   2.39866  0.56744  2.02903  1.55721      6 C - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-      7   2.39872  0.56743  2.02904  1.55722      7 C - - <
+      7   2.39871  0.56743  2.02904  1.55722      7 C - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
       8   2.20884  1.38945  1.82512  0.73447      8 u - - <

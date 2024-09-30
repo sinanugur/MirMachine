@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-4542.PRE
 STATES   184
 NODES    43
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Mon Feb 14 15:52:46 2022
+DATE     Fri Sep 20 13:09:50 2024
 COM      [1] cmbuild -F analyses/cms/Mir-4542.PRE.CM analyses/secondary_structures/Mir-4542.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-4542.PRE.CM
 PBEGIN   0.05
@@ -257,7 +257,7 @@ CM
                                              [ END    42 ]      -      - - - - -
      E   183   182 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-4542.PRE
 LENG  60
 MAXL  152
@@ -267,7 +267,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Mon Feb 14 15:52:46 2022
+DATE  Fri Sep 20 13:09:50 2024
 COM   [1] cmbuild -F analyses/cms/Mir-4542.PRE.CM analyses/secondary_structures/Mir-4542.PRE.sto
 NSEQ  1
 EFFN  0.832031
@@ -337,7 +337,7 @@ HMM          A        C        G        U
      19   2.20263  1.38548  1.81602  0.74105     19 u - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     20   2.36883  0.57896  2.01223  1.55006     20 C - - <
+     20   2.36883  0.57895  2.01223  1.55006     20 C - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      21   2.19410  1.38653  1.81447  0.74302     21 u - - <

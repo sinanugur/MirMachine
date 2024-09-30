@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-4983.PRE
 STATES   220
 NODES    53
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Sat Jan 29 08:07:57 2022
+DATE     Sat Sep  7 15:49:25 2024
 COM      [1] cmbuild -F analyses/cms/Mir-4983.PRE.CM analyses/secondary_structures/Mir-4983.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-4983.PRE.CM
 PBEGIN   0.05
@@ -303,7 +303,7 @@ CM
                                              [ END    52 ]      -      - - - - -
      E   219   218 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-4983.PRE
 LENG  72
 MAXL  169
@@ -313,7 +313,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Sat Jan 29 08:07:57 2022
+DATE  Sat Sep  7 15:49:25 2024
 COM   [1] cmbuild -F analyses/cms/Mir-4983.PRE.CM analyses/secondary_structures/Mir-4983.PRE.sto
 NSEQ  1
 EFFN  0.761719
@@ -323,7 +323,7 @@ STATS LOCAL VITERBI  -11.2341  0.75327
 STATS LOCAL FORWARD   -2.1846  0.75327
 HMM          A        C        G        U   
             m->m     m->i     m->d     i->m     i->i     d->m     d->d
-  COMPO   1.29759  1.48124  1.43856  1.33870
+  COMPO   1.29758  1.48124  1.43856  1.33870
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  0.00000        *
       1   2.33890  0.60425  1.96327  1.52932      1 C - - <

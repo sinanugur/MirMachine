@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-7463.PRE
 STATES   190
 NODES    42
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Tue Feb 15 01:54:30 2022
+DATE     Fri Sep 20 14:20:41 2024
 COM      [1] cmbuild -F analyses/cms/Mir-7463.PRE.CM analyses/secondary_structures/Mir-7463.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-7463.PRE.CM
 PBEGIN   0.05
@@ -262,7 +262,7 @@ CM
                                              [ END    41 ]      -      - - - - -
      E   189   188 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-7463.PRE
 LENG  62
 MAXL  155
@@ -272,7 +272,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Tue Feb 15 01:54:30 2022
+DATE  Fri Sep 20 14:20:41 2024
 COM   [1] cmbuild -F analyses/cms/Mir-7463.PRE.CM analyses/secondary_structures/Mir-7463.PRE.sto
 NSEQ  1
 EFFN  0.863281
@@ -372,7 +372,7 @@ HMM          A        C        G        U
      29   0.87410  1.93441  1.24063  1.90346     29 a - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     30   1.85094  1.95999  2.31757  0.50495     30 U - - _
+     30   1.85095  1.95999  2.31757  0.50495     30 U - - _
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      31   1.85095  1.95999  2.31757  0.50495     31 U - - _

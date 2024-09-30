@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-2468.PRE
 STATES   187
 NODES    41
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Tue Feb 15 03:57:22 2022
+DATE     Fri Sep 20 00:59:28 2024
 COM      [1] cmbuild -F analyses/cms/Mir-2468.PRE.CM analyses/secondary_structures/Mir-2468.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-2468.PRE.CM
 PBEGIN   0.05
@@ -258,7 +258,7 @@ CM
                                              [ END    40 ]      -      - - - - -
      E   186   185 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-2468.PRE
 LENG  61
 MAXL  154
@@ -268,7 +268,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Tue Feb 15 03:57:22 2022
+DATE  Fri Sep 20 00:59:28 2024
 COM   [1] cmbuild -F analyses/cms/Mir-2468.PRE.CM analyses/secondary_structures/Mir-2468.PRE.sto
 NSEQ  1
 EFFN  0.847656
@@ -308,7 +308,7 @@ HMM          A        C        G        U
       9   0.88315  1.92662  1.23540  1.89605      9 a - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     10   2.20884  1.38945  1.82512  0.73447     10 u - - <
+     10   2.20883  1.38945  1.82512  0.73447     10 u - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      11   2.05473  2.30222  0.40243  2.27165     11 G - - <

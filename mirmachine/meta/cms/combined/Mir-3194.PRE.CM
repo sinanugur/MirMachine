@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-3194.PRE
 STATES   175
 NODES    41
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Sat Jan 29 06:43:34 2022
+DATE     Sat Sep  7 07:52:23 2024
 COM      [1] cmbuild -F analyses/cms/Mir-3194.PRE.CM analyses/secondary_structures/Mir-3194.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-3194.PRE.CM
 PBEGIN   0.05
@@ -246,7 +246,7 @@ CM
                                              [ END    40 ]      -      - - - - -
      E   174   173 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-3194.PRE
 LENG  57
 MAXL  148
@@ -256,7 +256,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Sat Jan 29 06:43:34 2022
+DATE  Sat Sep  7 07:52:23 2024
 COM   [1] cmbuild -F analyses/cms/Mir-3194.PRE.CM analyses/secondary_structures/Mir-3194.PRE.sto
 NSEQ  1
 EFFN  0.761719
@@ -311,7 +311,7 @@ HMM          A        C        G        U
      14   1.72793  2.42704  0.51144  2.00678     14 G - - -
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     15   0.93447  1.88455  1.20710  1.85634     15 a - - <
+     15   0.93446  1.88455  1.20710  1.85634     15 a - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      16   2.02010  2.23483  0.43016  2.20778     16 G - - <

@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-4050.PRE
 STATES   178
 NODES    36
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Tue Feb 15 00:44:28 2022
+DATE     Fri Sep 20 05:30:08 2024
 COM      [1] cmbuild -F analyses/cms/Mir-4050.PRE.CM analyses/secondary_structures/Mir-4050.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-4050.PRE.CM
 PBEGIN   0.05
@@ -244,7 +244,7 @@ CM
                                              [ END    35 ]      -      - - - - -
      E   177   176 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-4050.PRE
 LENG  58
 MAXL  150
@@ -254,7 +254,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Tue Feb 15 00:44:28 2022
+DATE  Fri Sep 20 05:30:08 2024
 COM   [1] cmbuild -F analyses/cms/Mir-4050.PRE.CM analyses/secondary_structures/Mir-4050.PRE.sto
 NSEQ  1
 EFFN  0.902344
@@ -372,7 +372,7 @@ HMM          A        C        G        U
      35   0.81826  2.02386  1.23889  1.98813     35 a - - >
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     36   0.81825  2.02387  1.23888  1.98816     36 a - - >
+     36   0.81825  2.02387  1.23889  1.98816     36 a - - >
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      37   2.53855  0.44607  2.17093  1.79091     37 C - - >

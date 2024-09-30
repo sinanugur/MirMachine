@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-5359.PRE
 STATES   178
 NODES    39
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Sun Feb 13 23:20:19 2022
+DATE     Fri Sep 20 10:34:01 2024
 COM      [1] cmbuild -F analyses/cms/Mir-5359.PRE.CM analyses/secondary_structures/Mir-5359.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-5359.PRE.CM
 PBEGIN   0.05
@@ -247,7 +247,7 @@ CM
                                              [ END    38 ]      -      - - - - -
      E   177   176 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-5359.PRE
 LENG  58
 MAXL  150
@@ -257,7 +257,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Sun Feb 13 23:20:19 2022
+DATE  Fri Sep 20 10:34:01 2024
 COM   [1] cmbuild -F analyses/cms/Mir-5359.PRE.CM analyses/secondary_structures/Mir-5359.PRE.sto
 NSEQ  1
 EFFN  0.832031
