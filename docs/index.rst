@@ -11,7 +11,8 @@ A command line tool to detect miRNA homologs in genome sequences.
    :maxdepth: 2
    :caption: Contents:
 
-   installation.md
-   quick_start.md
-   output.md
-   options.md
+   installation.rst
+   quick_start.rst
+   output.rst
+   options.rst
+   trouble.rst

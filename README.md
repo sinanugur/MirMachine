@@ -4,7 +4,7 @@
 
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)  [![PyPI version](https://badge.fury.io/py/MirMachine.svg)](https://badge.fury.io/py/MirMachine)  [![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/version.svg)](https://anaconda.org/bioconda/mirmachine)  [![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/downloads.svg)](https://anaconda.org/bioconda/mirmachine)  
-[![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/latest_release_relative_date.svg)](https://anaconda.org/bioconda/mirmachine)  
+[![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/latest_release_relative_date.svg)](https://anaconda.org/bioconda/mirmachine)  [![Docker Pulls](https://img.shields.io/docker/pulls/sinanugur/mirmachine)](https://hub.docker.com/r/sinanugur/mirmachine)  
 A command line tool to detect miRNA homologs in genome sequences.
 
 
@@ -94,7 +94,7 @@ Supplementary files repo: https://github.com/sinanugur/MirMachine-supplementary
 
 Citiation
 ------
-Our preprint is here: https://www.biorxiv.org/content/10.1101/2022.11.23.517654v1
+Our Cell Genomics paper is here: [https://doi.org/10.1016/j.xgen.2023.100348](https://doi.org/10.1016/j.xgen.2023.100348)
 Please cite if you find our tool useful.
 
 
