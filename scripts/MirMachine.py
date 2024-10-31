@@ -46,7 +46,7 @@ except ImportError:
 meta_directory=os.path.dirname(meta.__file__)
 
 __author__ = 'sium'
-__version__= '0.3.0b'
+__version__= '0.3.0b1'
 
 
 __licence__="""

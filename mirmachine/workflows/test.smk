@@ -14,10 +14,14 @@ meta_directory=os.path.dirname(meta.__file__)
 
 model=config.get('model','combined')
 #meta_directory=config.get('meta_directory','meta')
-mirnas=[x.title() + ".PRE" for x in config['mirnas']]
+mirna=[x.title() + ".PRE" for x in config['mirnas']]
 
+if config.get('losses',[]):
+	losses=[x.title() + ".PRE" for x in config.get('losses',[])]
+else:
+	losses=[]
 
 
 rule search_CM:
     input:
-        expand(meta_directory + "/cms/" + model + "/{mirna}.CM",mirna=mirnas)
+        expand(meta_directory + "/cms/" + model + "/{mirna}.CM",mirna=[item for item in mirna if item not in losses])
