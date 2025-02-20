@@ -15,7 +15,7 @@ from Bio import SeqIO
 def check_patterns(patterns, target_sequence):
     p=[]
     for pattern in patterns:
-        if pattern.strip() in target_sequence:
+        if pattern.strip().strip("*") in target_sequence: #star seeds are high confidence seeds
             p.append(pattern)
     return p
 

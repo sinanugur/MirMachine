@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.3.0b1"
+__version__="0.3.0b3"
 MDBver="3.0"
 
 __licence__="""
@@ -45,6 +45,7 @@ params=config['params']
 species=config['species']
 node=config['node']
 model=config.get('model','combined')
+inclusion_threshold=config.get('evalue',0.2) #default inclusion threshold, I think this is not same for cmsearch by default
 meta_directory=config.get('meta_directory','meta')
 mirmachine_path=config.get('mirmachine_path','mirmachine')
 mirna=[x.title() + ".PRE" for x in config['mirnas']]
@@ -61,7 +62,6 @@ nodes_mirnas_file=meta_directory + "/nodes_mirnas_corrected.tsv"
 #losses_mirnas_file=meta_directory + "/losses_mirnas.tsv"
 seeds_file=meta_directory + "/family_seeds.tsv"
 
-inclusion_treshold=0.2 #default inclusion treshold for cmsearch
 
 #pull out CMs, I added this part to check ready models
 #files, = glob_wildcards("analyses/cms/{files}.CM")
@@ -89,15 +89,17 @@ seeds_dict=defaultdict(dict)
 with open(seeds_file) as tsv:
 	for line in tsv.readlines():
 		#Bantam_3p       NA      AAAGACC
-		m=line.split()[0].split("_")[0].strip().title() + ".PRE"
-		if "5p" not in seeds_dict[m]:
-			seeds_dict[m]["5p"]=list()
-		if "3p" not in seeds_dict[m]:
-			seeds_dict[m]["3p"]=list()
-		if line.split()[1] != "NA":
-			seeds_dict[m]["5p"].append(line.split()[1])
+		#1	Bantam_3p	NA	AAAGACC	Bantam	81	Low conf
+		#m=line.split()[1].split("_")[0].strip().title() + ".PRE"
+		fam=line.split()[4].strip().title() + ".PRE"
+		if "5p" not in seeds_dict[fam]:
+			seeds_dict[fam]["5p"]=list()
+		if "3p" not in seeds_dict[fam]:
+			seeds_dict[fam]["3p"]=list()
 		if line.split()[2] != "NA":
-			seeds_dict[m]["3p"].append(line.split()[2])
+			seeds_dict[fam]["5p"].append(line.split()[2] + "*" if line.split()[6][0] == "H" else "")
+		if line.split()[3] != "NA":
+			seeds_dict[fam]["3p"].append(line.split()[3] + "*" if line.split()[6][0] == "H" else "")
 
 gffheader="""##gff-version 3
 # MirMachine version: {version}
@@ -144,7 +146,7 @@ rule search_CM:
 	threads: 15
 	shell:
 		"""
-		cmsearch --incE {inclusion_treshold} --cpu {threads} {input} {genome} > {output}
+		cmsearch --incE {inclusion_threshold} --cpu {threads} {input} {genome} > {output}
 
 		"""
 rule parse_output:
@@ -217,7 +219,8 @@ rule combine_fastas:
 
 rule combine_gffs:
 	input:
-		expand("analyses/output/{species}/{mirna}.gff",species=species,mirna=[item for item in mirna if item not in losses])
+		gff_files=expand("analyses/output/{species}/{mirna}.gff",species=species,mirna=[item for item in mirna if item not in losses]),
+		fasta_file="results/predictions/fasta/{species}.PRE.fasta"
 	output:
 		"results/predictions/gff/{species}.PRE.gff"
 	params:
@@ -226,13 +229,15 @@ rule combine_gffs:
 	run:
 		shell("""echo "{params.header}" > {output}""")
 		#shell("cat analyses/output/{wildcards.species}/*PRE.gff | awk '/PRE/' >> {output}")
-		shell("cat {input} | awk '/PRE/' >> {output}")
+		shell("cat {input.gff_files} | awk '/PRE/' >> {output}")
 		shell(""" SCORE=$(gawk -v total={params.total} 'match($0,"gene_id=(.*).PRE",m) {{a[m[1]]=0;}}END{{print (length(a)/total)*100}}' {output});
 		sed "s/SCORE/$SCORE/g" {output} | sponge {output}""")
+		shell("cat {output} | seed_merger.sh {input.fasta_file} | sponge {output}")
 
 rule combine_filtered_gffs:
 	input:
-		expand("analyses/output/{species}/{mirna}.filtered.gff",species=species,mirna=[item for item in mirna if item not in losses])
+		gff_files=expand("analyses/output/{species}/{mirna}.filtered.gff",species=species,mirna=[item for item in mirna if item not in losses]),
+		fasta_file="results/predictions/fasta/{species}.PRE.fasta"
 	output:
 		"results/predictions/filtered_gff/{species}.PRE.gff"
 	params:
@@ -241,9 +246,10 @@ rule combine_filtered_gffs:
 	run:
 		shell("""echo "{params.header}" > {output}""")
 		#shell("cat analyses/output/{wildcards.species}/*PRE.filtered.gff | awk '/PRE/' >> {output}")
-		shell("cat {input} | awk '/PRE/' >> {output}")
+		shell("cat {input.gff_files} | awk '/PRE/' >> {output}")
 		shell(""" SCORE=$(gawk -v total={params.total} 'match($0,"gene_id=(.*).PRE",m) {{a[m[1]]=0;}}END{{print (length(a)/total)*100}}' {output});
 		sed "s/SCORE/$SCORE/g" {output} | sponge {output}""")
+		shell("cat {output} | seed_merger.sh {input.fasta_file} | sponge {output}")
 
 
 rule mirna_node_tmp_file:
