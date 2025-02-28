@@ -46,7 +46,7 @@ except ImportError:
 meta_directory=os.path.dirname(meta.__file__)
 
 __author__ = 'sium'
-__version__= '0.3.0b3'
+__version__= '0.3.0b5'
 
 
 __licence__="""
@@ -192,6 +192,7 @@ def validate_inputs():
     meta_directory=meta_directory,
     mirmachine_path=mirmachine_path  
     )
+    #print(snakemake_argument)
     subprocess.check_call(snakemake_argument,shell=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     
 

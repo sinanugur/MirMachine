@@ -21,9 +21,9 @@ while IFS= read -r line; do
     gene="${f1}_${f4}_${f5}"
 
     # Search the seed file for the gene.
-    # Then use grep with Perl regex to extract anything between _seed( and )
-    seed=$(grep "$gene" "$seedfile" | grep -oP '_seed\(\K.*?(?=\))')
-    
+    # Use gawk to extract anything between _seed( and ).
+    seed=$(grep "$gene" "$seedfile" | gawk 'match($0,/conf_(.*)$/,a){print a[1]}')
+
     # Append the seed information to the original line.
     if [ -n "$seed" ]; then
       echo "${line};seed=(${seed})"
@@ -32,4 +32,3 @@ while IFS= read -r line; do
     fi
   fi
 done
-

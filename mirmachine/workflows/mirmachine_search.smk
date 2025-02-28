@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.3.0b3"
+__version__="0.3.0b5"
 MDBver="3.0"
 
 __licence__="""
@@ -91,15 +91,17 @@ with open(seeds_file) as tsv:
 		#Bantam_3p       NA      AAAGACC
 		#1	Bantam_3p	NA	AAAGACC	Bantam	81	Low conf
 		#m=line.split()[1].split("_")[0].strip().title() + ".PRE"
-		fam=line.split()[4].strip().title() + ".PRE"
+		fam=line.split("\t")[4].strip().title() + ".PRE"
 		if "5p" not in seeds_dict[fam]:
 			seeds_dict[fam]["5p"]=list()
 		if "3p" not in seeds_dict[fam]:
 			seeds_dict[fam]["3p"]=list()
-		if line.split()[2] != "NA":
-			seeds_dict[fam]["5p"].append(line.split()[2] + "*" if line.split()[6][0] == "H" else "")
-		if line.split()[3] != "NA":
-			seeds_dict[fam]["3p"].append(line.split()[3] + "*" if line.split()[6][0] == "H" else "")
+		if line.split("\t")[2].strip() != "NA":
+			s5=line.split("\t")[2].strip()
+			seeds_dict[fam]["5p"].append(s5 + "*" if line.split("\t")[6][0].strip() == "H" else s5)
+		if line.split("\t")[3].strip() != "NA":
+			s3=line.split("\t")[3].strip()
+			seeds_dict[fam]["3p"].append(s3 + "*" if line.split("\t")[6][0].strip() == "H" else s3)
 
 gffheader="""##gff-version 3
 # MirMachine version: {version}
@@ -225,7 +227,7 @@ rule combine_gffs:
 		"results/predictions/gff/{species}.PRE.gff"
 	params:
 		header=gffheader,
-		total=len(mirna) - len(losses)
+		total=len([item for item in mirna if item not in losses])
 	run:
 		shell("""echo "{params.header}" > {output}""")
 		#shell("cat analyses/output/{wildcards.species}/*PRE.gff | awk '/PRE/' >> {output}")
@@ -242,7 +244,7 @@ rule combine_filtered_gffs:
 		"results/predictions/filtered_gff/{species}.PRE.gff"
 	params:
 		header=gffheader,
-		total=len(mirna) - len(losses)
+		total=len([item for item in mirna if item not in losses])
 	run:
 		shell("""echo "{params.header}" > {output}""")
 		#shell("cat analyses/output/{wildcards.species}/*PRE.filtered.gff | awk '/PRE/' >> {output}")
@@ -287,6 +289,8 @@ rule create_heatmap_csv:
 		join -a 1 -t, {output[0]} {output[1]} > {output[2]}
 
 		echo "{params.header}" | grep -v SCORE > {output[3]}
+		grep "miRNA score" {input[0]} | sed "s/score/unfiltered score/g"  >> {output[3]}
+		grep "miRNA score" {input[1]} >> {output[3]}
 		join -a 1 -t, {input[2]} {output[2]} | awk -v species={wildcards.species} -v query_node={node} 'BEGIN{{print "species,query_node,family,node,total_hits,filtered_hits"}}{{print species","query_node","$0}}' >> {output[3]}
 
 

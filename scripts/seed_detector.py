@@ -15,8 +15,8 @@ from Bio import SeqIO
 def check_patterns(patterns, target_sequence):
     p=[]
     for pattern in patterns:
-        if pattern.strip().strip("*") in target_sequence: #star seeds are high confidence seeds
-            p.append(pattern)
+        if pattern.strip().strip("*").replace('U','T') in target_sequence: #star seeds are high confidence seeds
+            p.append(pattern.replace('U','T'))
     return p
 
 def read_fasta(file_path):
@@ -69,13 +69,11 @@ def main():
 
 if __name__ == '__main__':
     try:
-        #patterns_5p = ast.literal_eval(sys.argv[2])
         patterns_5p = sys.argv[2].split()
     except:
         patterns_5p = []
 
     try:
-        #patterns_3p = ast.literal_eval(sys.argv[3])
         patterns_3p = sys.argv[3].split()
     except:
         patterns_3p = []
