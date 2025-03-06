@@ -46,7 +46,7 @@ except ImportError:
 meta_directory=os.path.dirname(meta.__file__)
 
 __author__ = 'sium'
-__version__= '0.3.0b5'
+__version__= '0.3.0b7'
 
 
 __licence__="""
@@ -158,12 +158,12 @@ def create_yaml_file():
     else:
         yaml_argument="""
         
-        echo {node} {default_node_argument} | sort | uniq | while read a; \
+        echo {node} {default_node_argument} | sort | uniq | awk 'length($0) > 2{{print}}' | while read a; \
         do grep $a {meta_directory}/nodes_mirnas_corrected.tsv; done \
         | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq | \
         awk -v genome={genome} -v species={species} -v node={node} 'BEGIN{{print "genome: "genome;print "species: "species;print "node: "node; print "mirnas:"}}{{print " - "$1}}' > data/yamls/{species}.yaml;  \
         
-        echo {node} {default_node_argument} | sort | uniq | while read a; \
+        echo {node} {default_node_argument} | sort | uniq | awk 'length($0) > 2{{print}}' | while read a; \
         do grep $a {meta_directory}/losses_mirnas.tsv; done \
         | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq | \
         awk 'BEGIN{{print "losses:"}}{{print " - "$1}}' >> data/yamls/{species}.yaml;  \
