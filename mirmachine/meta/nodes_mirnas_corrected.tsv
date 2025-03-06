@@ -1,7 +1,3 @@
-Chromadorea	MIR-54
-Chromadorea	MIR-77
-Chromadorea	MIR-791
-Chromadorea	MIR-86
 Acanthomorpha	MIR-8160
 Acoela	MIR-12497
 Aculifera	MIR-12590
@@ -47,7 +43,6 @@ Bilateria	MIR-22
 Bilateria	MIR-252
 Bilateria	MIR-278
 Bilateria	MIR-29
-Bilateria	MIR-31
 Bilateria	MIR-31
 Bilateria	MIR-33
 Bilateria	MIR-34
@@ -399,6 +394,9 @@ Gnathostomata	MIR-2188
 Gnathostomata	MIR-32
 Gnathostomata	MIR-425
 Gnathostomata	MIR-725
+Heteroconchia	MIR-12610
+Heteroconchia	MIR-12611
+Heteroconchia	MIR-12612
 Hexacorallia	MIR-2023
 Hexacorallia	MIR-2025
 Hexacorallia	MIR-2036
@@ -594,6 +592,7 @@ Primates	MIR-3140
 Primates	MIR-4677
 Primates	MIR-589
 Primates	MIR-651
+Protostomia	BANTAM
 Protostomia	MIR-1175
 Protostomia	MIR-12
 Protostomia	MIR-1993
