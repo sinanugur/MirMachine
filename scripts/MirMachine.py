@@ -46,7 +46,7 @@ except ImportError:
 meta_directory=os.path.dirname(meta.__file__)
 
 __author__ = 'sium'
-__version__= '0.3.0b7'
+__version__= '0.3.0b8'
 
 
 __licence__="""
@@ -311,7 +311,7 @@ def main():
                 clean_meta_directory()
 
             filename=f"{arguments['--species']}.PRE.gff"
-            if os.path.exists("results/predictions/filtered_gff/" + filename):
+            if os.path.exists("results/predictions/filtered_gff/" + filename) and not arguments["--dry"]:
                 print_gff_header(filename)
                 
         except:
