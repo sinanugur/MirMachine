@@ -46,7 +46,7 @@ except ImportError:
 meta_directory=os.path.dirname(meta.__file__)
 
 __author__ = 'sium'
-__version__= '0.3.0b8'
+__version__= '0.3.0b10'
 
 
 __licence__="""
@@ -231,7 +231,7 @@ def run_mirmachine():
     unlock="--unlock" if arguments["--unlock"] else ""
     touch="--touch" if arguments["--touch"] else ""
     remove="--delete-all-output" if arguments["--remove"] else ""
-    snakemake_argument="snakemake --rerun-incomplete {touch} {dry} {unlock} {remove} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} evalue={evalue} params={params} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
+    snakemake_argument="snakemake -q rules --rerun-incomplete {touch} {dry} {unlock} {remove} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} evalue={evalue} params={params} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
     species=arguments['--species'],
     cpu=arguments['--cpu'],
     model=arguments['--model'].lower(),
@@ -243,7 +243,7 @@ def run_mirmachine():
     touch=touch,
     remove=remove,
     params=params)
-    
+    #print(snakemake_argument)
     subprocess.check_call(snakemake_argument,shell=True)
 
 

@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.3.0b8"
+__version__="0.3.0b10"
 MDBver="3.0"
 
 __licence__="""
@@ -121,7 +121,7 @@ gffheader="""##gff-version 3
 rule all:
 	input:
 		expand("results/predictions/gff/{species}.PRE.gff",species=species),
-        expand("results/predictions/filtered_gff/{species}.PRE.gff",species=species),
+		expand("results/predictions/filtered_gff/{species}.PRE.gff",species=species),
 		expand("results/predictions/heatmap/{species}.heatmap.csv",species=species),
 		expand("results/predictions/fasta/{species}.PRE.fasta",species=species)
 
@@ -162,7 +162,7 @@ rule parse_output:
 		"analyses/output/{species}/{mirna}.unfiltered"
 
 	params:
-		parse=""" 'match($0,/\([0-9]+\)\s+!\s+.*/,m){{if($9 =="+") {{start=$7;end=$8}} else {{start=$8;end=$7}}; print $6"\tMirMachine\tmicroRNA\t"start"\t"end"\t"$4"\t"$9"\t.\tgene_id="id";E-value="$3}}' """,
+		parse=r""" 'match($0,/\([0-9]+\)\s+!\s+.*/,m){{if($9 =="+") {{start=$7;end=$8}} else {{start=$8;end=$7}}; print $6"\tMirMachine\tmicroRNA\t"start"\t"end"\t"$4"\t"$9"\t.\tgene_id="id";E-value="$3}}' """,
 
 	shell:
 		"""
@@ -209,11 +209,10 @@ rule fastas:
 		
 rule combine_fastas:
 	input:
-		expand("analyses/output/{species}/{mirna}.filtered.fasta",species=species,mirna=[item for item in mirna if item not in losses])
+		expand(r"analyses/output/{species}/{mirna}.filtered.fasta",species=species,mirna=[item for item in mirna if item not in losses])
 	output:
 		"results/predictions/fasta/{species}.PRE.fasta"
 	run:
-		#shell("cat analyses/output/{wildcards.species}/*filtered.fasta | awk '{{print}}' > {output}")
 		shell("cat {input} | awk '{{print}}' > {output}")
 
 
@@ -295,4 +294,3 @@ rule create_heatmap_csv:
 
 
 		""")
-

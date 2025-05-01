@@ -3,14 +3,14 @@ from collections import defaultdict
 import os.path
 from yaml import load
 
-genome=config['genome']
-species=config['species']
-meta_directory=config.get('meta_directory','meta')
-model="rfam"
+genome = config['genome']
+species = config['species']
+meta_directory = config.get('meta_directory', 'meta')
+model = "rfam"
 
-output_directory="analyses/rfam/output/"
+output_directory = "analyses/rfam/output/"
 
-__licence__="""
+__licence__ = """
 MIT License
 
 Copyright (c) 2020 Sinan Ugur Umu (SUU) sinanugur@gmail.com
@@ -35,27 +35,26 @@ SOFTWARE.
 
 """
 
-#pull out CMs, I added this part to check ready models
+# pull out CMs, I added this part to check ready models
 files, = glob_wildcards("mirmachine/cms/meta/rfam/{mirna}.cm")
 
 print(files)
 
 
-
 rule all:
     input:
-        #expand("analyses/rfam/output/{species}/{mirna}.result",species=species,mirna=files),
-        #expand("analyses/rfam/output/{species}/{mirna}.gff",species=species,mirna=files)
-        expand("results/predictions/rfam/{species}.rfam.gff",species=species)
-    
-    
+        # expand("analyses/rfam/output/{species}/{mirna}.result",species=species,mirna=files),
+        # expand("analyses/rfam/output/{species}/{mirna}.gff",species=species,mirna=files)
+        expand("results/predictions/rfam/{species}.rfam.gff", species=species)
+
+
 rule prepare_genome:
     input:
         genome
     output:
         "data/genomes/" + species + ".fai",
         "data/genomes/" + species + ".size"
-    
+
     shell:
         """
         samtools faidx {input};
@@ -66,7 +65,7 @@ rule prepare_genome:
 rule search_CM:
     input:
         "mirmachine/cms/meta/rfam/{mirna}.cm"
-        
+
     output:
         "analyses/rfam/output/{species}/{mirna}.result"
 
@@ -82,14 +81,14 @@ rule parse_rfam_output:
     input:
         "analyses/rfam/output/{species}/{mirna}.result",
         "data/genomes/" + species + ".size"
-        #genome + ".size"
+        # genome + ".size"
     output:
         "analyses/rfam/output/{species}/{mirna}.gff",
         temp("analyses/rfam/output/{species}/{mirna}.ext.gff"),
         "analyses/rfam/output/{species}/{mirna}.unfiltered"
 
     params:
-        parse=""" 'match($0,/\([0-9]+\)\s+!\s+.*/,m){{if($9 =="+") {{start=$7;end=$8}} else {{start=$8;end=$7}}; print $6"\tcmsearch\tncRNA\t"start"\t"end"\t"$4"\t"$9"\t.\tgene_id="id";rfam_id="rfam";E-value="$3}}' """,
+        parse = """ 'match($0,/\([0-9]+\)\s+!\s+.*/,m){{if($9 =="+") {{start=$7;end=$8}} else {{start=$8;end=$7}}; print $6"\tcmsearch\tncRNA\t"start"\t"end"\t"$4"\t"$9"\t.\tgene_id="id";rfam_id="rfam";E-value="$3}}' """,
 
     shell:
         """
@@ -109,7 +108,8 @@ rule parse_rfam_output:
 
 rule combine_filtered_gffs:
     input:
-        expand("analyses/rfam/output/{species}/{mirna}.gff",species=species,mirna=files)
+        expand(
+            "analyses/rfam/output/{species}/{mirna}.gff", species=species, mirna=files)
     output:
         "results/predictions/rfam/{species}.rfam.gff"
     run:
