@@ -9,6 +9,8 @@
   - Seed file updates.
   - Requirements.txt and environment.yml update.
   - Losses bug fixes.
+### Added
+  - Now incE is a cli parameter.
 
 ## [0.2.13] - 2024-02-02
 ### Changed
