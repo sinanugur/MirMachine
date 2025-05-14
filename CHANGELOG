@@ -9,8 +9,10 @@
   - Seed file updates.
   - Requirements.txt and environment.yml update.
   - Losses bug fixes.
+  - Clean .snakemake directory after each run.
 ### Added
   - Now incE is a cli parameter.
+  - Print basic results.
 
 ## [0.2.13] - 2024-02-02
 ### Changed
