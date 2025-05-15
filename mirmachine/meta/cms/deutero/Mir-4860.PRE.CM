@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-4860.PRE
 STATES   190
 NODES    40
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Mon Feb 14 21:19:57 2022
+DATE     Fri Sep 20 03:11:55 2024
 COM      [1] cmbuild -F analyses/cms/Mir-4860.PRE.CM analyses/secondary_structures/Mir-4860.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-4860.PRE.CM
 PBEGIN   0.05
@@ -260,7 +260,7 @@ CM
                                              [ END    39 ]      -      - - - - -
      E   189   188 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-4860.PRE
 LENG  62
 MAXL  155
@@ -270,7 +270,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Mon Feb 14 21:19:57 2022
+DATE  Fri Sep 20 03:11:55 2024
 COM   [1] cmbuild -F analyses/cms/Mir-4860.PRE.CM analyses/secondary_structures/Mir-4860.PRE.sto
 NSEQ  1
 EFFN  0.894531
@@ -307,7 +307,7 @@ HMM          A        C        G        U
       8   2.42481  0.55020  2.06276  1.57231      8 C - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-      9   0.85660  1.94966  1.25150  1.91733      9 a - - <
+      9   0.85660  1.94965  1.25150  1.91733      9 a - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      10   0.85863  1.94675  1.25348  1.91048     10 a - - <

@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-9698.PRE
 STATES   184
 NODES    39
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Sat Jan 29 03:11:32 2022
+DATE     Sat Sep  7 21:50:06 2024
 COM      [1] cmbuild -F analyses/cms/Mir-9698.PRE.CM analyses/secondary_structures/Mir-9698.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-9698.PRE.CM
 PBEGIN   0.05
@@ -253,7 +253,7 @@ CM
                                              [ END    38 ]      -      - - - - -
      E   183   182 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-9698.PRE
 LENG  60
 MAXL  152
@@ -263,7 +263,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Sat Jan 29 03:11:32 2022
+DATE  Sat Sep  7 21:50:06 2024
 COM   [1] cmbuild -F analyses/cms/Mir-9698.PRE.CM analyses/secondary_structures/Mir-9698.PRE.sto
 NSEQ  1
 EFFN  0.910156
@@ -423,7 +423,7 @@ HMM          A        C        G        U
      49   1.68386  2.07459  0.59230  1.99743     49 G - - >
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     50   1.68396  2.07467  0.59221  1.99757     50 G - - >
+     50   1.68397  2.07467  0.59221  1.99757     50 G - - >
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      51   2.16069  1.46823  1.77796  0.72270     51 u - - >

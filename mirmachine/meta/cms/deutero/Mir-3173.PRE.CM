@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-3173.PRE
 STATES   187
 NODES    38
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Tue Feb 15 04:42:29 2022
+DATE     Fri Sep 20 12:28:16 2024
 COM      [1] cmbuild -F analyses/cms/Mir-3173.PRE.CM analyses/secondary_structures/Mir-3173.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-3173.PRE.CM
 PBEGIN   0.05
@@ -21,7 +21,7 @@ N3OMEGA  1.52588e-05
 ELSELF   -0.08926734
 NSEQ     1
 EFFN     1.000000
-CKSUM    386442751
+CKSUM    3887289199
 NULL     0.000  0.000  0.000  0.000 
 EFP7GF   -2.0746 0.76141
 ECMLC    0.61489    -5.29843     3.92765     1600000      349106  0.003437
@@ -33,7 +33,7 @@ CM
      S     0    -1 0     1     4     1     1    76    96  -6.464  -7.709  -0.108  -4.163                 
     IL     1     1 2     1     4     1     2    78    97  -2.817  -4.319  -0.613  -2.698                  0.000  0.000  0.000  0.000 
     IR     2     2 3     2     3     1     3    78    98  -1.925  -0.554  -4.164                          0.000  0.000  0.000  0.000 
-                                             [ MATR    1 ]      -     61 - G - -
+                                             [ MATR    1 ]      -     62 - G - -
     MR     3     2 3     5     5     1     4    77    96  -6.746  -0.050  -6.562  -6.774  -7.666         -0.733 -1.796  1.417 -1.182 
      D     4     2 3     5     5     0     0    75    95  -5.352  -0.707  -2.978  -4.409  -2.404         
     IR     5     5 3     5     5     1     2    77    96  -2.408  -0.496  -5.920  -4.087  -5.193          0.000  0.000  0.000  0.000 
@@ -255,7 +255,7 @@ CM
                                              [ END    37 ]      -      - - - - -
      E   186   185 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-3173.PRE
 LENG  61
 MAXL  154
@@ -265,11 +265,11 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Tue Feb 15 04:42:29 2022
+DATE  Fri Sep 20 12:28:16 2024
 COM   [1] cmbuild -F analyses/cms/Mir-3173.PRE.CM analyses/secondary_structures/Mir-3173.PRE.sto
 NSEQ  1
 EFFN  0.886719
-CKSUM 386442751
+CKSUM 3887289199
 STATS LOCAL MSV       -9.4967  0.76141
 STATS LOCAL VITERBI  -10.9803  0.76141
 STATS LOCAL FORWARD   -2.0260  0.76141
@@ -458,7 +458,7 @@ HMM          A        C        G        U
      60   0.82595  2.01448  1.23480  1.98123     60 a - - >
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     61   1.81557  2.53502  0.45104  2.11173     61 G - - :
+     61   1.81557  2.53502  0.45104  2.11173     62 G - - :
           1.38629  1.38629  1.38629  1.38629
           0.03279  3.43399        *  1.46634  0.26236  0.00000        *
 //

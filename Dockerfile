@@ -24,7 +24,7 @@ RUN mamba env create --name mirmachine --file /tmp/environment.yml && \
 # Activate Conda environment and install a package from PyPI
 SHELL ["bash", "-c"]
 RUN source activate mirmachine && \
-    pip install mirmachine==0.2.13
+    pip install mirmachine==0.3.0
 
 # Set working directory
 WORKDIR /app

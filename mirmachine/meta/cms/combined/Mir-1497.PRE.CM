@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-1497.PRE
 STATES   199
 NODES    45
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Sat Jan 29 07:53:02 2022
+DATE     Sat Sep  7 03:18:44 2024
 COM      [1] cmbuild -F analyses/cms/Mir-1497.PRE.CM analyses/secondary_structures/Mir-1497.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-1497.PRE.CM
 PBEGIN   0.05
@@ -274,7 +274,7 @@ CM
                                              [ END    44 ]      -      - - - - -
      E   198   197 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-1497.PRE
 LENG  65
 MAXL  159
@@ -284,7 +284,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Sat Jan 29 07:53:02 2022
+DATE  Sat Sep  7 03:18:44 2024
 COM   [1] cmbuild -F analyses/cms/Mir-1497.PRE.CM analyses/secondary_structures/Mir-1497.PRE.sto
 NSEQ  1
 EFFN  0.863281

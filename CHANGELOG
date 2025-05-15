@@ -1,10 +1,26 @@
+## [0.3.0] - 2025-05-14
+### Changed
+  - MirGeneDB v3.0
+  - Proto: 449
+  - Deutero: 837
+  - Combined: 1293
+  - Python, Bedtools, Infernal, Snakemake and dependency updates
+  - Seed match bug fixes.
+  - Seed file updates.
+  - Requirements.txt and environment.yml update.
+  - Losses bug fixes.
+  - Clean .snakemake directory after each run.
+### Added
+  - Now incE is a cli parameter.
+  - Print basic results.
+
 ## [0.2.13] - 2024-02-02
 ### Changed
   - cmsearch --incE 0.2 argument is added to the cmsearch command. 
   - fewer than 50 nucleotides are not considered as a hit anymore.
   - GFF files have "MirMachine" and "microRNA" fields that replaced the previous fields.
   - Some bug fixes and improvements.
-## Added
+### Added
   - microRNA score reported in GFF files.
   - microRNA losses reported in GFF files
   - Seed match reported in FASTA headers with seeds.
@@ -15,51 +31,51 @@
 
 ## [0.2.11.2022] - 2022-02-28
 ### Changed
-- MirGeneDB v2.1(2022)
-- Proto: 143 but 326 models available
-- Deutero: 388 but 825 models available
-- Combined: 509 but 1157 models available
+  - MirGeneDB v2.1(2022)
+  - Proto: 143 but 326 models available
+  - Deutero: 388 but 825 models available
+  - Combined: 509 but 1157 models available
 ### Added
-- Some minor additions.
+  - Some minor additions.
 
 ## [0.2.11.2] - 2021-12-29
 ### Added
-- Family and node printing.
-- Exception handling for wrong model selection.
-- Exception handling for single family mode.
+  - Family and node printing.
+  - Exception handling for wrong model selection.
+  - Exception handling for single family mode.
 ### Changed
-- New header for GFFs.
-- Snakemake workflow update to better handle output files.
+  - New header for GFFs.
+  - Snakemake workflow update to better handle output files.
 
 ## [0.2.11.1] - 2021-09-29
 ### Changed
-- Bioconda installation problem is fixed by updating requirements.txt.
+  - Bioconda installation problem is fixed by updating requirements.txt.
 
 ## [0.2.11] - 2021-05-17
 ### Added
-- Some features were added to main executable such as printing ascii tree, nodes etc.
+  - Some features were added to main executable such as printing ascii tree, nodes etc.
 ### Changed
-- Tree parser now using re.search function. This can potentially cause a different behaviour.
+  - Tree parser now using re.search function. This can potentially cause a different behaviour.
 
 ## [0.2.10] - 2021-05-12
 ### Changed
-- Versioning
+  - Versioning
 
 ## [0.2.1a] - 2021-05-12
 ### Changed
-- MirGeneDB v2.1
-- Proto: 315 
-- Deutero: 825 
-- Combined: 1146
+  - MirGeneDB v2.1
+  - Proto: 315 
+  - Deutero: 825 
+  - Combined: 1146
 
 ## [0.1.31] - 2021-03-09
 ### Added
-- Headers for GFFs files.
-- Single family and single node run options.
+  - Headers for GFFs files.
+  - Single family and single node run options.
 
 ## [0.1.2] - 2020-12-05
 ### Added
-- MirGeneDB v2.0
-- Proto: 304
-- Deutero: 782
-- Combined: 1054
+  - MirGeneDB v2.0
+  - Proto: 304
+  - Deutero: 782
+  - Combined: 1054

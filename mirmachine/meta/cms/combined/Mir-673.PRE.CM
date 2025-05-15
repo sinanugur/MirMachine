@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-673.PRE
 STATES   193
 NODES    46
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Sat Jan 29 03:44:21 2022
+DATE     Sat Sep  7 05:36:08 2024
 COM      [1] cmbuild -F analyses/cms/Mir-673.PRE.CM analyses/secondary_structures/Mir-673.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-673.PRE.CM
 PBEGIN   0.05
@@ -269,7 +269,7 @@ CM
                                              [ END    45 ]      -      - - - - -
      E   192   191 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-673.PRE
 LENG  63
 MAXL  157
@@ -279,7 +279,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Sat Jan 29 03:44:21 2022
+DATE  Sat Sep  7 05:36:08 2024
 COM   [1] cmbuild -F analyses/cms/Mir-673.PRE.CM analyses/secondary_structures/Mir-673.PRE.sto
 NSEQ  1
 EFFN  0.777344
@@ -457,7 +457,7 @@ HMM          A        C        G        U
      55   2.45111  0.48876  2.07495  1.74381     55 C - - >
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     56   2.10087  1.41555  1.71395  0.78811     56 u - - >
+     56   2.10087  1.41555  1.71395  0.78810     56 u - - >
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      57   1.80445  2.13735  0.51607  2.11524     57 G - - >

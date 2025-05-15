@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-4034.PRE
 STATES   175
 NODES    38
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Sat Jan 29 04:37:47 2022
+DATE     Sat Sep  7 19:26:54 2024
 COM      [1] cmbuild -F analyses/cms/Mir-4034.PRE.CM analyses/secondary_structures/Mir-4034.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-4034.PRE.CM
 PBEGIN   0.05
@@ -243,7 +243,7 @@ CM
                                              [ END    37 ]      -      - - - - -
      E   174   173 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-4034.PRE
 LENG  57
 MAXL  148
@@ -253,7 +253,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Sat Jan 29 04:37:47 2022
+DATE  Sat Sep  7 19:26:54 2024
 COM   [1] cmbuild -F analyses/cms/Mir-4034.PRE.CM analyses/secondary_structures/Mir-4034.PRE.sto
 NSEQ  1
 EFFN  0.839844
@@ -365,7 +365,7 @@ HMM          A        C        G        U
      33   1.78282  2.49477  0.47249  2.07246     33 G - - -
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     34   2.12706  1.44030  1.74352  0.75704     34 u - - >
+     34   2.12706  1.44030  1.74351  0.75704     34 u - - >
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      35   0.84956  1.98622  1.22279  1.96057     35 a - - >

@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-8902.PRE
 STATES   175
 NODES    41
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Tue Feb 15 01:47:12 2022
+DATE     Fri Sep 20 07:05:48 2024
 COM      [1] cmbuild -F analyses/cms/Mir-8902.PRE.CM analyses/secondary_structures/Mir-8902.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-8902.PRE.CM
 PBEGIN   0.05
@@ -246,7 +246,7 @@ CM
                                              [ END    40 ]      -      - - - - -
      E   174   173 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-8902.PRE
 LENG  57
 MAXL  148
@@ -256,7 +256,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Tue Feb 15 01:47:12 2022
+DATE  Fri Sep 20 07:05:48 2024
 COM   [1] cmbuild -F analyses/cms/Mir-8902.PRE.CM analyses/secondary_structures/Mir-8902.PRE.sto
 NSEQ  1
 EFFN  0.777344
@@ -416,7 +416,7 @@ HMM          A        C        G        U
      49   0.88226  1.94841  1.20732  1.93340     49 a - - >
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     50   2.10087  1.41555  1.71395  0.78811     50 u - - >
+     50   2.10087  1.41555  1.71395  0.78810     50 u - - >
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      51   1.80445  2.13735  0.51607  2.11524     51 G - - >

@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-4823.PRE
 STATES   205
 NODES    45
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Tue Feb 15 01:20:52 2022
+DATE     Fri Sep 20 04:03:02 2024
 COM      [1] cmbuild -F analyses/cms/Mir-4823.PRE.CM analyses/secondary_structures/Mir-4823.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-4823.PRE.CM
 PBEGIN   0.05
@@ -280,7 +280,7 @@ CM
                                              [ END    44 ]      -      - - - - -
      E   204   203 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-4823.PRE
 LENG  67
 MAXL  162
@@ -290,7 +290,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Tue Feb 15 01:20:52 2022
+DATE  Fri Sep 20 04:03:02 2024
 COM   [1] cmbuild -F analyses/cms/Mir-4823.PRE.CM analyses/secondary_structures/Mir-4823.PRE.sto
 NSEQ  1
 EFFN  0.871094

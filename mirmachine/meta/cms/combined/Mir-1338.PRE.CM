@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-1338.PRE
 STATES   202
 NODES    46
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Sat Jan 29 09:17:52 2022
+DATE     Sat Sep  7 21:53:09 2024
 COM      [1] cmbuild -F analyses/cms/Mir-1338.PRE.CM analyses/secondary_structures/Mir-1338.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-1338.PRE.CM
 PBEGIN   0.05
@@ -278,7 +278,7 @@ CM
                                              [ END    45 ]      -      - - - - -
      E   201   200 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-1338.PRE
 LENG  66
 MAXL  161
@@ -288,7 +288,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Sat Jan 29 09:17:52 2022
+DATE  Sat Sep  7 21:53:09 2024
 COM   [1] cmbuild -F analyses/cms/Mir-1338.PRE.CM analyses/secondary_structures/Mir-1338.PRE.sto
 NSEQ  1
 EFFN  0.847656

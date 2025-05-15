@@ -46,7 +46,7 @@ except ImportError:
 meta_directory=os.path.dirname(meta.__file__)
 
 __author__ = 'sium'
-__version__= '0.2.13'
+__version__= '0.3.0'
 
 
 __licence__="""
@@ -77,8 +77,8 @@ SOFTWARE.
 __doc__="""Main MirMachine executable
 
 Usage:
-    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry]
-    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry]
+    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry]
+    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry]
     MirMachine.py --node <text> [--add-all-nodes]
     MirMachine.py --print-all-nodes
     MirMachine.py --print-all-families
@@ -92,10 +92,11 @@ Arguments:
     -g <text>, --genome <text>            Genome fasta file location (e.g. data/genome/example.fasta)
     -m <text>, --model <text>             Model type: deutero, proto, combined [default: combined]
     -f <text>, --family <text>            Run only a single miRNA family (e.g. Let-7).
+    -e <text>, --evalue <float>           Inclusion E-value. May inflate low quality hits. [default: 0.2]
     -c <integer>, --cpu <integer>         CPUs. [default: 2]
 
 Options:
-    -a, --add-all-nodes                 Move on the tree both ways.
+    -a, --add-all-nodes                 Move on the tree both ways. NOT required most of the time.
     -o, --single-node-only              Run only on the given node for miRNA families.
     -p, --print-all-nodes               Print all available node options and exit.
     -l, --print-all-families            Print all available families in this version and exit.
@@ -157,12 +158,12 @@ def create_yaml_file():
     else:
         yaml_argument="""
         
-        echo {node} {default_node_argument} | sort | uniq | while read a; \
+        echo {node} {default_node_argument} | sort | uniq | awk 'length($0) > 2{{print}}' | while read a; \
         do grep $a {meta_directory}/nodes_mirnas_corrected.tsv; done \
         | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq | \
         awk -v genome={genome} -v species={species} -v node={node} 'BEGIN{{print "genome: "genome;print "species: "species;print "node: "node; print "mirnas:"}}{{print " - "$1}}' > data/yamls/{species}.yaml;  \
         
-        echo {node} {default_node_argument} | sort | uniq | while read a; \
+        echo {node} {default_node_argument} | sort | uniq | awk 'length($0) > 2{{print}}' | while read a; \
         do grep $a {meta_directory}/losses_mirnas.tsv; done \
         | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq | \
         awk 'BEGIN{{print "losses:"}}{{print " - "$1}}' >> data/yamls/{species}.yaml;  \
@@ -191,7 +192,7 @@ def validate_inputs():
     meta_directory=meta_directory,
     mirmachine_path=mirmachine_path  
     )
-
+    #print(snakemake_argument)
     subprocess.check_call(snakemake_argument,shell=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     
 
@@ -230,10 +231,11 @@ def run_mirmachine():
     unlock="--unlock" if arguments["--unlock"] else ""
     touch="--touch" if arguments["--touch"] else ""
     remove="--delete-all-output" if arguments["--remove"] else ""
-    snakemake_argument="snakemake --rerun-incomplete {touch} {dry} {unlock} {remove} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} params={params} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
+    snakemake_argument="snakemake -q rules --rerun-incomplete {touch} {dry} {unlock} {remove} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} evalue={evalue} params={params} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
     species=arguments['--species'],
     cpu=arguments['--cpu'],
     model=arguments['--model'].lower(),
+    evalue=arguments['--evalue'],
     meta_directory=meta_directory,
     mirmachine_path=mirmachine_path,
     dry=dry_run,
@@ -241,11 +243,17 @@ def run_mirmachine():
     touch=touch,
     remove=remove,
     params=params)
-    
+    #print(snakemake_argument)
     subprocess.check_call(snakemake_argument,shell=True)
 
 
+def clean_meta_directory():
+    #delete .snakemake directory
+    subprocess.check_call("rm -rf .snakemake",shell=True)
 
+def print_gff_header(filename):
+    subprocess.check_call(f"cat results/predictions/filtered_gff/{filename} | parse_and_print.py | grep -v searched | grep -v losses ",shell=True)
+    subprocess.check_call(f"cat results/predictions/gff/{filename} | parse_and_print.py | grep score | sed \"s/score/unfiltered score/g\"",shell=True)
 
 def main():
     parsed_tree=walk_on_tree.walk_on_tree("{meta_directory}/tree.newick".format(meta_directory=meta_directory))
@@ -297,6 +305,18 @@ def main():
         run_mirmachine()
         end_time = datetime.now()
         print('Total runtime: {}'.format(end_time - start_time))
+        print("MirMachine run completed. Cleaning up .snakemake directory...")
+        try:
+            if os.path.isdir(".snakemake"):
+                clean_meta_directory()
+
+            filename=f"{arguments['--species']}.PRE.gff"
+            if os.path.exists("results/predictions/filtered_gff/" + filename) and not arguments["--dry"]:
+                print_gff_header(filename)
+                
+        except:
+            pass
+
 
 
 if __name__ == '__main__':

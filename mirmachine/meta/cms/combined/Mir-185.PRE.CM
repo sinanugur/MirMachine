@@ -1,4 +1,4 @@
-INFERNAL1/a [1.1.4 | Dec 2020]
+INFERNAL1/a [1.1.2 | July 2016]
 NAME     Mir-185.PRE
 STATES   172
 NODES    38
@@ -8,7 +8,7 @@ ALPH     RNA
 RF       no
 CONS     yes
 MAP      yes
-DATE     Sat Jan 29 19:52:41 2022
+DATE     Sat Sep  7 10:24:04 2024
 COM      [1] cmbuild -F analyses/cms/Mir-185.PRE.CM analyses/secondary_structures/Mir-185.PRE.sto
 COM      [2] cmcalibrate --cpu 15 analyses/cms/Mir-185.PRE.CM
 PBEGIN   0.05
@@ -240,7 +240,7 @@ CM
                                              [ END    37 ]      -      - - - - -
      E   171   170 3    -1     0     0     0     0     0                                                 
 //
-HMMER3/f [3.3.2 | Nov 2020]
+HMMER3/f [3.1b3 | July 2016]
 NAME  Mir-185.PRE
 LENG  56
 MAXL  147
@@ -250,7 +250,7 @@ MM    no
 CONS  yes
 CS    yes
 MAP   yes
-DATE  Sat Jan 29 19:52:41 2022
+DATE  Sat Sep  7 10:24:04 2024
 COM   [1] cmbuild -F analyses/cms/Mir-185.PRE.CM analyses/secondary_structures/Mir-185.PRE.sto
 NSEQ  1
 EFFN  0.785156
@@ -314,7 +314,7 @@ HMM          A        C        G        U
      17   2.17983  1.24138  1.83870  0.82341     17 u - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
-     18   2.36515  0.59122  1.98373  1.53778     18 C - - <
+     18   2.36515  0.59122  1.98373  1.53777     18 C - - <
           1.38629  1.38629  1.38629  1.38629
           0.06454  3.46574  3.46574  1.46634  0.26236  1.09861  0.40547
      19   2.36496  0.59127  1.98368  1.53776     19 C - - <
