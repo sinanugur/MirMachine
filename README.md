@@ -29,16 +29,11 @@ MirMachine.py --help
 
 Note: You have to install dependencies if you prefer GitHub or PyPi installation.
 
-A warning for Apple Silicon users (e.g. M1 or M2): bedtools depedency is not available for arm64 architecture. You have to set your environment to osx-64. You can install like this, which create a new environment and will install MirMachine:
-```
-CONDA_SUBDIR=osx-64 mamba create -n mirmachine -c conda-forge -c bioconda mirmachine
-```
-
 Quick start example
 -------------------
 Create a new directory and run MirMachine there after the installation. MirMachine will create the required directories while running.
 ```
-MirMachine.py -n Caenorhabditis -s Caenorhabditis_elegans --genome sample/genomes/ce11.fa --cpu 20
+MirMachine.py -n Caenorhabditis -s Caenorhabditis_elegans --genome sample/genomes/ce11.fa --cpu 20 --model proto
 ```
 
 See our documentation for detailed explanations: https://mirmachine.readthedocs.io/
