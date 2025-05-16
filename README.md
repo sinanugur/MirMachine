@@ -3,8 +3,8 @@
 [![Build Status](https://app.travis-ci.com/sinanugur/MirMachine.svg?branch=master)](https://app.travis-ci.com/sinanugur/MirMachine) [![Documentation Status](https://readthedocs.org/projects/mirmachine/badge/?version=latest)](https://mirmachine.readthedocs.io/en/latest/?badge=latest)  
 
 
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)  [![PyPI version](https://badge.fury.io/py/MirMachine.svg)](https://badge.fury.io/py/MirMachine)  [![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/version.svg)](https://anaconda.org/bioconda/mirmachine)  [![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/downloads.svg)](https://anaconda.org/bioconda/mirmachine)  
-[![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/latest_release_relative_date.svg)](https://anaconda.org/bioconda/mirmachine)  [![Docker Pulls](https://img.shields.io/docker/pulls/sinanugur/mirmachine)](https://hub.docker.com/r/sinanugur/mirmachine)  
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)  [![PyPI version](https://badge.fury.io/py/MirMachine.svg?style=flat&cache-control=no-cache)](https://badge.fury.io/py/MirMachine)  [![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/version.svg?style=flat&cache-control=no-cache)](https://anaconda.org/bioconda/mirmachine)  [![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/downloads.svg?style=flat&cache-control=no-cache)](https://anaconda.org/bioconda/mirmachine)  
+[![Anaconda-Server Badge](https://anaconda.org/bioconda/mirmachine/badges/latest_release_relative_date.svg?style=flat&cache-control=no-cache)](https://anaconda.org/bioconda/mirmachine)  [![Docker Pulls](https://img.shields.io/docker/pulls/sinanugur/mirmachine)](https://hub.docker.com/r/sinanugur/mirmachine)  
 A command line tool to detect miRNA homologs in genome sequences.
 
 
@@ -42,8 +42,8 @@ Options and Arguments
 ---------------------
 ```
 Usage:
-    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--dry]
-    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--unlock|--remove] [--dry]
+    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove][--touch] [--dry]
+    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry]
     MirMachine.py --node <text> [--add-all-nodes]
     MirMachine.py --print-all-nodes
     MirMachine.py --print-all-families
@@ -57,10 +57,11 @@ Arguments:
     -g <text>, --genome <text>            Genome fasta file location (e.g. data/genome/example.fasta)
     -m <text>, --model <text>             Model type: deutero, proto, combined [default: combined]
     -f <text>, --family <text>            Run only a single miRNA family (e.g. Let-7).
+    -e <text>, --evalue <float>           Inclusion E-value. May inflate low quality hits. [default: 0.2]
     -c <integer>, --cpu <integer>         CPUs. [default: 2]
 
 Options:
-    -a, --add-all-nodes                 Move on the tree both ways.
+    -a, --add-all-nodes                 Move on the tree both ways. NOT required most of the time.
     -o, --single-node-only              Run only on the given node for miRNA families.
     -p, --print-all-nodes               Print all available node options and exit.
     -l, --print-all-families            Print all available families in this version and exit.
@@ -69,6 +70,7 @@ Options:
     -r, --remove                        Clear all output files (this won't remove input files).
     -d, --dry                           Dry run.
     -h, --help                          Show this screen.
+    --touch                             Touch output files (mark them up to date without really changing them).
     --version                           Show version.
 ```
 
