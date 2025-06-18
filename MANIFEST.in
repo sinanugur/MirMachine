@@ -1,4 +1,6 @@
-include *.txt
+include CHANGELOG
+include LICENCE.txt
+include requirements.txt
 recursive-include mirmachine *.CM
 recursive-include mirmachine *.R
 recursive-include mirmachine *.newick
