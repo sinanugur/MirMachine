@@ -46,7 +46,7 @@ except ImportError:
 meta_directory=os.path.dirname(meta.__file__)
 
 __author__ = 'sium'
-__version__= '0.3.0'
+__version__= '0.3.0.1'
 
 
 __licence__="""
@@ -163,18 +163,20 @@ def create_yaml_file():
         | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq | \
         awk -v genome={genome} -v species={species} -v node={node} 'BEGIN{{print "genome: "genome;print "species: "species;print "node: "node; print "mirnas:"}}{{print " - "$1}}' > data/yamls/{species}.yaml;  \
         
+        if [ -z "{both_ways}" ]; then \
         echo {node} {default_node_argument} | sort | uniq | awk 'length($0) > 2{{print}}' | while read a; \
         do grep $a {meta_directory}/losses_mirnas.tsv; done \
         | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq | \
         awk 'BEGIN{{print "losses:"}}{{print " - "$1}}' >> data/yamls/{species}.yaml;  \
-        
+        fi        
         """.format(
           default_node_argument=default_node_argument,
           meta_directory=meta_directory,
           node=arguments['--node'],
-            mirmachine_path=mirmachine_path,
+          mirmachine_path=mirmachine_path,
           species=arguments['--species'],
-          genome=arguments['--genome'])
+          genome=arguments['--genome'],
+          both_ways=both_ways)
         
 
 
@@ -285,12 +287,15 @@ def main():
             print(Panel.fit("""Error, please select a correct model name!"\nThe model given is: "{model}"\nPossible values are: "deutero", "proto", "combined" """.format(model=arguments["--model"])))
             return
         try:
-            validate_inputs()
+            #validate_inputs()
+            pass
         except:
-            print(Panel.fit("""Error, model and node names are inconsistent!\nThe model given is: "{model}"\nThe node name given is: "{node}"\nChanging to the default model: combined""".format(model=arguments["--model"],node=arguments["--node"])))
-            arguments["--model"]="combined"
+            #print(Panel.fit("""Error, model and node names are inconsistent!\nThe model given is: "{model}"\nThe node name given is: "{node}"\nChanging to the default model: combined""".format(model=arguments["--model"],node=arguments["--node"])))
+            #arguments["--model"]="combined"
+            pass
             try:
-                validate_inputs()
+                #validate_inputs()
+                pass
             except:
                 print("")
                 print("Error, miRNA family not found.")

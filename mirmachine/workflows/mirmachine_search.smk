@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.3.0"
+__version__="0.3.0.1"
 MDBver="3.0"
 
 __licence__="""
@@ -72,6 +72,14 @@ seeds_file=meta_directory + "/family_seeds.tsv"
 #	mirna=files
 
 
+available_mirnas=glob_wildcards(meta_directory + "/cms/" + model + "/{mirna}.CM").mirna
+
+missing_mirnas=[item for item in mirna if item not in available_mirnas]
+#print("Available mirnas: ",available_mirnas)
+print("Warning missing miRNAs: ",missing_mirnas)
+print("Consider changing the model to combined if you are searching for proto or deutero miRNAs.")
+print("If you selected -a option, nothing to worry about.")
+#print("Losses: ",losses)
 
 
 cutoffs_dict=defaultdict(int)
@@ -209,7 +217,7 @@ rule fastas:
 		
 rule combine_fastas:
 	input:
-		expand(r"analyses/output/{species}/{mirna}.filtered.fasta",species=species,mirna=[item for item in mirna if item not in losses])
+		expand(r"analyses/output/{species}/{mirna}.filtered.fasta",species=species,mirna=[item for item in mirna if item not in losses and item not in missing_mirnas])
 	output:
 		"results/predictions/fasta/{species}.PRE.fasta"
 	run:
@@ -220,13 +228,13 @@ rule combine_fastas:
 
 rule combine_gffs:
 	input:
-		gff_files=expand("analyses/output/{species}/{mirna}.gff",species=species,mirna=[item for item in mirna if item not in losses]),
+		gff_files=expand("analyses/output/{species}/{mirna}.gff",species=species,mirna=[item for item in mirna if item not in losses and item not in missing_mirnas]),
 		fasta_file="results/predictions/fasta/{species}.PRE.fasta"
 	output:
 		"results/predictions/gff/{species}.PRE.gff"
 	params:
 		header=gffheader,
-		total=len([item for item in mirna if item not in losses])
+		total=len([item for item in mirna if item not in losses and item not in missing_mirnas])
 	run:
 		shell("""echo "{params.header}" > {output}""")
 		#shell("cat analyses/output/{wildcards.species}/*PRE.gff | awk '/PRE/' >> {output}")
@@ -237,13 +245,13 @@ rule combine_gffs:
 
 rule combine_filtered_gffs:
 	input:
-		gff_files=expand("analyses/output/{species}/{mirna}.filtered.gff",species=species,mirna=[item for item in mirna if item not in losses]),
+		gff_files=expand("analyses/output/{species}/{mirna}.filtered.gff",species=species,mirna=[item for item in mirna if item not in losses and item not in missing_mirnas]),
 		fasta_file="results/predictions/fasta/{species}.PRE.fasta"
 	output:
 		"results/predictions/filtered_gff/{species}.PRE.gff"
 	params:
 		header=gffheader,
-		total=len([item for item in mirna if item not in losses])
+		total=len([item for item in mirna if item not in losses and item not in missing_mirnas])
 	run:
 		shell("""echo "{params.header}" > {output}""")
 		#shell("cat analyses/output/{wildcards.species}/*PRE.filtered.gff | awk '/PRE/' >> {output}")
