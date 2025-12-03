@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.3.0.1"
+__version__="0.3.0.2"
 MDBver="3.0"
 
 __licence__="""
@@ -76,9 +76,10 @@ available_mirnas=glob_wildcards(meta_directory + "/cms/" + model + "/{mirna}.CM"
 
 missing_mirnas=[item for item in mirna if item not in available_mirnas]
 #print("Available mirnas: ",available_mirnas)
-print("Warning missing miRNAs: ",missing_mirnas)
-print("Consider changing the model to combined if you are searching for proto or deutero miRNAs.")
-print("If you selected -a option, nothing to worry about.")
+if missing_mirnas:
+	print("Warning missing miRNAs: ",missing_mirnas)
+	print("Consider changing the model to combined if you are searching for proto or deutero miRNAs.")
+	print("If you selected -a option, nothing to worry about.")
 #print("Losses: ",losses)
 
 

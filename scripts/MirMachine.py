@@ -46,7 +46,7 @@ except ImportError:
 meta_directory=os.path.dirname(meta.__file__)
 
 __author__ = 'sium'
-__version__= '0.3.0.1'
+__version__= '0.3.0.2'
 
 
 __licence__="""
@@ -148,6 +148,7 @@ def create_yaml_file():
 
     both_ways= "--add-all-nodes" if arguments["--add-all-nodes"] else ""
     default_node_argument= "" if arguments["--single-node-only"] else "| while read i; do mirmachine-tree-parser.py {meta_directory}/tree.newick $i {both_ways}; done".format(meta_directory=meta_directory,both_ways=both_ways)
+    losses_node_argument= "" if arguments["--single-node-only"] else "| while read i; do mirmachine-tree-parser.py {meta_directory}/tree.newick $i; done".format(meta_directory=meta_directory)
 
     if arguments['--family']:
         yaml_argument = """echo {family} | awk -v genome={genome} -v species={species} 'BEGIN{{print "genome: "genome;print "species: "species;print "node: "node; print "mirnas:"}}{{print " - "$1}}' > data/yamls/{species}.yaml""".format(
@@ -157,22 +158,22 @@ def create_yaml_file():
     
     else:
         yaml_argument="""
-        
         echo {node} {default_node_argument} | sort | uniq | awk 'length($0) > 2{{print}}' | while read a; \
         do grep $a {meta_directory}/nodes_mirnas_corrected.tsv; done \
         | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq | \
         awk -v genome={genome} -v species={species} -v node={node} 'BEGIN{{print "genome: "genome;print "species: "species;print "node: "node; print "mirnas:"}}{{print " - "$1}}' > data/yamls/{species}.yaml;  \
         
-        if [ -z "{both_ways}" ]; then \
-        echo {node} {default_node_argument} | sort | uniq | awk 'length($0) > 2{{print}}' | while read a; \
+        
+        echo {node} {losses_node_argument} | sort | uniq | awk 'length($0) > 2{{print}}' | while read a; \
         do grep $a {meta_directory}/losses_mirnas.tsv; done \
         | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq | \
         awk 'BEGIN{{print "losses:"}}{{print " - "$1}}' >> data/yamls/{species}.yaml;  \
-        fi        
+        
         """.format(
           default_node_argument=default_node_argument,
           meta_directory=meta_directory,
           node=arguments['--node'],
+          losses_node_argument=losses_node_argument,
           mirmachine_path=mirmachine_path,
           species=arguments['--species'],
           genome=arguments['--genome'],
