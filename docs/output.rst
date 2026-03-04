@@ -1,17 +1,41 @@
 Output
 ======
 
-The ``MirMachine`` main executable will generate GFF annotations (filtered and unfiltered) and some other files.
-You will see ``results/predictions/`` directory which contains:
+MirMachine writes intermediate files under ``data/`` and ``analyses/`` and
+final run outputs under ``results/predictions/``.
 
-``filtered_gff/`` **High confidence miRNA family predictions after bitscore filtering. (This file is what you need in most cases)**
+Main Output Layout
+------------------
 
-``gff/`` **All predicted miRNA families.** You can access all the predictions without filtering.
+For ``--species ExampleSpecies``, the key files are:
 
-``fasta/`` **Both high and low confidence predictions in FASTA format.** Both predictions from filtered and unfiltered are included and you access FASTA sequences. See explanation of FASTA identifiers.
+.. code-block:: text
 
-Explanation of GFF files
-------------------------
+    data/yamls/ExampleSpecies.yaml
+    results/predictions/gff/ExampleSpecies.PRE.gff
+    results/predictions/filtered_gff/ExampleSpecies.PRE.gff
+    results/predictions/fasta/ExampleSpecies.PRE.fasta
+    results/predictions/heatmap/ExampleSpecies.heatmap.csv
+
+Interpretation
+--------------
+
+``results/predictions/gff/*.PRE.gff``
+  Unfiltered predictions after overlap resolution.
+
+``results/predictions/filtered_gff/*.PRE.gff``
+  High-confidence subset after family-specific trusted cutoff filtering.
+
+``results/predictions/fasta/*.PRE.fasta``
+  FASTA entries for predicted loci, including confidence label and seed
+  annotations in the header.
+
+``results/predictions/heatmap/*.heatmap.csv``
+  Summary table for downstream plotting with per-family total and filtered hit
+  counts.
+
+GFF Header Fields
+-----------------
 
 **Header:**
 
@@ -19,34 +43,39 @@ Explanation of GFF files
 
     ##gff-version 3
     # MirMachine version: (MirMachine version used)
-    # CM Models: Built using MirGeneDB 2.1 (DB version, usually suggests new families were included)
+    # CM Models: Built using MirGeneDB 3.0 (database version)
     # Total families searched: (Total families searched for this run)
     # Node: (Node name given)
     # Model: (selected model)
     # Genome file: (genome file location)
     # Species: (species name given)
-    # Params: (Command line paramaters)
-    # miRNAs families searched: (searched families)
+    # Params: (Command line parameters)
+    # miRNA families searched: (searched families)
     # Expected miRNA family losses: (miRNA family losses for this Node)
     # miRNA score: (percent of miRNA families detected)
 
-An example prediction:
+The filtered and unfiltered files each contain a score in the header.
+
+Example GFF Row
+---------------
+
+An example prediction line:
 
 .. code-block:: bash
 
     chrI	MirMachine	microRNA	9379947	9380005	57.4	-	.	gene_id=Mir-71.PRE;E-value=3e-10;sequence_with_30nt=TCACACACAGAGGTTGTCTGCTCTGAACGATGAAAGACATGGGTAGTGAGACGTCGGAGCCTCGTCGTATCACTATTCTGTTTTTCGCCGTCGGGATCGTGACCTGGAAGCTGTAAACT
-    
-    GFF prediction explanation:
-    **chrI=**Chromosome name.
-    **MirMachine=**Source of the prediction.
-    **microRNA=**Type of the feature.
-    **9379947=**Start position of the feature.
-    **9380005=**End position of the feature.
-    **57.4=**Bitscore of the prediction.
-    **-=**Strand of the feature.
-    **gene_id=**miRNA family name.
-    **E-value=**E-value of the prediction.
-    **sequence_with_30nt=**Sequence of the miRNA hit and its 30nts upstream/downstream sequences.
+
+Field meanings:
+
+* ``chrI``: chromosome/contig name
+* ``MirMachine``: annotation source
+* ``microRNA``: feature type
+* ``9379947`` and ``9380005``: start/end
+* ``57.4``: CM bitscore
+* ``-``: strand
+* ``gene_id``: miRNA family ID
+* ``E-value``: hit E-value
+* ``sequence_with_30nt``: hit sequence with 30 nt flanks
 
 `Read about GFF3 file format <https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md>`_
 
@@ -60,7 +89,20 @@ Example FASTA of a prediction:
     >Mir-9.PRE_chrI_9332963_9333028_(+)_56.8_HIGHconf_p5_seed(CTTTGGT)_p3_seed(AAAGCTA,TAAAGCT)
     TCTTTGGTGATTCAGCTTCAATGATTGGCTACAGGTTTCTTTCATAAAGCTAGGTTACCAAAGCTC
 
+Header pattern:
 
-    Header explanation:
-    >miRNA family name_chromosome_location_strand_bitscore_confidence_seed_sequences_detected
-    #This is a high confidence prediction and we found three seeds both in the 5' and 3' ends of the miRNA.
+.. code-block:: text
+
+    >family_chr_start_end_(strand)_bitscore_confidence_seed_annotations
+
+Confidence values are ``HIGHconf`` or ``LOWconf``.
+
+Heatmap CSV
+-----------
+
+``results/predictions/heatmap/<species>.heatmap.csv`` includes metadata lines
+from the GFF header followed by a CSV table with this schema:
+
+.. code-block:: text
+
+    species,query_node,family,node,total_hits,filtered_hits

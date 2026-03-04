@@ -1,11 +1,16 @@
-.. MirMachine documentation master file, created by
-   sphinx-quickstart on Thu Dec 30 01:14:57 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+MirMachine Documentation
+========================
 
-Welcome to MirMachine's documentation!
-======================================
-A command line tool to detect miRNA homologs in genome sequences.
+MirMachine is a command line workflow for detecting conserved miRNA families
+from genome FASTA files.
+
+The ``MirMachine.py`` entry point prepares run metadata and launches a
+Snakemake workflow that generates:
+
+* unfiltered GFF predictions
+* filtered (high-confidence) GFF predictions
+* FASTA sequences for predicted loci
+* heatmap-ready summary tables
 
 .. toctree::
    :maxdepth: 2
@@ -13,6 +18,7 @@ A command line tool to detect miRNA homologs in genome sequences.
 
    installation.rst
    quick_start.rst
+   concepts.rst
    output.rst
    options.rst
    trouble.rst
