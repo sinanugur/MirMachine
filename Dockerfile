@@ -16,6 +16,8 @@ ENV PATH="/opt/conda/bin:${PATH}"
 
 # Copy environment file
 COPY environment.yml /tmp/environment.yml
+RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
+RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
 RUN conda install mamba -c conda-forge
 # Create Conda environment from environment file
 RUN mamba env create --name mirmachine --file /tmp/environment.yml && \
@@ -24,7 +26,7 @@ RUN mamba env create --name mirmachine --file /tmp/environment.yml && \
 # Activate Conda environment and install a package from PyPI
 SHELL ["bash", "-c"]
 RUN source activate mirmachine && \
-    pip install mirmachine==0.3.0
+    pip install mirmachine==0.3.0.2
 
 # Set working directory
 WORKDIR /app
