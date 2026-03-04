@@ -18,11 +18,11 @@
 # -- Project information -----------------------------------------------------
 
 project = 'MirMachine'
-copyright = '2025, Sinan U. Umu'
+copyright = '2026, Sinan U. Umu'
 author = 'Sinan U. Umu'
 
 # The full version, including alpha/beta/rc tags
-release = '0.3.0'
+release = '0.3.0.3'
 
 
 # -- General configuration ---------------------------------------------------

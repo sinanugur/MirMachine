@@ -1,29 +1,51 @@
 Installation
 ============
 
-**Using conda:**
+Recommended: Conda/Mamba (Bioconda)
+-----------------------------------
 
-To install this package with conda, run:
+Install from Bioconda with conda:
 
 .. code-block:: console
 
     conda install mirmachine -c bioconda -c conda-forge
 
-You may want to install Mamba first, which will reduce installation time. To install Mamba with conda, run:
+Using mamba is faster for dependency solving:
 
 .. code-block:: console
 
     conda install mamba -c conda-forge
+    mamba install mirmachine -c bioconda -c conda-forge
 
-Then, you can install MirMachine with Mamba:
+Apple Silicon (M1/M2/M3)
+------------------------
+
+``bedtools`` may not resolve on native arm64 in some setups. If needed, create
+an ``osx-64`` environment:
 
 .. code-block:: console
 
-    mamba install mirmachine -c bioconda -c conda-forge
+    CONDA_SUBDIR=osx-64 mamba create -n mirmachine -c conda-forge -c bioconda mirmachine
 
-**Verifying installation:**
+From Source (Local Development)
+-------------------------------
 
-Once installed, you can verify if MirMachine is working by running the main script with the help flag:
+From the repository root:
+
+.. code-block:: console
+
+    conda env create -f environment.yml
+    conda activate mirmachine
+    pip install -e .
+
+The environment file includes Python dependencies plus required command-line
+tools used by the workflow (for example ``snakemake``, ``infernal``,
+``samtools``, ``bedtools``, ``gawk``, and ``moreutils``).
+
+Verify Installation
+-------------------
+
+Check CLI availability:
 
 .. code-block:: console
 

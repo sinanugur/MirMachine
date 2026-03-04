@@ -1,89 +1,112 @@
-Options and Arguments
-=====================
+CLI Options and Arguments
+=========================
 
-How to use MirMachine
----------------------
+Command Modes
+-------------
 
-Required arguments for a MirMachine run are: ``--node``, ``--species`` and ``--genome``.
+MirMachine supports these invocation modes:
 
-You can select any name for **species name**. It is simply defines how you want to name your run.
+.. code-block:: text
 
-The **genome file** must be a FASTA file. Its location is not important.
-
-A standard run
---------------
-
-.. code-block:: bash
-
-    MirMachine.py --node Caenorhabditis --species foo --genome /path/tp/genome/example.fasta
-
-This will start a MirMachine run and search for all miRNAs belong to **Caenorhabditis** node.
-
-What is a node and how to see available nodes?
-----------------------------------------------
-A node is a taxanomic node name to query the correct group of miRNA families. 
-
-For example, **Caenorhabditis** node contains all miRNA families that are expected to be found in **Caenorhabditis** genus.
-
-You can query all available nodes with:
-
-.. code-block:: bash
-
+    MirMachine.py --node <text> --species <text> --genome <text> [options]
+    MirMachine.py --species <text> --genome <text> --family <text> [options]
+    MirMachine.py --node <text> [--add-all-nodes]
     MirMachine.py --print-all-nodes
+    MirMachine.py --print-all-families
+    MirMachine.py --print-ascii-tree
+    MirMachine.py (-h | --help)
+    MirMachine.py --version
 
-Selection of a correct node is important for accurate prediction with fewer false positives. This will also reduce run time.
+Run Examples
+------------
 
-Which families are available in a node?
----------------------------------------
+Node-based run:
 
-You can see that with:
+.. code-block:: bash
+
+    MirMachine.py --node Caenorhabditis --species ce11 \
+                 --genome /path/to/genome.fa --model combined
+
+Single-family run:
+
+.. code-block:: bash
+
+    MirMachine.py --species ce11_let7 --genome /path/to/genome.fa \
+                 --family Let-7
+
+Show families for a node:
 
 .. code-block:: bash
 
     MirMachine.py --node Caenorhabditis
 
-This will show the miRNA families that will be searched by MirMachine if you select **Caenorhabditis** node. These miRNA families are expected to be found by MirMachine.
+Arguments
+---------
 
-What is a model and how to select a model?
-------------------------------------------
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
 
-MirMachine has three models: **deutero**, **proto** and **combined**. 
-Combined means the covariance models were built using all MirGeneDB species. 
+   * - Short
+     - Long
+     - Description
+   * - ``-n``
+     - ``--node <text>``
+     - Node name (example: ``Caenorhabditis``).
+   * - ``-s``
+     - ``--species <text>``
+     - Species/run label used in output filenames and YAML config.
+   * - ``-g``
+     - ``--genome <text>``
+     - Path to uncompressed genome FASTA.
+   * - ``-m``
+     - ``--model <text>``
+     - Model set: ``combined``, ``proto``, or ``deutero`` (default: ``combined``).
+   * - ``-f``
+     - ``--family <text>``
+     - Search only one miRNA family (example: ``Let-7``).
+   * - ``-e``
+     - ``--evalue <float>``
+     - Inclusion threshold passed to ``cmsearch --incE`` (default: ``0.2``).
+   * - ``-c``
+     - ``--cpu <integer>``
+     - Parallel jobs passed to Snakemake (default: ``2``).
 
-Proto and deutero were built using only proto and deutero species, respectively. In theory, proto and deutero models should be more accurate.
+Options
+-------
 
-All options and arguments
--------------------------
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
 
-.. code-block::
+   * - Flag
+     - Description
+   * - ``-a``, ``--add-all-nodes``
+     - Expand node query to include descendants (broader family set).
+   * - ``-o``, ``--single-node-only``
+     - Limit searched families to only the selected node.
+   * - ``-p``, ``--print-all-nodes``
+     - Print available node names and exit.
+   * - ``-l``, ``--print-all-families``
+     - Print families available in each model and exit.
+   * - ``-t``, ``--print-ascii-tree``
+     - Print an ASCII representation of the taxonomy tree and exit.
+   * - ``-u``, ``--unlock``
+     - Unlock a stalled Snakemake working directory.
+   * - ``-r``, ``--remove``
+     - Delete all generated output files tracked by the workflow.
+   * - ``-d``, ``--dry``
+     - Dry-run the Snakemake DAG without executing jobs.
+   * - ``--touch``
+     - Mark targets as up-to-date without re-running jobs.
+   * - ``-h``, ``--help``
+     - Show help text and exit.
+   * - ``--version``
+     - Show MirMachine version and exit.
 
-    Usage:
-        MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry]
-        MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry]
-        MirMachine.py --node <text> [--add-all-nodes]
-        MirMachine.py --print-all-nodes
-        MirMachine.py --print-all-families
-        MirMachine.py --print-ascii-tree
-        MirMachine.py (-h | --help)
-        MirMachine.py --version
+Notes
+-----
 
-    Arguments:
-        -n <text>, --node <text>              Node name. (e.g. Caenorhabditis)
-        -s <text>, --species <text>           Species name. (e.g. Caenorhabditis_elegans)
-        -g <text>, --genome <text>            Genome fasta file location (e.g. data/genome/example.fasta)
-        -m <text>, --model <text>             Model type: deutero, proto, combined [default: combined]
-        -f <text>, --family <text>            Run only a single miRNA family (e.g. Let-7).
-        -c <integer>, --cpu <integer>         CPUs. [default: 2]
-
-    Options:
-        -a, --add-all-nodes                 Move on the tree both ways.
-        -o, --single-node-only              Run only on the given node for miRNA families.
-        -p, --print-all-nodes               Print all available node options and exit.
-        -l, --print-all-families            Print all available families in this version and exit.
-        -t, --print-ascii-tree              Print ascii tree of the tree file.
-        -u, --unlock                        Rescue stalled jobs (Try this if the previous job ended prematurely).
-        -r, --remove                        Clear all output files (this won't remove input files).
-        -d, --dry                           Dry run.
-        -h, --help                          Show this screen.
-        --touch                             Touch output files (mark them up to date without really changing them).
-        --version                           Show version.
+* ``--family`` mode does not require ``--node``.
+* If ``--node`` is invalid, MirMachine prints valid nodes and exits.
+* Model name validation is strict: ``combined``, ``proto``, ``deutero``.

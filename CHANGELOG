@@ -1,3 +1,11 @@
+## [0.3.0.3] - 2026-03-04
+### Changed
+  - Documentation refresh under `docs/` to match current `MirMachine.py` and workflow behavior.
+  - Rewrote installation, quick start, CLI options, output, and troubleshooting pages with current flags and outputs.
+  - Updated docs metadata in `docs/conf.py` to `release = 0.3.0.3`.
+### Added
+  - New `docs/concepts.rst` page covering node/family/model scope, search behavior, and scoring concepts.
+
 ## [0.3.0] - 2025-05-14
 ### Changed
   - MirGeneDB v3.0

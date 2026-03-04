@@ -9,44 +9,44 @@ MirMachine main
 
 #from __future__ import print_function
 import re
-from docopt import docopt
-import newick
 import os
+import shutil
 import sys
 import subprocess
 from pathlib import Path
 from datetime import datetime
+
+import newick
+import yaml
+from docopt import docopt
 #from schema import Schema, And, Or, Use, SchemaError
 
 from rich.console import Console
-from rich.table import Column, Table
 from rich.columns import Columns
 from rich import print
 from rich.panel import Panel
 
-import importlib
 from collections import defaultdict
-
-walk_on_tree=importlib.import_module("mirmachine-tree-parser")
 
 try:
     from mirmachine import meta
-    from mirmachine import workflows
     import mirmachine
     mirmachine_path=os.path.dirname(mirmachine.__file__)
 except ImportError:
     try:
         import meta
-        import workflows
         mirmachine_path="mirmachine" #so you did not install the package
     except:
             raise ImportError
 
 
 meta_directory=os.path.dirname(meta.__file__)
+tree_file=os.path.join(meta_directory, "tree.newick")
+nodes_mirnas_file=os.path.join(meta_directory, "nodes_mirnas_corrected.tsv")
+losses_mirnas_file=os.path.join(meta_directory, "losses_mirnas.tsv")
 
 __author__ = 'sium'
-__version__= '0.3.0.2'
+__version__= '0.3.0.3'
 
 
 __licence__="""
@@ -110,93 +110,181 @@ Options:
 
 """
 
+def _split_node_name(name):
+    if name is None:
+        return []
+    return [part.strip() for part in name.split("_") if part.strip()]
+
+
+def _walk_tree_nodes(newick_path):
+    descendants = []
+    tree = newick.read(newick_path)
+    for node in tree[0].walk():
+        if node.name is not None and not node.is_leaf: #I skip leaf nodes.
+            descendants.extend(
+                [label for label in _split_node_name(node.name) if len(label) > 2]
+            )
+
+    while "group" in descendants:
+        descendants.remove("group")
+
+    pattern = re.compile("[A-Z][a-z]+")
+    return list(filter(pattern.match, descendants))
+
+
+def _detect_ancestors(node, ancestors):
+    if node is None:
+        return
+    if node.name is not None:
+        ancestors.extend(_split_node_name(node.name))
+    _detect_ancestors(node.ancestor, ancestors)
+
+
+def _detect_descendants(nodes, descendants):
+    if not nodes:
+        return
+    for node in nodes:
+        if node.name is not None and not node.is_leaf: #I skip leaf nodes.
+            descendants.extend(_split_node_name(node.name))
+        _detect_descendants(node.descendants, descendants)
+
+
+def _search_tree_for_keyword(newick_path, keyword, include_descendants=False):
+    ancestors = []
+    descendants = []
+    tree = newick.read(newick_path)
+    keyword_title = keyword.strip().title()
+    for node in tree[0].walk():
+        if node.name is not None and re.search(keyword_title, node.name):
+            _detect_ancestors(node, ancestors)
+            _detect_descendants([node], descendants)
+            while "group" in descendants:
+                descendants.remove("group")
+            while "group" in ancestors:
+                ancestors.remove("group")
+
+            if include_descendants:
+                return descendants + ancestors
+            return ancestors
+    return []
+
+
+def _resolve_nodes_for_query(node_name, include_descendants=False):
+    nodes = _search_tree_for_keyword(
+        newick_path=tree_file,
+        keyword=node_name,
+        include_descendants=include_descendants,
+    )
+    return sorted({node for node in nodes if len(node) > 2})
+
+
+def _collect_families_from_tsv(tsv_path, nodes):
+    valid_nodes = {node for node in nodes if len(node) > 2}
+    if not valid_nodes:
+        return []
+
+    families = set()
+    with open(tsv_path) as tsv:
+        for line in tsv:
+            parts = line.rstrip("\n").split("\t")
+            if len(parts) < 2:
+                continue
+            node_name, family = parts[0], parts[1].strip()
+            if family in {"NOVEL", "NA"}:
+                continue
+            # Preserve previous grep-like behavior: substring matching on node names.
+            if any(node in node_name for node in valid_nodes):
+                families.add(family)
+    return sorted(families)
+
+
+def _yaml_output_path(species):
+    Path("data/yamls").mkdir(parents=True, exist_ok=True)
+    return Path("data/yamls") / f"{species}.yaml"
+
+
+def _write_yaml_file(path, payload):
+    with path.open("w", encoding="utf-8") as yaml_handle:
+        yaml.safe_dump(payload, yaml_handle, sort_keys=False, default_flow_style=False)
+
+
 def print_ascii_tree():
-    tree_parser_argument="mirmachine-tree-parser.py {meta_directory}/tree.newick --print-ascii-tree".format(meta_directory=meta_directory)
-    subprocess.check_call(tree_parser_argument,shell=True)
+    tree = newick.read(tree_file)[0]
+    print(tree.ascii_art())
 
 def print_all_nodes():
-    tree_parser_argument="mirmachine-tree-parser.py {meta_directory}/tree.newick --print-all-nodes".format(meta_directory=meta_directory)
-    
-    all_nodes=subprocess.check_output(tree_parser_argument,shell=True).splitlines()
-    #all_nodes=all_nodes.split("\n")
-    #print(all_nodes)
-    nodes=[]
-    for x in all_nodes:
-        nodes.append(x.decode('utf-8'))
+    nodes = _walk_tree_nodes(tree_file)
     nodes.sort()
     columns = Columns(nodes, equal=True, expand=True)
     print("All available nodes (leaf node names excluded):")
     print(columns)
 
 def show_node_families():
-    both_ways= "--add-all-nodes" if arguments["--add-all-nodes"] else ""
-    yaml_argument="""echo {node} | while read i; do mirmachine-tree-parser.py {meta_directory}/tree.newick $i {both_ways}; done | sort | uniq | while read a; \
-        do grep $a {meta_directory}/nodes_mirnas_corrected.tsv; done \
-        | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq""".format(node=arguments['--node'],meta_directory=meta_directory,both_ways=both_ways)
-
-    node_families=subprocess.check_output(yaml_argument,shell=True).splitlines()
-    families=[]
-    for x in node_families:
-        families.append(x.decode('utf-8'))
+    node_candidates = _resolve_nodes_for_query(
+        node_name=arguments["--node"],
+        include_descendants=arguments["--add-all-nodes"],
+    )
+    families = _collect_families_from_tsv(nodes_mirnas_file, node_candidates)
     families.sort()
     columns = Columns(families, equal=True, expand=True)
     print("All available families of {node} node ".format(node=arguments['--node']))
     print(columns)
 
 def create_yaml_file():
-    Path("data/yamls").mkdir(parents=True,exist_ok=True)
+    yaml_path = _yaml_output_path(arguments["--species"])
 
-    both_ways= "--add-all-nodes" if arguments["--add-all-nodes"] else ""
-    default_node_argument= "" if arguments["--single-node-only"] else "| while read i; do mirmachine-tree-parser.py {meta_directory}/tree.newick $i {both_ways}; done".format(meta_directory=meta_directory,both_ways=both_ways)
-    losses_node_argument= "" if arguments["--single-node-only"] else "| while read i; do mirmachine-tree-parser.py {meta_directory}/tree.newick $i; done".format(meta_directory=meta_directory)
+    payload = {
+        "genome": arguments["--genome"],
+        "species": arguments["--species"],
+        "node": arguments["--node"] or "",
+    }
 
-    if arguments['--family']:
-        yaml_argument = """echo {family} | awk -v genome={genome} -v species={species} 'BEGIN{{print "genome: "genome;print "species: "species;print "node: "node; print "mirnas:"}}{{print " - "$1}}' > data/yamls/{species}.yaml""".format(
-        family=arguments['--family'],
-          species=arguments['--species'],
-          genome=arguments['--genome'])
-    
+    if arguments["--family"]:
+        payload["mirnas"] = [arguments["--family"]]
+        _write_yaml_file(yaml_path, payload)
+        return
+
+    if arguments["--single-node-only"]:
+        query_nodes = [arguments["--node"]]
+        loss_nodes = [arguments["--node"]]
     else:
-        yaml_argument="""
-        echo {node} {default_node_argument} | sort | uniq | awk 'length($0) > 2{{print}}' | while read a; \
-        do grep $a {meta_directory}/nodes_mirnas_corrected.tsv; done \
-        | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq | \
-        awk -v genome={genome} -v species={species} -v node={node} 'BEGIN{{print "genome: "genome;print "species: "species;print "node: "node; print "mirnas:"}}{{print " - "$1}}' > data/yamls/{species}.yaml;  \
-        
-        
-        echo {node} {losses_node_argument} | sort | uniq | awk 'length($0) > 2{{print}}' | while read a; \
-        do grep $a {meta_directory}/losses_mirnas.tsv; done \
-        | grep -v NOVEL | grep -v NA | cut -f2 | sort | uniq | \
-        awk 'BEGIN{{print "losses:"}}{{print " - "$1}}' >> data/yamls/{species}.yaml;  \
-        
-        """.format(
-          default_node_argument=default_node_argument,
-          meta_directory=meta_directory,
-          node=arguments['--node'],
-          losses_node_argument=losses_node_argument,
-          mirmachine_path=mirmachine_path,
-          species=arguments['--species'],
-          genome=arguments['--genome'],
-          both_ways=both_ways)
-        
+        query_nodes = _resolve_nodes_for_query(
+            node_name=arguments["--node"],
+            include_descendants=arguments["--add-all-nodes"],
+        )
+        loss_nodes = _resolve_nodes_for_query(
+            node_name=arguments["--node"],
+            include_descendants=False,
+        )
 
+    payload["mirnas"] = _collect_families_from_tsv(nodes_mirnas_file, query_nodes)
+    losses = _collect_families_from_tsv(losses_mirnas_file, loss_nodes)
+    if losses:
+        payload["losses"] = losses
 
-
-    subprocess.check_call(yaml_argument,shell=True)
-
-
+    _write_yaml_file(yaml_path, payload)
 
 def validate_inputs():
 
-    snakemake_argument="snakemake -j {cpu} -s {mirmachine_path}/workflows/test.smk --config meta_directory={meta_directory} model={model} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
-    species=arguments['--species'],
-    cpu=arguments['--cpu'],
-    model=arguments['--model'].lower(),
-    meta_directory=meta_directory,
-    mirmachine_path=mirmachine_path  
+    snakemake_argument = [
+        "snakemake",
+        "-j",
+        str(arguments["--cpu"]),
+        "-s",
+        f"{mirmachine_path}/workflows/test.smk",
+        "--config",
+        f"meta_directory={meta_directory}",
+        f"model={arguments['--model'].lower()}",
+        f"mirmachine_path={mirmachine_path}",
+        "--configfile",
+        str(_yaml_output_path(arguments["--species"])),
+    ]
+    subprocess.run(
+        snakemake_argument,
+        check=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
     )
-    #print(snakemake_argument)
-    subprocess.check_call(snakemake_argument,shell=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     
 
 def print_available_families():
@@ -229,37 +317,76 @@ def print_available_families():
 
 def run_mirmachine():
 
-    params="'{p}'".format(p=" ".join(sys.argv))
-    dry_run="-n" if arguments["--dry"] else ""
-    unlock="--unlock" if arguments["--unlock"] else ""
-    touch="--touch" if arguments["--touch"] else ""
-    remove="--delete-all-output" if arguments["--remove"] else ""
-    snakemake_argument="snakemake -q rules --rerun-incomplete {touch} {dry} {unlock} {remove} -j {cpu} -s {mirmachine_path}/workflows/mirmachine_search.smk --config meta_directory={meta_directory} model={model} evalue={evalue} params={params} mirmachine_path={mirmachine_path} --configfile=data/yamls/{species}.yaml".format(
-    species=arguments['--species'],
-    cpu=arguments['--cpu'],
-    model=arguments['--model'].lower(),
-    evalue=arguments['--evalue'],
-    meta_directory=meta_directory,
-    mirmachine_path=mirmachine_path,
-    dry=dry_run,
-    unlock=unlock,
-    touch=touch,
-    remove=remove,
-    params=params)
-    #print(snakemake_argument)
-    subprocess.check_call(snakemake_argument,shell=True)
+    snakemake_argument = ["snakemake", "-q", "rules", "--rerun-incomplete"]
+    if arguments["--touch"]:
+        snakemake_argument.append("--touch")
+    if arguments["--dry"]:
+        snakemake_argument.append("-n")
+    if arguments["--unlock"]:
+        snakemake_argument.append("--unlock")
+    if arguments["--remove"]:
+        snakemake_argument.append("--delete-all-output")
+
+    snakemake_argument.extend(
+        [
+            "-j",
+            str(arguments["--cpu"]),
+            "-s",
+            f"{mirmachine_path}/workflows/mirmachine_search.smk",
+            "--config",
+            f"meta_directory={meta_directory}",
+            f"model={arguments['--model'].lower()}",
+            f"evalue={arguments['--evalue']}",
+            f"params={' '.join(sys.argv)}",
+            f"mirmachine_path={mirmachine_path}",
+            "--configfile",
+            str(_yaml_output_path(arguments["--species"])),
+        ]
+    )
+    subprocess.run(snakemake_argument, check=True)
 
 
 def clean_meta_directory():
-    #delete .snakemake directory
-    subprocess.check_call("rm -rf .snakemake",shell=True)
+    # delete .snakemake directory
+    shutil.rmtree(".snakemake", ignore_errors=True)
+
+
+def _parse_headers(path):
+    parsed_data = {}
+    with path.open(encoding="utf-8") as handle:
+        for line in handle:
+            line = line.strip()
+            if not line or not line.startswith("#"):
+                continue
+
+            stripped = line.lstrip("#").strip()
+            if ":" in stripped:
+                key, value = stripped.split(":", 1)
+                parsed_data[key.strip()] = value.strip()
+            else:
+                parts = stripped.split(None, 1)
+                if len(parts) == 2:
+                    key, value = parts
+                    parsed_data[key] = value
+    return parsed_data
 
 def print_gff_header(filename):
-    subprocess.check_call(f"cat results/predictions/filtered_gff/{filename} | parse_and_print.py | grep -v searched | grep -v losses ",shell=True)
-    subprocess.check_call(f"cat results/predictions/gff/{filename} | parse_and_print.py | grep score | sed \"s/score/unfiltered score/g\"",shell=True)
+    filtered_file = Path("results/predictions/filtered_gff") / filename
+    unfiltered_file = Path("results/predictions/gff") / filename
+
+    for key, value in _parse_headers(filtered_file).items():
+        line = f"{key}: {value}"
+        if "searched" in line or "losses" in line:
+            continue
+        print(line)
+
+    for key, value in _parse_headers(unfiltered_file).items():
+        line = f"{key}: {value}"
+        if "score" in line:
+            print(line.replace("score", "unfiltered score"))
 
 def main():
-    parsed_tree=walk_on_tree.walk_on_tree("{meta_directory}/tree.newick".format(meta_directory=meta_directory))
+    parsed_tree=_walk_tree_nodes(tree_file)
 
     #if arguments["--print-all-nodes"]:
     #    if arguments["--node"].title() in parsed_tree:

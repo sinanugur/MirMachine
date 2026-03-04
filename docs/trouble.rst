@@ -1,14 +1,82 @@
 Troubleshooting
 ===============
 
-**Dry run:**
-You can test a run with ``--dry``. It shows which files will be generated.
+Common Issues and Fixes
+-----------------------
 
-**Unlocking the directory:**
-If a job ends prematurely, Snakemake may lock the directory. You may have to rerun with ``--unlock`` argument. This will unlock the directory.
+Invalid node name
+-----------------
 
-**Cleaning the output files:**
-You can clean the output files with ``--remove`` argument.
+Symptom:
+  MirMachine prints an error panel saying the node is wrong.
 
-**Touching the output files:**
-You can touch the output files with ``--touch`` argument. This will mark the output files as up to date without really changing them.
+Fix:
+
+.. code-block:: bash
+
+    MirMachine.py --print-all-nodes
+
+Then choose one of the listed nodes.
+
+Genome file error
+-----------------
+
+Symptom:
+  MirMachine reports that the genome file does not exist.
+
+Fix:
+
+* Verify the path passed to ``--genome``.
+* Use an uncompressed FASTA file.
+
+Stalled Snakemake lock
+----------------------
+
+Symptom:
+  Workflow stops because the working directory is locked.
+
+Fix:
+
+.. code-block:: bash
+
+    MirMachine.py --node Caenorhabditis --species run1 --genome genome.fa --unlock
+
+Workflow cleanup
+----------------
+
+Delete generated outputs:
+
+.. code-block:: bash
+
+    MirMachine.py --node Caenorhabditis --species run1 --genome genome.fa --remove
+
+Mark targets as up to date:
+
+.. code-block:: bash
+
+    MirMachine.py --node Caenorhabditis --species run1 --genome genome.fa --touch
+
+Dry-run before execution:
+
+.. code-block:: bash
+
+    MirMachine.py --node Caenorhabditis --species run1 --genome genome.fa --dry
+
+Low-confidence or sparse predictions
+------------------------------------
+
+* Verify that node and model are biologically appropriate.
+* Try ``--model combined`` if families are missing in ``proto`` or ``deutero``.
+* Increase ``--evalue`` carefully to broaden inclusion (may increase low-quality
+  hits).
+
+Family not found in single-family mode
+--------------------------------------
+
+Use:
+
+.. code-block:: bash
+
+    MirMachine.py --print-all-families
+
+Then pick a family name shown in the output.
