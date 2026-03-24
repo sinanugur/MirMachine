@@ -38,6 +38,9 @@ From the repository root:
     conda activate mirmachine
     pip install -e .
 
+MirMachine now ships a ``pyproject.toml`` build definition, so pip installs use
+the standard PEP 517 build backend by default.
+
 The environment file includes Python dependencies plus required command-line
 tools used by the workflow (for example ``snakemake``, ``infernal``,
 ``samtools``, ``bedtools``, ``gawk``, and ``moreutils``).

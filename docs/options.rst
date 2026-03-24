@@ -99,6 +99,8 @@ Options
      - Dry-run the Snakemake DAG without executing jobs.
    * - ``--touch``
      - Mark targets as up-to-date without re-running jobs.
+   * - ``--long``
+     - Use long-miRNA covariance models from ``mirmachine/meta/lcms``.
    * - ``-h``, ``--help``
      - Show help text and exit.
    * - ``--version``

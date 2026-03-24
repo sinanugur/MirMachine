@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.3.0.3"
+__version__="0.3.0.4b"
 MDBver="3.0"
 
 __licence__="""
@@ -47,6 +47,7 @@ node=config['node']
 model=config.get('model','combined')
 inclusion_threshold=config.get('evalue',0.2) #default inclusion threshold, I think this is not same for cmsearch by default
 meta_directory=config.get('meta_directory','meta')
+cm_directory=config.get('cm_directory', meta_directory + "/cms")
 mirmachine_path=config.get('mirmachine_path','mirmachine')
 mirna=[x.title() + ".PRE" for x in config['mirnas']]
 
@@ -72,7 +73,7 @@ seeds_file=meta_directory + "/family_seeds.tsv"
 #	mirna=files
 
 
-available_mirnas=glob_wildcards(meta_directory + "/cms/" + model + "/{mirna}.CM").mirna
+available_mirnas=glob_wildcards(cm_directory + "/" + model + "/{mirna}.CM").mirna
 
 missing_mirnas=[item for item in mirna if item not in available_mirnas]
 #print("Available mirnas: ",available_mirnas)
@@ -151,7 +152,7 @@ rule prepare_genome:
 		"""
 rule search_CM:
 	input:
-		meta_directory + "/cms/" + model + "/{mirna}.CM"
+		cm_directory + "/" + model + "/{mirna}.CM"
 	output:
 		"analyses/output/{species}/{mirna}.result"
 	threads: 15

@@ -46,7 +46,7 @@ nodes_mirnas_file=os.path.join(meta_directory, "nodes_mirnas_corrected.tsv")
 losses_mirnas_file=os.path.join(meta_directory, "losses_mirnas.tsv")
 
 __author__ = 'sium'
-__version__= '0.3.0.3'
+__version__= '0.3.0.4b'
 
 
 __licence__="""
@@ -77,8 +77,8 @@ SOFTWARE.
 __doc__="""Main MirMachine executable
 
 Usage:
-    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry]
-    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry]
+    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry] [--long]
+    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry] [--long]
     MirMachine.py --node <text> [--add-all-nodes]
     MirMachine.py --print-all-nodes
     MirMachine.py --print-all-families
@@ -98,6 +98,7 @@ Arguments:
 Options:
     -a, --add-all-nodes                 Move on the tree both ways. NOT required most of the time.
     -o, --single-node-only              Run only on the given node for miRNA families.
+    --long                              Use long miRNA covariance models rather than standard models (Experimental).
     -p, --print-all-nodes               Print all available node options and exit.
     -l, --print-all-families            Print all available families in this version and exit.
     -t, --print-ascii-tree              Print ascii tree of the tree file.
@@ -109,6 +110,11 @@ Options:
     --version                           Show version.
 
 """
+
+
+def _resolve_cm_directory(use_long_models=False):
+    cm_subdir = "lcms" if use_long_models else "cms"
+    return os.path.join(meta_directory, cm_subdir)
 
 def _split_node_name(name):
     if name is None:
@@ -274,6 +280,7 @@ def validate_inputs():
         f"{mirmachine_path}/workflows/test.smk",
         "--config",
         f"meta_directory={meta_directory}",
+        f"cm_directory={_resolve_cm_directory(arguments['--long'])}",
         f"model={arguments['--model'].lower()}",
         f"mirmachine_path={mirmachine_path}",
         "--configfile",
@@ -335,6 +342,7 @@ def run_mirmachine():
             f"{mirmachine_path}/workflows/mirmachine_search.smk",
             "--config",
             f"meta_directory={meta_directory}",
+            f"cm_directory={_resolve_cm_directory(arguments['--long'])}",
             f"model={arguments['--model'].lower()}",
             f"evalue={arguments['--evalue']}",
             f"params={' '.join(sys.argv)}",
