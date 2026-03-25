@@ -79,10 +79,10 @@ __doc__="""Main MirMachine executable
 Usage:
     MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry] [--long]
     MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry] [--long]
-    MirMachine.py --node <text> [--add-all-nodes]
-    MirMachine.py --print-all-nodes
-    MirMachine.py --print-all-families
-    MirMachine.py --print-ascii-tree
+    MirMachine.py --node <text> [--add-all-nodes] [--long]
+    MirMachine.py --print-all-nodes [--long]
+    MirMachine.py --print-all-families [--long]
+    MirMachine.py --print-ascii-tree [--long]
     MirMachine.py (-h | --help)
     MirMachine.py --version
 
@@ -115,6 +115,10 @@ Options:
 def _resolve_cm_directory(use_long_models=False):
     cm_subdir = "lcms" if use_long_models else "cms"
     return os.path.join(meta_directory, cm_subdir)
+
+
+def _resolve_nonull3_flag(use_long_models=False):
+    return "Yes" if use_long_models else "No"
 
 def _split_node_name(name):
     if name is None:
@@ -281,7 +285,7 @@ def validate_inputs():
         "--config",
         f"meta_directory={meta_directory}",
         f"cm_directory={_resolve_cm_directory(arguments['--long'])}",
-        f"nonull3={"Yes" if arguments['--long'] else "No"}",
+        f"nonull3={_resolve_nonull3_flag(arguments['--long'])}",
         f"model={arguments['--model'].lower()}",
         f"mirmachine_path={mirmachine_path}",
         "--configfile",
@@ -344,6 +348,7 @@ def run_mirmachine():
             "--config",
             f"meta_directory={meta_directory}",
             f"cm_directory={_resolve_cm_directory(arguments['--long'])}",
+            f"nonull3={_resolve_nonull3_flag(arguments['--long'])}",
             f"model={arguments['--model'].lower()}",
             f"evalue={arguments['--evalue']}",
             f"params={' '.join(sys.argv)}",
