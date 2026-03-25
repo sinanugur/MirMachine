@@ -45,6 +45,7 @@ params=config['params']
 species=config['species']
 node=config['node']
 model=config.get('model','combined')
+nonull3="" if config.get('nonull3','No') == 'No' else "--nonull3"
 inclusion_threshold=config.get('evalue',0.2) #default inclusion threshold, I think this is not same for cmsearch by default
 meta_directory=config.get('meta_directory','meta')
 cm_directory=config.get('cm_directory', meta_directory + "/cms")
@@ -158,7 +159,7 @@ rule search_CM:
 	threads: 15
 	shell:
 		"""
-		cmsearch --incE {inclusion_threshold} --cpu {threads} {input} {genome} > {output}
+		cmsearch {nonull3} --incE {inclusion_threshold} --cpu {threads} {input} {genome} > {output}
 
 		"""
 rule parse_output:

@@ -281,6 +281,7 @@ def validate_inputs():
         "--config",
         f"meta_directory={meta_directory}",
         f"cm_directory={_resolve_cm_directory(arguments['--long'])}",
+        f"nonull3={"Yes" if arguments['--long'] else "No"}",
         f"model={arguments['--model'].lower()}",
         f"mirmachine_path={mirmachine_path}",
         "--configfile",
