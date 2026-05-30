@@ -89,7 +89,10 @@ if missing_mirnas:
 mirnas_to_search=[item for item in mirna if item not in losses and item not in missing_mirnas] #remove losses and missing mirnas from the list
 score_missing_mirnas=[item for item in score_mirna if item not in available_mirnas]
 mirnas_for_score=[item for item in score_mirna if item not in losses and item not in score_missing_mirnas]
-mirnas_for_score_csv=",".join(mirnas_for_score)
+mirnas_to_search_upper=[item.upper() for item in mirnas_to_search]
+losses_upper=[item.upper() for item in losses]
+mirnas_for_score_upper=[item.upper() for item in mirnas_for_score]
+mirnas_for_score_csv=",".join(mirnas_for_score_upper)
 
 cutoffs_dict=defaultdict(int)
 with open(cutoff_file) as tsv:
@@ -131,7 +134,7 @@ gffheader="""##gff-version 3
 # Params: {params}
 # microRNA families searched: {mirna}
 # Expected microRNA family losses: {losses} 
-# microRNA score: SCORE """.format(version=__version__,MDBver=MDBver,total=len(mirnas_to_search),score_total=len(mirnas_for_score),node=node,model=model,genome=genome,species=species,mirna=mirnas_to_search,params=params,losses=losses)
+# microRNA score: SCORE """.format(version=__version__,MDBver=MDBver,total=len(mirnas_to_search),score_total=len(mirnas_for_score),node=node,model=model,genome=genome,species=species,mirna=mirnas_to_search_upper,params=params,losses=losses_upper)
 
 #print (gffheader)
 
@@ -179,7 +182,7 @@ rule parse_output:
 		"analyses/output/{species}/{mirna}.unfiltered"
 
 	params:
-		parse=r""" 'match($0,/\([0-9]+\)\s+!\s+.*/,m){{if($9 =="+") {{start=$7;end=$8}} else {{start=$8;end=$7}}; print $6"\tMirMachine\tmicroRNA\t"start"\t"end"\t"$4"\t"$9"\t.\tgene_id="id";E-value="$3}}' """,
+		parse=r""" 'match($0,/\([0-9]+\)\s+!\s+.*/,m){{if($9 =="+") {{start=$7;end=$8}} else {{start=$8;end=$7}}; print $6"\tMirMachine\tmicroRNA\t"start"\t"end"\t"$4"\t"$9"\t.\tgene_id="toupper(id)";E-value="$3}}' """,
 
 	shell:
 		"""
@@ -220,7 +223,7 @@ rule fastas:
 		seeds3=lambda wildcards: seeds_dict[wildcards.mirna]["3p"]
 	shell:
 		"""
-		paste <(cat {input[0]} | gawk -v id={wildcards.mirna} -v trusted={params.trusted} '{{if($6 >= trusted) o="HIGHconf"; else o="LOWconf"; print ">"id"_"$1"_"$4"_"$5"_("$7")_"$6"_"o}}') <(bedtools getfasta -tab -s -fi {genome} -bed {input[0]} | awk '{{print $2}}') | awk '{{print $1"\\n"$2}}' > {output}
+		paste <(cat {input[0]} | gawk -v id={wildcards.mirna} -v trusted={params.trusted} '{{if($6 >= trusted) o="HIGHconf"; else o="LOWconf"; print ">"toupper(id)"_"$1"_"$4"_"$5"_("$7")_"$6"_"o}}') <(bedtools getfasta -tab -s -fi {genome} -bed {input[0]} | awk '{{print $2}}') | awk '{{print $1"\\n"$2}}' > {output}
 		seed_detector.py {output} '{params.seeds5}' '{params.seeds3}' | sponge {output}
 		"""
 		
@@ -280,7 +283,7 @@ rule mirna_node_tmp_file:
 	run:
 		for i in mirna:
 			node=nodes_mirnas_dict[i]
-			o=i.strip(".PRE")
+			o=i.replace(".PRE", "").upper()
 			shell("""echo {o}","{node} >> {output}""")
 
 

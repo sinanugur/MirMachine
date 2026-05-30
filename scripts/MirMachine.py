@@ -91,14 +91,14 @@ Arguments:
     -s <text>, --species <text>           Species name. (e.g. Caenorhabditis_elegans)
     -g <text>, --genome <text>            Genome fasta file location (e.g. data/genome/example.fasta)
     -m <text>, --model <text>             Model type: deutero, proto, combined [default: combined]
-    -f <text>, --family <text>            Run only a single miRNA family (e.g. Let-7).
+    -f <text>, --family <text>            Run only a single microRNA family (e.g. Let-7).
     -e <text>, --evalue <float>           Inclusion E-value. May inflate low quality hits. [default: 0.2]
     -c <integer>, --cpu <integer>         CPUs. [default: 2]
 
 Options:
     -a, --add-all-nodes                 Move on the tree both ways. NOT required most of the time.
-    -o, --single-node-only              Run only on the given node for miRNA families.
-    --long                              Use long miRNA covariance models rather than standard models (Experimental).
+    -o, --single-node-only              Run only on the given node for microRNA families.
+    --long                              Use long microRNA covariance models rather than standard models (Experimental).
     -p, --print-all-nodes               Print all available node options and exit.
     -l, --print-all-families            Print all available families in this version and exit.
     -t, --print-ascii-tree              Print ascii tree of the tree file.
@@ -451,7 +451,7 @@ def main():
                 pass
             except:
                 print("")
-                print("Error, miRNA family not found.")
+                print("Error, microRNA family not found.")
                 console = Console()
                 console.print("You can run [bold red]MirMachine.py --print-all-families [/bold red] to see available families")
                 return
