@@ -105,4 +105,4 @@ from the GFF header followed by a CSV table with this schema:
 
 .. code-block:: text
 
-    species,query_node,family,node,total_hits,filtered_hits
+    species,query_node,family,node,total_hits,filtered_hits,unfiltered_seed,filtered_seed

@@ -80,8 +80,8 @@ available_mirnas=glob_wildcards(cm_directory + "/" + model + "/{mirna}.CM").mirn
 missing_mirnas=[item for item in mirna if item not in available_mirnas]
 #print("Available mirnas: ",available_mirnas)
 if missing_mirnas:
-	print("Warning missing miRNAs: ",missing_mirnas)
-	print("Consider changing the model to combined if you are searching for proto or deutero miRNAs.")
+	print("Warning missing microRNAs: ",missing_mirnas)
+	print("Consider changing the model to combined if you are searching for proto or deutero microRNAs.")
 	print("If you selected -a option, nothing to worry about.")
 #print("Losses: ",losses)
 
@@ -124,15 +124,14 @@ gffheader="""##gff-version 3
 # MirMachine version: {version}
 # CM Models: Built using MirGeneDB {MDBver}
 # Total families searched: {total}
-# Total families scored: {score_total}
 # Node: {node}
 # Model: {model}
 # Genome file: {genome}
 # Species: {species}
 # Params: {params}
-# miRNA families searched: {mirna}
-# Expected miRNA family losses: {losses} 
-# miRNA score: SCORE """.format(version=__version__,MDBver=MDBver,total=len(mirnas_to_search),score_total=len(mirnas_for_score),node=node,model=model,genome=genome,species=species,mirna=mirnas_to_search,params=params,losses=losses)
+# microRNA families searched: {mirna}
+# Expected microRNA family losses: {losses} 
+# microRNA score: SCORE """.format(version=__version__,MDBver=MDBver,total=len(mirnas_to_search),score_total=len(mirnas_for_score),node=node,model=model,genome=genome,species=species,mirna=mirnas_to_search,params=params,losses=losses)
 
 #print (gffheader)
 
@@ -302,15 +301,18 @@ rule create_heatmap_csv:
 		header=gffheader
 	run:
 		shell("""
-		gawk 'match($0,"gene_id=(.*).PRE",m) {{print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2","$1}}' > {output[0]}
-		gawk 'match($0,"gene_id=(.*).PRE",m) {{print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2","$1}}' > {output[1]}
+		gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[0]}
+		gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[1]}
+		gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{if ($0 !~ /seed=\\(None\\)/) print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[2]}.unfiltered_seed.tmp
+		gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{if ($0 !~ /seed=\\(None\\)/) print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[2]}.filtered_seed.tmp
 
-		join -a 1 -t, {output[0]} {output[1]} > {output[2]}
+			gawk -F, 'BEGIN{{OFS=","}} FNR==NR{{u[$1]=$2; next}} ARGIND==2{{f[$1]=$2; next}} ARGIND==3{{us[$1]=$2; next}} ARGIND==4{{fs[$1]=$2; next}} {{print $1,$2,($1 in u ? u[$1] : 0),($1 in f ? f[$1] : 0),($1 in us ? us[$1] : 0),($1 in fs ? fs[$1] : 0)}}' {output[0]} {output[1]} {output[2]}.unfiltered_seed.tmp {output[2]}.filtered_seed.tmp {input[2]} > {output[2]}
+			rm -f {output[2]}.unfiltered_seed.tmp {output[2]}.filtered_seed.tmp
 
 		echo "{params.header}" | grep -v SCORE > {output[3]}
-		grep "miRNA score" {input[0]} | sed "s/score/unfiltered score/g"  >> {output[3]}
-		grep "miRNA score" {input[1]} >> {output[3]}
-		join -a 1 -t, {input[2]} {output[2]} | awk -v species={wildcards.species} -v query_node={node} 'BEGIN{{print "species,query_node,family,node,total_hits,filtered_hits"}}{{print species","query_node","$0}}' >> {output[3]}
+		grep "microRNA score" {input[0]} | sed "s/score/unfiltered score/g"  >> {output[3]}
+		grep "microRNA score" {input[1]} >> {output[3]}
+		awk -F, -v species={wildcards.species} -v query_node={node} 'BEGIN{{OFS=","; print "species,query_node,family,node,total_hits,filtered_hits,unfiltered_seed,filtered_seed"}}{{print species,query_node,$1,$2,$3,$4,$5,$6}}' {output[2]} >> {output[3]}
 
 
 		""")
