@@ -251,12 +251,14 @@ def create_yaml_file():
 
     if arguments["--family"]:
         payload["mirnas"] = [arguments["--family"]]
+        payload["score_mirnas"] = [arguments["--family"]]
         _write_yaml_file(yaml_path, payload)
         return
 
     if arguments["--single-node-only"]:
         query_nodes = [arguments["--node"]]
         loss_nodes = [arguments["--node"]]
+        score_nodes = [arguments["--node"]]
     else:
         query_nodes = _resolve_nodes_for_query(
             node_name=arguments["--node"],
@@ -266,8 +268,17 @@ def create_yaml_file():
             node_name=arguments["--node"],
             include_descendants=False,
         )
+        score_nodes = _resolve_nodes_for_query(
+            node_name=arguments["--node"],
+            include_descendants=False,
+        )
 
     payload["mirnas"] = _collect_families_from_tsv(nodes_mirnas_file, query_nodes)
+    # Keep score calculation anchored to the default node-only family set.
+    payload["score_mirnas"] = _collect_families_from_tsv(
+        nodes_mirnas_file,
+        score_nodes,
+    )
     losses = _collect_families_from_tsv(losses_mirnas_file, loss_nodes)
     if losses:
         payload["losses"] = losses

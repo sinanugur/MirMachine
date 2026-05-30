@@ -51,6 +51,7 @@ meta_directory=config.get('meta_directory','meta')
 cm_directory=config.get('cm_directory', meta_directory + "/cms")
 mirmachine_path=config.get('mirmachine_path','mirmachine')
 mirna=[x.title() + ".PRE" for x in config['mirnas']]
+score_mirna=[x.title() + ".PRE" for x in config.get('score_mirnas', config['mirnas'])]
 
 if config.get('losses',[]):
 	losses=[x.title() + ".PRE" for x in config.get('losses',[])]
@@ -85,6 +86,11 @@ if missing_mirnas:
 #print("Losses: ",losses)
 
 
+mirnas_to_search=[item for item in mirna if item not in losses and item not in missing_mirnas] #remove losses and missing mirnas from the list
+score_missing_mirnas=[item for item in score_mirna if item not in available_mirnas]
+mirnas_for_score=[item for item in score_mirna if item not in losses and item not in score_missing_mirnas]
+mirnas_for_score_csv=",".join(mirnas_for_score)
+
 cutoffs_dict=defaultdict(int)
 with open(cutoff_file) as tsv:
 	for line in tsv.readlines():
@@ -118,6 +124,7 @@ gffheader="""##gff-version 3
 # MirMachine version: {version}
 # CM Models: Built using MirGeneDB {MDBver}
 # Total families searched: {total}
+# Total families scored: {score_total}
 # Node: {node}
 # Model: {model}
 # Genome file: {genome}
@@ -125,7 +132,7 @@ gffheader="""##gff-version 3
 # Params: {params}
 # miRNA families searched: {mirna}
 # Expected miRNA family losses: {losses} 
-# miRNA score: SCORE """.format(version=__version__,MDBver=MDBver,total=len(mirna),node=node,model=model,genome=genome,species=species,mirna=config['mirnas'],params=params,losses=losses)
+# miRNA score: SCORE """.format(version=__version__,MDBver=MDBver,total=len(mirnas_to_search),score_total=len(mirnas_for_score),node=node,model=model,genome=genome,species=species,mirna=mirnas_to_search,params=params,losses=losses)
 
 #print (gffheader)
 
@@ -220,7 +227,7 @@ rule fastas:
 		
 rule combine_fastas:
 	input:
-		expand(r"analyses/output/{species}/{mirna}.filtered.fasta",species=species,mirna=[item for item in mirna if item not in losses and item not in missing_mirnas])
+		expand(r"analyses/output/{species}/{mirna}.filtered.fasta",species=species,mirna=mirnas_to_search)
 	output:
 		"results/predictions/fasta/{species}.PRE.fasta"
 	run:
@@ -231,35 +238,37 @@ rule combine_fastas:
 
 rule combine_gffs:
 	input:
-		gff_files=expand("analyses/output/{species}/{mirna}.gff",species=species,mirna=[item for item in mirna if item not in losses and item not in missing_mirnas]),
+		gff_files=expand("analyses/output/{species}/{mirna}.gff",species=species,mirna=mirnas_to_search),
 		fasta_file="results/predictions/fasta/{species}.PRE.fasta"
 	output:
 		"results/predictions/gff/{species}.PRE.gff"
 	params:
 		header=gffheader,
-		total=len([item for item in mirna if item not in losses and item not in missing_mirnas])
+		total=len(mirnas_for_score),
+		score_mirna=mirnas_for_score_csv
 	run:
 		shell("""echo "{params.header}" > {output}""")
 		#shell("cat analyses/output/{wildcards.species}/*PRE.gff | awk '/PRE/' >> {output}")
 		shell("cat {input.gff_files} | awk '/PRE/' >> {output}")
-		shell(""" SCORE=$(gawk -v total={params.total} 'match($0,"gene_id=(.*).PRE",m) {{a[m[1]]=0;}}END{{print (length(a)/total)*100}}' {output});
+		shell(""" SCORE=$(gawk -v total={params.total} -v scored="{params.score_mirna}" 'BEGIN{{split(scored, s, ","); for (i in s) {{allowed[s[i]]=1;}}}} match($0,"gene_id=(.*).PRE",m) {{if (m[1]".PRE" in allowed) a[m[1]]=0;}} END{{if(total==0) print 0; else print (length(a)/total)*100}}' {output});
 		sed "s/SCORE/$SCORE/g" {output} | sponge {output}""")
 		shell("cat {output} | seed_merger.sh {input.fasta_file} | sponge {output}")
 
 rule combine_filtered_gffs:
 	input:
-		gff_files=expand("analyses/output/{species}/{mirna}.filtered.gff",species=species,mirna=[item for item in mirna if item not in losses and item not in missing_mirnas]),
+		gff_files=expand("analyses/output/{species}/{mirna}.filtered.gff",species=species,mirna=mirnas_to_search),
 		fasta_file="results/predictions/fasta/{species}.PRE.fasta"
 	output:
 		"results/predictions/filtered_gff/{species}.PRE.gff"
 	params:
 		header=gffheader,
-		total=len([item for item in mirna if item not in losses and item not in missing_mirnas])
+		total=len(mirnas_for_score),
+		score_mirna=mirnas_for_score_csv
 	run:
 		shell("""echo "{params.header}" > {output}""")
 		#shell("cat analyses/output/{wildcards.species}/*PRE.filtered.gff | awk '/PRE/' >> {output}")
 		shell("cat {input.gff_files} | awk '/PRE/' >> {output}")
-		shell(""" SCORE=$(gawk -v total={params.total} 'match($0,"gene_id=(.*).PRE",m) {{a[m[1]]=0;}}END{{print (length(a)/total)*100}}' {output});
+		shell(""" SCORE=$(gawk -v total={params.total} -v scored="{params.score_mirna}" 'BEGIN{{split(scored, s, ","); for (i in s) {{allowed[s[i]]=1;}}}} match($0,"gene_id=(.*).PRE",m) {{if (m[1]".PRE" in allowed) a[m[1]]=0;}} END{{if(total==0) print 0; else print (length(a)/total)*100}}' {output});
 		sed "s/SCORE/$SCORE/g" {output} | sponge {output}""")
 		shell("cat {output} | seed_merger.sh {input.fasta_file} | sponge {output}")
 
