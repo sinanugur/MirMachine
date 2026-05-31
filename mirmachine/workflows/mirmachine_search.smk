@@ -134,7 +134,9 @@ gffheader="""##gff-version 3
 # Params: {params}
 # microRNA families searched: {mirna}
 # Expected microRNA family losses: {losses} 
-# microRNA score: SCORE """.format(version=__version__,MDBver=MDBver,total=len(mirnas_to_search),score_total=len(mirnas_for_score),node=node,model=model,genome=genome,species=species,mirna=mirnas_to_search_upper,params=params,losses=losses_upper)
+# microRNA score: __MM_HIT_SCORE__
+# microRNA seed score: __MM_SEED_SCORE__
+# microRNA hiconf seed score: __MM_HICONF_SEED_SCORE__ """.format(version=__version__,MDBver=MDBver,total=len(mirnas_to_search),score_total=len(mirnas_for_score),node=node,model=model,genome=genome,species=species,mirna=mirnas_to_search_upper,params=params,losses=losses_upper)
 
 #print (gffheader)
 
@@ -252,9 +254,30 @@ rule combine_gffs:
 		shell("""echo "{params.header}" > {output}""")
 		#shell("cat analyses/output/{wildcards.species}/*PRE.gff | awk '/PRE/' >> {output}")
 		shell("cat {input.gff_files} | awk '/PRE/' >> {output}")
-		shell(""" SCORE=$(gawk -v total={params.total} -v scored="{params.score_mirna}" 'BEGIN{{split(scored, s, ","); for (i in s) {{allowed[s[i]]=1;}}}} match($0,"gene_id=(.*).PRE",m) {{if (m[1]".PRE" in allowed) a[m[1]]=0;}} END{{if(total==0) print 0; else print (length(a)/total)*100}}' {output});
-		sed "s/SCORE/$SCORE/g" {output} | sponge {output}""")
 		shell("cat {output} | seed_merger.sh {input.fasta_file} | sponge {output}")
+		shell("""
+		SCORES=$(gawk -v total={params.total} -v scored="{params.score_mirna}" '
+		BEGIN{{split(scored, s, ","); for (i in s) {{allowed[s[i]]=1;}}}}
+		match($0,"gene_id=([^;]+)[.]PRE",m) {{
+			fam=toupper(m[1])".PRE";
+			if (fam in allowed) {{
+				hit[fam]=1;
+				if ($0 !~ /seed=\\(None\\)/) {{
+					seed[fam]=1;
+					if (index($0,"*") > 0) hiseed[fam]=1;
+				}}
+			}}
+		}}
+		END {{
+			if(total==0) print "0 0 0";
+			else printf "%.4f %.4f %.4f\\n", (length(hit)/total)*100, (length(seed)/total)*100, (length(hiseed)/total)*100;
+		}}' {output})
+		set -- $SCORES
+		SCORE=${{1:-0}}
+		SEED_SCORE=${{2:-0}}
+		HICONF_SEED_SCORE=${{3:-0}}
+		gawk -v score="$SCORE" -v seed_score="$SEED_SCORE" -v hiconf_seed_score="$HICONF_SEED_SCORE" '{{gsub("__MM_HIT_SCORE__", score); gsub("__MM_SEED_SCORE__", seed_score); gsub("__MM_HICONF_SEED_SCORE__", hiconf_seed_score); print}}' {output} | sponge {output}
+		""")
 
 rule combine_filtered_gffs:
 	input:
@@ -270,9 +293,30 @@ rule combine_filtered_gffs:
 		shell("""echo "{params.header}" > {output}""")
 		#shell("cat analyses/output/{wildcards.species}/*PRE.filtered.gff | awk '/PRE/' >> {output}")
 		shell("cat {input.gff_files} | awk '/PRE/' >> {output}")
-		shell(""" SCORE=$(gawk -v total={params.total} -v scored="{params.score_mirna}" 'BEGIN{{split(scored, s, ","); for (i in s) {{allowed[s[i]]=1;}}}} match($0,"gene_id=(.*).PRE",m) {{if (m[1]".PRE" in allowed) a[m[1]]=0;}} END{{if(total==0) print 0; else print (length(a)/total)*100}}' {output});
-		sed "s/SCORE/$SCORE/g" {output} | sponge {output}""")
 		shell("cat {output} | seed_merger.sh {input.fasta_file} | sponge {output}")
+		shell("""
+		SCORES=$(gawk -v total={params.total} -v scored="{params.score_mirna}" '
+		BEGIN{{split(scored, s, ","); for (i in s) {{allowed[s[i]]=1;}}}}
+		match($0,"gene_id=([^;]+)[.]PRE",m) {{
+			fam=toupper(m[1])".PRE";
+			if (fam in allowed) {{
+				hit[fam]=1;
+				if ($0 !~ /seed=\\(None\\)/) {{
+					seed[fam]=1;
+					if (index($0,"*") > 0) hiseed[fam]=1;
+				}}
+			}}
+		}}
+		END {{
+			if(total==0) print "0 0 0";
+			else printf "%.4f %.4f %.4f\\n", (length(hit)/total)*100, (length(seed)/total)*100, (length(hiseed)/total)*100;
+		}}' {output})
+		set -- $SCORES
+		SCORE=${{1:-0}}
+		SEED_SCORE=${{2:-0}}
+		HICONF_SEED_SCORE=${{3:-0}}
+		gawk -v score="$SCORE" -v seed_score="$SEED_SCORE" -v hiconf_seed_score="$HICONF_SEED_SCORE" '{{gsub("__MM_HIT_SCORE__", score); gsub("__MM_SEED_SCORE__", seed_score); gsub("__MM_HICONF_SEED_SCORE__", hiconf_seed_score); print}}' {output} | sponge {output}
+		""")
 
 
 rule mirna_node_tmp_file:
@@ -304,18 +348,20 @@ rule create_heatmap_csv:
 		header=gffheader
 	run:
 		shell("""
-		gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[0]}
-		gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[1]}
-		gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{if ($0 !~ /seed=\\(None\\)/) print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[2]}.unfiltered_seed.tmp
-		gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{if ($0 !~ /seed=\\(None\\)/) print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[2]}.filtered_seed.tmp
+			gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[0]}
+			gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[1]}
+			gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{if ($0 !~ /seed=\\(None\\)/) print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[2]}.unfiltered_seed.tmp
+			gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{if ($0 !~ /seed=\\(None\\)/) print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[2]}.filtered_seed.tmp
+			gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{if ($0 !~ /seed=\\(None\\)/ && index($0,"*") > 0) print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[2]}.unfiltered_hiconf_seed.tmp
+			gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{if ($0 !~ /seed=\\(None\\)/ && index($0,"*") > 0) print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[2]}.filtered_hiconf_seed.tmp
 
-			gawk -F, 'BEGIN{{OFS=","}} FNR==NR{{u[$1]=$2; next}} ARGIND==2{{f[$1]=$2; next}} ARGIND==3{{us[$1]=$2; next}} ARGIND==4{{fs[$1]=$2; next}} {{print $1,$2,($1 in u ? u[$1] : 0),($1 in f ? f[$1] : 0),($1 in us ? us[$1] : 0),($1 in fs ? fs[$1] : 0)}}' {output[0]} {output[1]} {output[2]}.unfiltered_seed.tmp {output[2]}.filtered_seed.tmp {input[2]} > {output[2]}
-			rm -f {output[2]}.unfiltered_seed.tmp {output[2]}.filtered_seed.tmp
+				gawk -F, 'BEGIN{{OFS=","}} FNR==NR{{u[$1]=$2; next}} ARGIND==2{{f[$1]=$2; next}} ARGIND==3{{us[$1]=$2; next}} ARGIND==4{{fs[$1]=$2; next}} ARGIND==5{{uhs[$1]=$2; next}} ARGIND==6{{fhs[$1]=$2; next}} {{print $1,$2,($1 in u ? u[$1] : 0),($1 in f ? f[$1] : 0),($1 in us ? us[$1] : 0),($1 in fs ? fs[$1] : 0),($1 in uhs ? uhs[$1] : 0),($1 in fhs ? fhs[$1] : 0)}}' {output[0]} {output[1]} {output[2]}.unfiltered_seed.tmp {output[2]}.filtered_seed.tmp {output[2]}.unfiltered_hiconf_seed.tmp {output[2]}.filtered_hiconf_seed.tmp {input[2]} > {output[2]}
+				rm -f {output[2]}.unfiltered_seed.tmp {output[2]}.filtered_seed.tmp {output[2]}.unfiltered_hiconf_seed.tmp {output[2]}.filtered_hiconf_seed.tmp
 
-		echo "{params.header}" | grep -v SCORE > {output[3]}
-		grep "microRNA score" {input[0]} | sed "s/score/unfiltered score/g"  >> {output[3]}
-		grep "microRNA score" {input[1]} >> {output[3]}
-		awk -F, -v species={wildcards.species} -v query_node={node} 'BEGIN{{OFS=","; print "species,query_node,family,node,total_hits,filtered_hits,unfiltered_seed,filtered_seed"}}{{print species,query_node,$1,$2,$3,$4,$5,$6}}' {output[2]} >> {output[3]}
+		echo "{params.header}" | grep -v "__MM_" > {output[3]}
+		grep -E "^# microRNA .*score" {input[0]} | sed 's/^# microRNA /# microRNA unfiltered /' >> {output[3]}
+		grep -E "^# microRNA .*score" {input[1]} >> {output[3]}
+			awk -F, -v species={wildcards.species} -v query_node={node} 'BEGIN{{OFS=","; print "species,query_node,family,node,total_hits,filtered_hits,unfiltered_seed,filtered_seed,unfiltered_hiconf_seed,filtered_hiconf_seed"}}{{print species,query_node,$1,$2,$3,$4,$5,$6,$7,$8}}' {output[2]} >> {output[3]}
 
 
 		""")

@@ -50,11 +50,13 @@ GFF Header Fields
     # Genome file: (genome file location)
     # Species: (species name given)
     # Params: (Command line parameters)
-    # miRNA families searched: (searched families)
-    # Expected miRNA family losses: (miRNA family losses for this Node)
-    # miRNA score: (percent of miRNA families detected)
+    # microRNA families searched: (searched families)
+    # Expected microRNA family losses: (microRNA family losses for this Node)
+    # microRNA score: (percent of score families with >=1 hit)
+    # microRNA seed score: (percent of score families with >=1 hit that has seed != None)
+    # microRNA hiconf seed score: (percent of score families with >=1 hit that has at least one * seed)
 
-The filtered and unfiltered files each contain a score in the header.
+The filtered and unfiltered files each contain all three scores in the header.
 
 Example GFF Row
 ---------------
@@ -105,4 +107,4 @@ from the GFF header followed by a CSV table with this schema:
 
 .. code-block:: text
 
-    species,query_node,family,node,total_hits,filtered_hits,unfiltered_seed,filtered_seed
+    species,query_node,family,node,total_hits,filtered_hits,unfiltered_seed,filtered_seed,unfiltered_hiconf_seed,filtered_hiconf_seed

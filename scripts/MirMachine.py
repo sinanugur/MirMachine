@@ -398,17 +398,36 @@ def _parse_headers(path):
 def print_gff_header(filename):
     filtered_file = Path("results/predictions/filtered_gff") / filename
     unfiltered_file = Path("results/predictions/gff") / filename
+    score_keys = {
+        "microRNA score",
+        "microRNA seed score",
+        "microRNA hiconf seed score",
+    }
 
-    for key, value in _parse_headers(filtered_file).items():
+    filtered_headers = _parse_headers(filtered_file)
+    unfiltered_headers = _parse_headers(unfiltered_file)
+
+    for key, value in filtered_headers.items():
         line = f"{key}: {value}"
-        if "searched" in line or "losses" in line:
+        if "searched" in line or "losses" in line or key in score_keys:
             continue
         print(line)
 
-    for key, value in _parse_headers(unfiltered_file).items():
-        line = f"{key}: {value}"
-        if "score" in line:
-            print(line.replace("score", "unfiltered score"))
+    filtered_hit = filtered_headers.get("microRNA score", "NA")
+    filtered_seed = filtered_headers.get("microRNA seed score", "NA")
+    filtered_hiconf_seed = filtered_headers.get("microRNA hiconf seed score", "NA")
+    unfiltered_hit = unfiltered_headers.get("microRNA score", "NA")
+    unfiltered_seed = unfiltered_headers.get("microRNA seed score", "NA")
+    unfiltered_hiconf_seed = unfiltered_headers.get("microRNA hiconf seed score", "NA")
+
+    print(
+        "microRNA filtered scores: "
+        f"hit={filtered_hit}, seed={filtered_seed}, hiconf_seed={filtered_hiconf_seed}"
+    )
+    print(
+        "microRNA unfiltered scores: "
+        f"hit={unfiltered_hit}, seed={unfiltered_seed}, hiconf_seed={unfiltered_hiconf_seed}"
+    )
 
 def main():
     parsed_tree=_walk_tree_nodes(tree_file)
