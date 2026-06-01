@@ -87,7 +87,6 @@ You will see `results/predictions/` directory which contains:
 
 MirMachine's other repos
 ------
-Web application repo: https://github.com/selfjell/MirMachine  
 Supplementary files repo: https://github.com/sinanugur/MirMachine-supplementary
 
 Citiation
