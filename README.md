@@ -29,25 +29,6 @@ MirMachine.py --help
 
 Note: You have to install dependencies if you prefer GitHub or PyPi installation.
 
-<<<<<<< HEAD
-A warning for Apple Silicon users (e.g. M1 or M2): bedtools depedency is not available for arm64 architecture. You have to set your environment to osx-64. You can install like this, which create a new environment and will install MirMachine:
-```
-CONDA_SUBDIR=osx-64 mamba create -n mirmachine -c conda-forge -c bioconda mirmachine
-```
-
-Versioning for maintainers
---------------------------
-Update all main version references with one command:
-```
-python scripts/bump_version.py 0.3.0.5
-```
-Optionally update the top changelog header version too:
-```
-python scripts/bump_version.py 0.3.0.5 --include-changelog
-```
-
-=======
->>>>>>> refs/remotes/origin/development
 Quick start example
 -------------------
 Create a new directory and run MirMachine there after the installation. MirMachine will create the required directories while running.
@@ -61,21 +42,12 @@ Options and Arguments
 ---------------------
 ```
 Usage:
-<<<<<<< HEAD
     MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--dry] [--long]
     MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--unlock|--remove] [--dry] [--long]
     MirMachine.py --node <text> [--add-all-nodes] [--long]
     MirMachine.py --print-all-nodes [--long]
     MirMachine.py --print-all-families [--long]
     MirMachine.py --print-ascii-tree [--long]
-=======
-    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove][--touch] [--dry]
-    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry]
-    MirMachine.py --node <text> [--add-all-nodes]
-    MirMachine.py --print-all-nodes
-    MirMachine.py --print-all-families
-    MirMachine.py --print-ascii-tree
->>>>>>> refs/remotes/origin/development
     MirMachine.py (-h | --help)
     MirMachine.py --version
 
@@ -84,20 +56,20 @@ Arguments:
     -s <text>, --species <text>           Species name. (e.g. Caenorhabditis_elegans)
     -g <text>, --genome <text>            Genome fasta file location (e.g. data/genome/example.fasta)
     -m <text>, --model <text>             Model type: deutero, proto, combined [default: combined]
-    -f <text>, --family <text>            Run only a single miRNA family (e.g. Let-7).
-    -e <text>, --evalue <float>           Inclusion E-value. May inflate low quality hits. [default: 0.2]
+    -f <text>, --family <text>            Run only a single microRNA family (e.g. Let-7).
+    -e <text>, --evalue <float>           Inclusion E-value. May inflate low quality hits. Use E-value 5 for long microRNA models [default: 0.2]
     -c <integer>, --cpu <integer>         CPUs. [default: 2]
 
 Options:
     -a, --add-all-nodes                 Move on the tree both ways. NOT required most of the time.
-    -o, --single-node-only              Run only on the given node for miRNA families.
+    -o, --single-node-only              Run only on the given node for microRNA families.
     -p, --print-all-nodes               Print all available node options and exit.
     -l, --print-all-families            Print all available families in this version and exit.
     -t, --print-ascii-tree              Print ascii tree of the tree file.
     -u, --unlock                        Rescue stalled jobs (Try this if the previous job ended prematurely).
     -r, --remove                        Clear all output files (this won't remove input files).
     -d, --dry                           Dry run.
-    --long                              Use long-miRNA covariance models from meta/lcms.
+    --long                              Use long-microRNA covariance models from meta/lcms.
     -h, --help                          Show this screen.
     --touch                             Touch output files (mark them up to date without really changing them).
     --version                           Show version.
@@ -108,8 +80,8 @@ Output
 The `MirMachine` main executable will generate GFF annotations (filtered and unfiltered) and some other files.
 You will see `results/predictions/` directory which contains:
 
-`gff/` __All predicted miRNA families.__  
-`filtered_gff/` __High confidence miRNA family predictions after bitscore filtering. (This file is what you need in most cases)__  
+`gff/` __All predicted microRNA families.__  
+`filtered_gff/` __High confidence microRNA family predictions after bitscore filtering. (This file is what you need in most cases)__  
 `fasta/` __Both high and low confidence predictions in FASTA format.__  
 
 
