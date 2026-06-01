@@ -1,4 +1,5 @@
 # MirMachine
+<img src="mirmachine-logo.png" alt="Logo" width=130 style="vertical-align: middle; margin-right: 10px;"/>  
 
 [![Build Status](https://app.travis-ci.com/sinanugur/MirMachine.svg?branch=master)](https://app.travis-ci.com/sinanugur/MirMachine) [![Documentation Status](https://readthedocs.org/projects/mirmachine/badge/?version=latest)](https://mirmachine.readthedocs.io/en/latest/?badge=latest)  
 
@@ -42,12 +43,12 @@ Options and Arguments
 ---------------------
 ```
 Usage:
-    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--dry] [--long]
-    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--unlock|--remove] [--dry] [--long]
-    MirMachine.py --node <text> [--add-all-nodes] [--long]
-    MirMachine.py --print-all-nodes [--long]
-    MirMachine.py --print-all-families [--long]
-    MirMachine.py --print-ascii-tree [--long]
+    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry] [--long]
+    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry] [--long]
+    MirMachine.py --node <text> [--add-all-nodes]
+    MirMachine.py --print-all-nodes
+    MirMachine.py --print-all-families
+    MirMachine.py --print-ascii-tree
     MirMachine.py (-h | --help)
     MirMachine.py --version
 
@@ -57,19 +58,19 @@ Arguments:
     -g <text>, --genome <text>            Genome fasta file location (e.g. data/genome/example.fasta)
     -m <text>, --model <text>             Model type: deutero, proto, combined [default: combined]
     -f <text>, --family <text>            Run only a single microRNA family (e.g. Let-7).
-    -e <text>, --evalue <float>           Inclusion E-value. May inflate low quality hits. Use E-value 5 for long microRNA models [default: 0.2]
+    -e <text>, --evalue <float>           Inclusion E-value. May inflate low quality hits. [default: 0.2] Default 5 if --long is used.
     -c <integer>, --cpu <integer>         CPUs. [default: 2]
 
 Options:
     -a, --add-all-nodes                 Move on the tree both ways. NOT required most of the time.
     -o, --single-node-only              Run only on the given node for microRNA families.
+    --long                              Use long microRNA covariance models rather than standard models (Experimental).
     -p, --print-all-nodes               Print all available node options and exit.
     -l, --print-all-families            Print all available families in this version and exit.
     -t, --print-ascii-tree              Print ascii tree of the tree file.
     -u, --unlock                        Rescue stalled jobs (Try this if the previous job ended prematurely).
     -r, --remove                        Clear all output files (this won't remove input files).
     -d, --dry                           Dry run.
-    --long                              Use long-microRNA covariance models from meta/lcms.
     -h, --help                          Show this screen.
     --touch                             Touch output files (mark them up to date without really changing them).
     --version                           Show version.
@@ -89,7 +90,10 @@ MirMachine's other repos
 ------
 Supplementary files repo: https://github.com/sinanugur/MirMachine-supplementary
 
-Citiation
+
+Citation
 ------
 Our Cell Genomics paper is here: [https://doi.org/10.1016/j.xgen.2023.100348](https://doi.org/10.1016/j.xgen.2023.100348)
 Please cite if you find our tool useful.
+
+MirMachine website: https://mirmachine.org

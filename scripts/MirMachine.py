@@ -79,10 +79,10 @@ __doc__="""Main MirMachine executable
 Usage:
     MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry] [--long]
     MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry] [--long]
-    MirMachine.py --node <text> [--add-all-nodes] [--long]
-    MirMachine.py --print-all-nodes [--long]
-    MirMachine.py --print-all-families [--long]
-    MirMachine.py --print-ascii-tree [--long]
+    MirMachine.py --node <text> [--add-all-nodes]
+    MirMachine.py --print-all-nodes
+    MirMachine.py --print-all-families
+    MirMachine.py --print-ascii-tree
     MirMachine.py (-h | --help)
     MirMachine.py --version
 
@@ -92,7 +92,7 @@ Arguments:
     -g <text>, --genome <text>            Genome fasta file location (e.g. data/genome/example.fasta)
     -m <text>, --model <text>             Model type: deutero, proto, combined [default: combined]
     -f <text>, --family <text>            Run only a single microRNA family (e.g. Let-7).
-    -e <text>, --evalue <float>           Inclusion E-value. May inflate low quality hits. [default: 0.2]
+    -e <text>, --evalue <float>           Inclusion E-value. May inflate low quality hits. [default: 0.2] Default 5 if --long is used.
     -c <integer>, --cpu <integer>         CPUs. [default: 2]
 
 Options:
@@ -119,6 +119,12 @@ def _resolve_cm_directory(use_long_models=False):
 
 def _resolve_nonull3_flag(use_long_models=False):
     return "Yes" if use_long_models else "No"
+
+def _evalue_was_explicitly_set(argv):
+    return any(
+        argument in ("-e", "--evalue") or argument.startswith("--evalue=")
+        for argument in argv
+    )
 
 def _split_node_name(name):
     if name is None:
@@ -498,4 +504,6 @@ def main():
 
 if __name__ == '__main__':
     arguments = docopt(__doc__, version=__version__)
+    if arguments["--long"] and not _evalue_was_explicitly_set(sys.argv[1:]):
+        arguments["--evalue"] = "5"
     main()

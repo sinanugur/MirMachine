@@ -17,15 +17,6 @@ Using mamba is faster for dependency solving:
     conda install mamba -c conda-forge
     mamba install mirmachine -c bioconda -c conda-forge
 
-Apple Silicon (M1/M2/M3)
-------------------------
-
-``bedtools`` may not resolve on native arm64 in some setups. If needed, create
-an ``osx-64`` environment:
-
-.. code-block:: console
-
-    CONDA_SUBDIR=osx-64 mamba create -n mirmachine -c conda-forge -c bioconda mirmachine
 
 From Source (Local Development)
 -------------------------------
