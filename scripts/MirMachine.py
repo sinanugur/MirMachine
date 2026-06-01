@@ -46,7 +46,7 @@ nodes_mirnas_file=os.path.join(meta_directory, "nodes_mirnas_corrected.tsv")
 losses_mirnas_file=os.path.join(meta_directory, "losses_mirnas.tsv")
 
 __author__ = 'sium'
-__version__= '0.3.0.3'
+__version__= '0.3.0.4'
 
 
 __licence__="""
@@ -77,12 +77,12 @@ SOFTWARE.
 __doc__="""Main MirMachine executable
 
 Usage:
-    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry]
-    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry]
-    MirMachine.py --node <text> [--add-all-nodes]
-    MirMachine.py --print-all-nodes
-    MirMachine.py --print-all-families
-    MirMachine.py --print-ascii-tree
+    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry] [--long]
+    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry] [--long]
+    MirMachine.py --node <text> [--add-all-nodes] [--long]
+    MirMachine.py --print-all-nodes [--long]
+    MirMachine.py --print-all-families [--long]
+    MirMachine.py --print-ascii-tree [--long]
     MirMachine.py (-h | --help)
     MirMachine.py --version
 
@@ -91,13 +91,14 @@ Arguments:
     -s <text>, --species <text>           Species name. (e.g. Caenorhabditis_elegans)
     -g <text>, --genome <text>            Genome fasta file location (e.g. data/genome/example.fasta)
     -m <text>, --model <text>             Model type: deutero, proto, combined [default: combined]
-    -f <text>, --family <text>            Run only a single miRNA family (e.g. Let-7).
+    -f <text>, --family <text>            Run only a single microRNA family (e.g. Let-7).
     -e <text>, --evalue <float>           Inclusion E-value. May inflate low quality hits. [default: 0.2]
     -c <integer>, --cpu <integer>         CPUs. [default: 2]
 
 Options:
     -a, --add-all-nodes                 Move on the tree both ways. NOT required most of the time.
-    -o, --single-node-only              Run only on the given node for miRNA families.
+    -o, --single-node-only              Run only on the given node for microRNA families.
+    --long                              Use long microRNA covariance models rather than standard models (Experimental).
     -p, --print-all-nodes               Print all available node options and exit.
     -l, --print-all-families            Print all available families in this version and exit.
     -t, --print-ascii-tree              Print ascii tree of the tree file.
@@ -109,6 +110,15 @@ Options:
     --version                           Show version.
 
 """
+
+
+def _resolve_cm_directory(use_long_models=False):
+    cm_subdir = "lcms" if use_long_models else "cms"
+    return os.path.join(meta_directory, cm_subdir)
+
+
+def _resolve_nonull3_flag(use_long_models=False):
+    return "Yes" if use_long_models else "No"
 
 def _split_node_name(name):
     if name is None:
@@ -241,12 +251,14 @@ def create_yaml_file():
 
     if arguments["--family"]:
         payload["mirnas"] = [arguments["--family"]]
+        payload["score_mirnas"] = [arguments["--family"]]
         _write_yaml_file(yaml_path, payload)
         return
 
     if arguments["--single-node-only"]:
         query_nodes = [arguments["--node"]]
         loss_nodes = [arguments["--node"]]
+        score_nodes = [arguments["--node"]]
     else:
         query_nodes = _resolve_nodes_for_query(
             node_name=arguments["--node"],
@@ -256,8 +268,17 @@ def create_yaml_file():
             node_name=arguments["--node"],
             include_descendants=False,
         )
+        score_nodes = _resolve_nodes_for_query(
+            node_name=arguments["--node"],
+            include_descendants=False,
+        )
 
     payload["mirnas"] = _collect_families_from_tsv(nodes_mirnas_file, query_nodes)
+    # Keep score calculation anchored to the default node-only family set.
+    payload["score_mirnas"] = _collect_families_from_tsv(
+        nodes_mirnas_file,
+        score_nodes,
+    )
     losses = _collect_families_from_tsv(losses_mirnas_file, loss_nodes)
     if losses:
         payload["losses"] = losses
@@ -274,6 +295,8 @@ def validate_inputs():
         f"{mirmachine_path}/workflows/test.smk",
         "--config",
         f"meta_directory={meta_directory}",
+        f"cm_directory={_resolve_cm_directory(arguments['--long'])}",
+        f"nonull3={_resolve_nonull3_flag(arguments['--long'])}",
         f"model={arguments['--model'].lower()}",
         f"mirmachine_path={mirmachine_path}",
         "--configfile",
@@ -335,6 +358,8 @@ def run_mirmachine():
             f"{mirmachine_path}/workflows/mirmachine_search.smk",
             "--config",
             f"meta_directory={meta_directory}",
+            f"cm_directory={_resolve_cm_directory(arguments['--long'])}",
+            f"nonull3={_resolve_nonull3_flag(arguments['--long'])}",
             f"model={arguments['--model'].lower()}",
             f"evalue={arguments['--evalue']}",
             f"params={' '.join(sys.argv)}",
@@ -373,17 +398,36 @@ def _parse_headers(path):
 def print_gff_header(filename):
     filtered_file = Path("results/predictions/filtered_gff") / filename
     unfiltered_file = Path("results/predictions/gff") / filename
+    score_keys = {
+        "microRNA score",
+        "microRNA seed score",
+        "microRNA hiconf seed score",
+    }
 
-    for key, value in _parse_headers(filtered_file).items():
+    filtered_headers = _parse_headers(filtered_file)
+    unfiltered_headers = _parse_headers(unfiltered_file)
+
+    for key, value in filtered_headers.items():
         line = f"{key}: {value}"
-        if "searched" in line or "losses" in line:
+        if "searched" in line or "losses" in line or key in score_keys:
             continue
         print(line)
 
-    for key, value in _parse_headers(unfiltered_file).items():
-        line = f"{key}: {value}"
-        if "score" in line:
-            print(line.replace("score", "unfiltered score"))
+    filtered_hit = filtered_headers.get("microRNA score", "NA")
+    filtered_seed = filtered_headers.get("microRNA seed score", "NA")
+    filtered_hiconf_seed = filtered_headers.get("microRNA hiconf seed score", "NA")
+    unfiltered_hit = unfiltered_headers.get("microRNA score", "NA")
+    unfiltered_seed = unfiltered_headers.get("microRNA seed score", "NA")
+    unfiltered_hiconf_seed = unfiltered_headers.get("microRNA hiconf seed score", "NA")
+
+    print(
+        "microRNA filtered scores: "
+        f"hit={filtered_hit}, seed={filtered_seed}, hiconf_seed={filtered_hiconf_seed}"
+    )
+    print(
+        "microRNA unfiltered scores: "
+        f"hit={unfiltered_hit}, seed={unfiltered_seed}, hiconf_seed={unfiltered_hiconf_seed}"
+    )
 
 def main():
     parsed_tree=_walk_tree_nodes(tree_file)
@@ -426,7 +470,7 @@ def main():
                 pass
             except:
                 print("")
-                print("Error, miRNA family not found.")
+                print("Error, microRNA family not found.")
                 console = Console()
                 console.print("You can run [bold red]MirMachine.py --print-all-families [/bold red] to see available families")
                 return

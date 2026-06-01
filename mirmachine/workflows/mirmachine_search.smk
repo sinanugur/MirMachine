@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.3.0.3"
+__version__="0.3.0.4"
 MDBver="3.0"
 
 __licence__="""
@@ -45,10 +45,13 @@ params=config['params']
 species=config['species']
 node=config['node']
 model=config.get('model','combined')
+nonull3="" if config.get('nonull3','No') == 'No' else "--nonull3"
 inclusion_threshold=config.get('evalue',0.2) #default inclusion threshold, I think this is not same for cmsearch by default
 meta_directory=config.get('meta_directory','meta')
+cm_directory=config.get('cm_directory', meta_directory + "/cms")
 mirmachine_path=config.get('mirmachine_path','mirmachine')
 mirna=[x.title() + ".PRE" for x in config['mirnas']]
+score_mirna=[x.title() + ".PRE" for x in config.get('score_mirnas', config['mirnas'])]
 
 if config.get('losses',[]):
 	losses=[x.title() + ".PRE" for x in config.get('losses',[])]
@@ -72,16 +75,24 @@ seeds_file=meta_directory + "/family_seeds.tsv"
 #	mirna=files
 
 
-available_mirnas=glob_wildcards(meta_directory + "/cms/" + model + "/{mirna}.CM").mirna
+available_mirnas=glob_wildcards(cm_directory + "/" + model + "/{mirna}.CM").mirna
 
 missing_mirnas=[item for item in mirna if item not in available_mirnas]
 #print("Available mirnas: ",available_mirnas)
 if missing_mirnas:
-	print("Warning missing miRNAs: ",missing_mirnas)
-	print("Consider changing the model to combined if you are searching for proto or deutero miRNAs.")
+	print("Warning missing microRNAs: ",missing_mirnas)
+	print("Consider changing the model to combined if you are searching for proto or deutero microRNAs.")
 	print("If you selected -a option, nothing to worry about.")
 #print("Losses: ",losses)
 
+
+mirnas_to_search=[item for item in mirna if item not in losses and item not in missing_mirnas] #remove losses and missing mirnas from the list
+score_missing_mirnas=[item for item in score_mirna if item not in available_mirnas]
+mirnas_for_score=[item for item in score_mirna if item not in losses and item not in score_missing_mirnas]
+mirnas_to_search_upper=[item.upper() for item in mirnas_to_search]
+losses_upper=[item.upper() for item in losses]
+mirnas_for_score_upper=[item.upper() for item in mirnas_for_score]
+mirnas_for_score_csv=",".join(mirnas_for_score_upper)
 
 cutoffs_dict=defaultdict(int)
 with open(cutoff_file) as tsv:
@@ -121,9 +132,11 @@ gffheader="""##gff-version 3
 # Genome file: {genome}
 # Species: {species}
 # Params: {params}
-# miRNA families searched: {mirna}
-# Expected miRNA family losses: {losses} 
-# miRNA score: SCORE """.format(version=__version__,MDBver=MDBver,total=len(mirna),node=node,model=model,genome=genome,species=species,mirna=config['mirnas'],params=params,losses=losses)
+# microRNA families searched: {mirna}
+# Expected microRNA family losses: {losses} 
+# microRNA score: __MM_HIT_SCORE__
+# microRNA seed score: __MM_SEED_SCORE__
+# microRNA hiconf seed score: __MM_HICONF_SEED_SCORE__ """.format(version=__version__,MDBver=MDBver,total=len(mirnas_to_search),score_total=len(mirnas_for_score),node=node,model=model,genome=genome,species=species,mirna=mirnas_to_search_upper,params=params,losses=losses_upper)
 
 #print (gffheader)
 
@@ -151,13 +164,13 @@ rule prepare_genome:
 		"""
 rule search_CM:
 	input:
-		meta_directory + "/cms/" + model + "/{mirna}.CM"
+		cm_directory + "/" + model + "/{mirna}.CM"
 	output:
 		"analyses/output/{species}/{mirna}.result"
 	threads: 15
 	shell:
 		"""
-		cmsearch --incE {inclusion_threshold} --cpu {threads} {input} {genome} > {output}
+		cmsearch {nonull3} --incE {inclusion_threshold} --cpu {threads} {input} {genome} > {output}
 
 		"""
 rule parse_output:
@@ -171,7 +184,7 @@ rule parse_output:
 		"analyses/output/{species}/{mirna}.unfiltered"
 
 	params:
-		parse=r""" 'match($0,/\([0-9]+\)\s+!\s+.*/,m){{if($9 =="+") {{start=$7;end=$8}} else {{start=$8;end=$7}}; print $6"\tMirMachine\tmicroRNA\t"start"\t"end"\t"$4"\t"$9"\t.\tgene_id="id";E-value="$3}}' """,
+		parse=r""" 'match($0,/\([0-9]+\)\s+!\s+.*/,m){{if($9 =="+") {{start=$7;end=$8}} else {{start=$8;end=$7}}; print $6"\tMirMachine\tmicroRNA\t"start"\t"end"\t"$4"\t"$9"\t.\tgene_id="toupper(id)";E-value="$3}}' """,
 
 	shell:
 		"""
@@ -212,13 +225,13 @@ rule fastas:
 		seeds3=lambda wildcards: seeds_dict[wildcards.mirna]["3p"]
 	shell:
 		"""
-		paste <(cat {input[0]} | gawk -v id={wildcards.mirna} -v trusted={params.trusted} '{{if($6 >= trusted) o="HIGHconf"; else o="LOWconf"; print ">"id"_"$1"_"$4"_"$5"_("$7")_"$6"_"o}}') <(bedtools getfasta -tab -s -fi {genome} -bed {input[0]} | awk '{{print $2}}') | awk '{{print $1"\\n"$2}}' > {output}
+		paste <(cat {input[0]} | gawk -v id={wildcards.mirna} -v trusted={params.trusted} '{{if($6 >= trusted) o="HIGHconf"; else o="LOWconf"; print ">"toupper(id)"_"$1"_"$4"_"$5"_("$7")_"$6"_"o}}') <(bedtools getfasta -tab -s -fi {genome} -bed {input[0]} | awk '{{print $2}}') | awk '{{print $1"\\n"$2}}' > {output}
 		seed_detector.py {output} '{params.seeds5}' '{params.seeds3}' | sponge {output}
 		"""
 		
 rule combine_fastas:
 	input:
-		expand(r"analyses/output/{species}/{mirna}.filtered.fasta",species=species,mirna=[item for item in mirna if item not in losses and item not in missing_mirnas])
+		expand(r"analyses/output/{species}/{mirna}.filtered.fasta",species=species,mirna=mirnas_to_search)
 	output:
 		"results/predictions/fasta/{species}.PRE.fasta"
 	run:
@@ -229,37 +242,81 @@ rule combine_fastas:
 
 rule combine_gffs:
 	input:
-		gff_files=expand("analyses/output/{species}/{mirna}.gff",species=species,mirna=[item for item in mirna if item not in losses and item not in missing_mirnas]),
+		gff_files=expand("analyses/output/{species}/{mirna}.gff",species=species,mirna=mirnas_to_search),
 		fasta_file="results/predictions/fasta/{species}.PRE.fasta"
 	output:
 		"results/predictions/gff/{species}.PRE.gff"
 	params:
 		header=gffheader,
-		total=len([item for item in mirna if item not in losses and item not in missing_mirnas])
+		total=len(mirnas_for_score),
+		score_mirna=mirnas_for_score_csv
 	run:
 		shell("""echo "{params.header}" > {output}""")
 		#shell("cat analyses/output/{wildcards.species}/*PRE.gff | awk '/PRE/' >> {output}")
 		shell("cat {input.gff_files} | awk '/PRE/' >> {output}")
-		shell(""" SCORE=$(gawk -v total={params.total} 'match($0,"gene_id=(.*).PRE",m) {{a[m[1]]=0;}}END{{print (length(a)/total)*100}}' {output});
-		sed "s/SCORE/$SCORE/g" {output} | sponge {output}""")
 		shell("cat {output} | seed_merger.sh {input.fasta_file} | sponge {output}")
+		shell("""
+		SCORES=$(gawk -v total={params.total} -v scored="{params.score_mirna}" '
+		BEGIN{{split(scored, s, ","); for (i in s) {{allowed[s[i]]=1;}}}}
+		match($0,"gene_id=([^;]+)[.]PRE",m) {{
+			fam=toupper(m[1])".PRE";
+			if (fam in allowed) {{
+				hit[fam]=1;
+				if ($0 !~ /seed=\\(None\\)/) {{
+					seed[fam]=1;
+					if (index($0,"*") > 0) hiseed[fam]=1;
+				}}
+			}}
+		}}
+		END {{
+			if(total==0) print "0 0 0";
+			else printf "%.4f %.4f %.4f\\n", (length(hit)/total)*100, (length(seed)/total)*100, (length(hiseed)/total)*100;
+		}}' {output})
+		set -- $SCORES
+		SCORE=${{1:-0}}
+		SEED_SCORE=${{2:-0}}
+		HICONF_SEED_SCORE=${{3:-0}}
+		gawk -v score="$SCORE" -v seed_score="$SEED_SCORE" -v hiconf_seed_score="$HICONF_SEED_SCORE" '{{gsub("__MM_HIT_SCORE__", score); gsub("__MM_SEED_SCORE__", seed_score); gsub("__MM_HICONF_SEED_SCORE__", hiconf_seed_score); print}}' {output} | sponge {output}
+		""")
 
 rule combine_filtered_gffs:
 	input:
-		gff_files=expand("analyses/output/{species}/{mirna}.filtered.gff",species=species,mirna=[item for item in mirna if item not in losses and item not in missing_mirnas]),
+		gff_files=expand("analyses/output/{species}/{mirna}.filtered.gff",species=species,mirna=mirnas_to_search),
 		fasta_file="results/predictions/fasta/{species}.PRE.fasta"
 	output:
 		"results/predictions/filtered_gff/{species}.PRE.gff"
 	params:
 		header=gffheader,
-		total=len([item for item in mirna if item not in losses and item not in missing_mirnas])
+		total=len(mirnas_for_score),
+		score_mirna=mirnas_for_score_csv
 	run:
 		shell("""echo "{params.header}" > {output}""")
 		#shell("cat analyses/output/{wildcards.species}/*PRE.filtered.gff | awk '/PRE/' >> {output}")
 		shell("cat {input.gff_files} | awk '/PRE/' >> {output}")
-		shell(""" SCORE=$(gawk -v total={params.total} 'match($0,"gene_id=(.*).PRE",m) {{a[m[1]]=0;}}END{{print (length(a)/total)*100}}' {output});
-		sed "s/SCORE/$SCORE/g" {output} | sponge {output}""")
 		shell("cat {output} | seed_merger.sh {input.fasta_file} | sponge {output}")
+		shell("""
+		SCORES=$(gawk -v total={params.total} -v scored="{params.score_mirna}" '
+		BEGIN{{split(scored, s, ","); for (i in s) {{allowed[s[i]]=1;}}}}
+		match($0,"gene_id=([^;]+)[.]PRE",m) {{
+			fam=toupper(m[1])".PRE";
+			if (fam in allowed) {{
+				hit[fam]=1;
+				if ($0 !~ /seed=\\(None\\)/) {{
+					seed[fam]=1;
+					if (index($0,"*") > 0) hiseed[fam]=1;
+				}}
+			}}
+		}}
+		END {{
+			if(total==0) print "0 0 0";
+			else printf "%.4f %.4f %.4f\\n", (length(hit)/total)*100, (length(seed)/total)*100, (length(hiseed)/total)*100;
+		}}' {output})
+		set -- $SCORES
+		SCORE=${{1:-0}}
+		SEED_SCORE=${{2:-0}}
+		HICONF_SEED_SCORE=${{3:-0}}
+		gawk -v score="$SCORE" -v seed_score="$SEED_SCORE" -v hiconf_seed_score="$HICONF_SEED_SCORE" '{{gsub("__MM_HIT_SCORE__", score); gsub("__MM_SEED_SCORE__", seed_score); gsub("__MM_HICONF_SEED_SCORE__", hiconf_seed_score); print}}' {output} | sponge {output}
+		""")
 
 
 rule mirna_node_tmp_file:
@@ -270,7 +327,7 @@ rule mirna_node_tmp_file:
 	run:
 		for i in mirna:
 			node=nodes_mirnas_dict[i]
-			o=i.strip(".PRE")
+			o=i.replace(".PRE", "").upper()
 			shell("""echo {o}","{node} >> {output}""")
 
 
@@ -291,15 +348,20 @@ rule create_heatmap_csv:
 		header=gffheader
 	run:
 		shell("""
-		gawk 'match($0,"gene_id=(.*).PRE",m) {{print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2","$1}}' > {output[0]}
-		gawk 'match($0,"gene_id=(.*).PRE",m) {{print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2","$1}}' > {output[1]}
+			gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[0]}
+			gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[1]}
+			gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{if ($0 !~ /seed=\\(None\\)/) print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[2]}.unfiltered_seed.tmp
+			gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{if ($0 !~ /seed=\\(None\\)/) print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[2]}.filtered_seed.tmp
+			gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{if ($0 !~ /seed=\\(None\\)/ && index($0,"*") > 0) print m[1]}}' {input[0]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[2]}.unfiltered_hiconf_seed.tmp
+			gawk 'match($0,"gene_id=([^;]+)[.]PRE",m) {{if ($0 !~ /seed=\\(None\\)/ && index($0,"*") > 0) print m[1]}}' {input[1]} | sort | uniq -c | awk '{{print $2","$1}}' | sort -t, -k1,1 > {output[2]}.filtered_hiconf_seed.tmp
 
-		join -a 1 -t, {output[0]} {output[1]} > {output[2]}
+				gawk -F, 'BEGIN{{OFS=","}} FNR==NR{{u[$1]=$2; next}} ARGIND==2{{f[$1]=$2; next}} ARGIND==3{{us[$1]=$2; next}} ARGIND==4{{fs[$1]=$2; next}} ARGIND==5{{uhs[$1]=$2; next}} ARGIND==6{{fhs[$1]=$2; next}} {{print $1,$2,($1 in u ? u[$1] : 0),($1 in f ? f[$1] : 0),($1 in us ? us[$1] : 0),($1 in fs ? fs[$1] : 0),($1 in uhs ? uhs[$1] : 0),($1 in fhs ? fhs[$1] : 0)}}' {output[0]} {output[1]} {output[2]}.unfiltered_seed.tmp {output[2]}.filtered_seed.tmp {output[2]}.unfiltered_hiconf_seed.tmp {output[2]}.filtered_hiconf_seed.tmp {input[2]} > {output[2]}
+				rm -f {output[2]}.unfiltered_seed.tmp {output[2]}.filtered_seed.tmp {output[2]}.unfiltered_hiconf_seed.tmp {output[2]}.filtered_hiconf_seed.tmp
 
-		echo "{params.header}" | grep -v SCORE > {output[3]}
-		grep "miRNA score" {input[0]} | sed "s/score/unfiltered score/g"  >> {output[3]}
-		grep "miRNA score" {input[1]} >> {output[3]}
-		join -a 1 -t, {input[2]} {output[2]} | awk -v species={wildcards.species} -v query_node={node} 'BEGIN{{print "species,query_node,family,node,total_hits,filtered_hits"}}{{print species","query_node","$0}}' >> {output[3]}
+		echo "{params.header}" | grep -v "__MM_" > {output[3]}
+		grep -E "^# microRNA .*score" {input[0]} | sed 's/^# microRNA /# microRNA unfiltered /' >> {output[3]}
+		grep -E "^# microRNA .*score" {input[1]} >> {output[3]}
+			awk -F, -v species={wildcards.species} -v query_node={node} 'BEGIN{{OFS=","; print "species,query_node,family,node,total_hits,filtered_hits,unfiltered_seed,filtered_seed,unfiltered_hiconf_seed,filtered_hiconf_seed"}}{{print species,query_node,$1,$2,$3,$4,$5,$6,$7,$8}}' {output[2]} >> {output[3]}
 
 
 		""")

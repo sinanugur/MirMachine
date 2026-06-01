@@ -29,6 +29,25 @@ MirMachine.py --help
 
 Note: You have to install dependencies if you prefer GitHub or PyPi installation.
 
+<<<<<<< HEAD
+A warning for Apple Silicon users (e.g. M1 or M2): bedtools depedency is not available for arm64 architecture. You have to set your environment to osx-64. You can install like this, which create a new environment and will install MirMachine:
+```
+CONDA_SUBDIR=osx-64 mamba create -n mirmachine -c conda-forge -c bioconda mirmachine
+```
+
+Versioning for maintainers
+--------------------------
+Update all main version references with one command:
+```
+python scripts/bump_version.py 0.3.0.5
+```
+Optionally update the top changelog header version too:
+```
+python scripts/bump_version.py 0.3.0.5 --include-changelog
+```
+
+=======
+>>>>>>> refs/remotes/origin/development
 Quick start example
 -------------------
 Create a new directory and run MirMachine there after the installation. MirMachine will create the required directories while running.
@@ -42,12 +61,21 @@ Options and Arguments
 ---------------------
 ```
 Usage:
+<<<<<<< HEAD
+    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--dry] [--long]
+    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--unlock|--remove] [--dry] [--long]
+    MirMachine.py --node <text> [--add-all-nodes] [--long]
+    MirMachine.py --print-all-nodes [--long]
+    MirMachine.py --print-all-families [--long]
+    MirMachine.py --print-ascii-tree [--long]
+=======
     MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove][--touch] [--dry]
     MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry]
     MirMachine.py --node <text> [--add-all-nodes]
     MirMachine.py --print-all-nodes
     MirMachine.py --print-all-families
     MirMachine.py --print-ascii-tree
+>>>>>>> refs/remotes/origin/development
     MirMachine.py (-h | --help)
     MirMachine.py --version
 
@@ -69,6 +97,7 @@ Options:
     -u, --unlock                        Rescue stalled jobs (Try this if the previous job ended prematurely).
     -r, --remove                        Clear all output files (this won't remove input files).
     -d, --dry                           Dry run.
+    --long                              Use long-miRNA covariance models from meta/lcms.
     -h, --help                          Show this screen.
     --touch                             Touch output files (mark them up to date without really changing them).
     --version                           Show version.
@@ -93,5 +122,3 @@ Citiation
 ------
 Our Cell Genomics paper is here: [https://doi.org/10.1016/j.xgen.2023.100348](https://doi.org/10.1016/j.xgen.2023.100348)
 Please cite if you find our tool useful.
-
-

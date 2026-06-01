@@ -1,3 +1,17 @@
+## [0.3.0.4] - 2026-06-01
+### Changed
+  - Version bump from 0.3.0.4b to 0.3.0.4 across project metadata files.
+  - Package, workflow, and docs release strings were updated to stay in sync.
+### Added
+  - New release-note header scaffolded for this version.
+
+## [0.3.0.4b] - 2026-05-28
+### Changed
+  - Version bump from 0.3.0.3 to 0.3.0.4b across project metadata files.
+  - Package, workflow, and docs release strings were updated to stay in sync.
+### Added
+  - New release-note header scaffolded for this version.
+
 ## [0.3.0.3] - 2026-03-04
 ### Changed
   - Documentation refresh under `docs/` to match current `MirMachine.py` and workflow behavior.

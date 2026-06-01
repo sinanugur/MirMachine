@@ -10,6 +10,7 @@ import mirmachine
 mirmachine_path = os.path.dirname(mirmachine.__file__)
 
 meta_directory = os.path.dirname(meta.__file__)
+cm_directory = config.get('cm_directory', meta_directory + "/cms")
 
 
 model = config.get('model', 'combined')
@@ -24,5 +25,5 @@ else:
 
 rule search_CM:
     input:
-        expand(meta_directory + "/cms/" + model +
+        expand(cm_directory + "/" + model +
                "/{mirna}.CM", mirna=[item for item in mirna if item not in losses])
