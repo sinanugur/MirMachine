@@ -1,6 +1,5 @@
 # MirMachine
-
-![MirMachine logo](mirmachine-logo.png)
+<img src="mirmachine-logo.png" alt="Logo" width=130 style="vertical-align: middle; margin-right: 10px;"/>  
 
 [![Build Status](https://app.travis-ci.com/sinanugur/MirMachine.svg?branch=master)](https://app.travis-ci.com/sinanugur/MirMachine) [![Documentation Status](https://readthedocs.org/projects/mirmachine/badge/?version=latest)](https://mirmachine.readthedocs.io/en/latest/?badge=latest)  
 
