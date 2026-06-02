@@ -1,9 +1,17 @@
 ## [0.3.0.4] - 2026-06-01
-### Changed
-  - Version bump from 0.3.0.4b to 0.3.0.4 across project metadata files.
-  - Package, workflow, and docs release strings were updated to stay in sync.
 ### Added
-  - New release-note header scaffolded for this version.
+  - Added long covariance models under `mirmachine/meta/lcms/`.
+  - Added a repository logo asset and linked it from the README.
+  - Added helper scripts for version bumps and long-model training workflows.
+### Changed
+  - Refined microRNA scoring so expanded node searches still score against the default node-specific family set.
+  - GFF headers now report overall microRNA score, seed score, and high-confidence seed score.
+  - Heatmap exports now include unfiltered and filtered high-confidence seed counts alongside total and seed-supported hits.
+  - Family names are now normalized to uppercase across generated GFF, FASTA, and heatmap outputs.
+  - CLI, README, and output documentation were refreshed for `--long`, `--evalue`, installation, and output descriptions.
+### Fixed
+  - Fixed heatmap seed counting so missing seed hits are reported as `0`.
+  - Fixed output/reporting inconsistencies in the Snakemake workflow and CLI-generated run metadata.
 
 ## [0.3.0.4b] - 2026-05-28
 ### Changed
