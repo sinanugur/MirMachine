@@ -22,7 +22,7 @@ setup(
     name="MirMachine",
     version="0.3.0.4",
     packages=find_packages(exclude=('tests*','testing*')),
-    scripts=["scripts/MirMachine.py","scripts/mirmachine-tree-parser.py","scripts/gff_sort_and_compete.sh","scripts/seed_detector.py","scripts/parse_and_print.py","scripts/seed_merger.sh"],
+    scripts=["scripts/MirMachine.py","scripts/mirmachine-tree-parser.py","scripts/gff_sort_and_compete.sh","scripts/seed_detector.py","scripts/parse_and_print.py","scripts/seed_merger.sh","scripts/mirmachine_autonode.py"],
     long_description=long_description,
     long_description_content_type="text/markdown",
     extras_require={"dev":["pytest>=3.7"]},
