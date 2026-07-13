@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.3.0.4"
+__version__="0.3.0.5"
 MDBver="3.0"
 
 __licence__="""
@@ -167,7 +167,7 @@ rule search_CM:
 		cm_directory + "/" + model + "/{mirna}.CM"
 	output:
 		"analyses/output/{species}/{mirna}.result"
-	threads: 15
+	threads: 4
 	shell:
 		"""
 		cmsearch {nonull3} --incE {inclusion_threshold} --cpu {threads} {input} {genome} > {output}

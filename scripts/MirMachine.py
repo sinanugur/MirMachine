@@ -46,7 +46,7 @@ nodes_mirnas_file=os.path.join(meta_directory, "nodes_mirnas_corrected.tsv")
 losses_mirnas_file=os.path.join(meta_directory, "losses_mirnas.tsv")
 
 __author__ = 'sium'
-__version__= '0.3.0.4'
+__version__= '0.3.0.5'
 
 
 __licence__="""
