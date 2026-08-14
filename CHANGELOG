@@ -4,6 +4,8 @@
   - Package, workflow, and docs release strings were updated to stay in sync.
 ### Added
   - New release-note header scaffolded for this version.
+### Fixed
+  - losses fix for olfactores, snakemake cmsearch thread fix
 
 ## [0.3.0.4] - 2026-06-01
 ### Added
