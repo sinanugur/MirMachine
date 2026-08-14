@@ -22,7 +22,7 @@ copyright = '2026, Sinan U. Umu'
 author = 'Sinan U. Umu'
 
 # The full version, including alpha/beta/rc tags
-release = '0.3.0.4'
+release = '0.3.0.5'
 
 
 # -- General configuration ---------------------------------------------------
