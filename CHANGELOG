@@ -1,3 +1,13 @@
+## [0.3.0.6b] - 2026-08-19
+### Changed
+  - Version bump from 0.3.0.5 to 0.3.0.6b across project metadata files.
+  - Package, workflow, and docs release strings were updated to stay in sync.
+### Added
+  - New release-note header scaffolded for this version.
+  - --min-length parameter
+### Fixed
+  - Minimum 50 nucleotides hit.
+
 ## [0.3.0.5] - 2026-07-13
 ### Changed
   - Version bump from 0.3.0.4 to 0.3.0.5 across project metadata files.
