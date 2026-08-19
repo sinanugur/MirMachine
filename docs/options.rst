@@ -68,6 +68,9 @@ Arguments
    * - ``-e``
      - ``--evalue <float>``
      - Inclusion threshold passed to ``cmsearch --incE`` (default: ``0.2``).
+   * -
+     - ``--min-length <integer>``
+     - Minimum reported precursor length in nucleotides (default: ``50``).
    * - ``-c``
      - ``--cpu <integer>``
      - Parallel jobs passed to Snakemake (default: ``2``).

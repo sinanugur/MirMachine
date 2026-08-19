@@ -46,7 +46,7 @@ nodes_mirnas_file=os.path.join(meta_directory, "nodes_mirnas_corrected.tsv")
 losses_mirnas_file=os.path.join(meta_directory, "losses_mirnas.tsv")
 
 __author__ = 'sium'
-__version__= '0.3.0.5'
+__version__= '0.3.0.6b'
 
 
 __licence__="""
@@ -74,11 +74,11 @@ SOFTWARE.
 
 """
 
-__doc__="""Main MirMachine executable
+__doc__=f"""MirMachine {__version__}
 
 Usage:
-    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry] [--long]
-    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry] [--long]
+    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--min-length <integer>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry] [--long]
+    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--min-length <integer>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry] [--long]
     MirMachine.py --node <text> [--add-all-nodes]
     MirMachine.py --print-all-nodes
     MirMachine.py --print-all-families
@@ -93,6 +93,7 @@ Arguments:
     -m <text>, --model <text>             Model type: deutero, proto, combined [default: combined]
     -f <text>, --family <text>            Run only a single microRNA family (e.g. Let-7).
     -e <text>, --evalue <float>           Inclusion E-value. May inflate low quality hits. [default: 0.2] Default 5 if --long is used.
+    --min-length <integer>                 Minimum precursor length in nucleotides. [default: 50]
     -c <integer>, --cpu <integer>         CPUs. [default: 2]
 
 Options:
@@ -368,6 +369,7 @@ def run_mirmachine():
             f"nonull3={_resolve_nonull3_flag(arguments['--long'])}",
             f"model={arguments['--model'].lower()}",
             f"evalue={arguments['--evalue']}",
+            f"min_length={arguments['--min-length']}",
             f"params={' '.join(sys.argv)}",
             f"mirmachine_path={mirmachine_path}",
             "--configfile",
@@ -448,6 +450,14 @@ def main():
     elif not arguments["--species"] and not arguments["--genome"] and arguments["--node"] and arguments["--node"].title() in parsed_tree:
         show_node_families()
     else:
+        try:
+            arguments["--min-length"] = int(arguments["--min-length"])
+            if arguments["--min-length"] < 1:
+                raise ValueError
+        except (TypeError, ValueError):
+            print(Panel.fit("""Error, --min-length must be a positive integer."""))
+            return
+
         if arguments["--node"] and arguments["--node"].title() not in parsed_tree and arguments["--family"] is None:
 
             print(Panel.fit("""Error, the node name argument is wrong!\nThe node name given is: "{node}"\nPlease select one of the following:""".format(node=arguments["--node"])))

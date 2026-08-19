@@ -51,6 +51,8 @@ Scoring and Confidence
 Each hit receives a CM bitscore and E-value.
 
 * ``--evalue`` controls ``cmsearch --incE`` (default: ``0.2``).
+* ``--min-length`` excludes precursor hits shorter than the chosen nucleotide
+  length (default: ``50``).
 * Family-specific trusted cutoffs are then applied to classify filtered
   predictions.
 * GFF headers include a miRNA score (percent of detected families among searched

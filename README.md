@@ -42,9 +42,11 @@ See our documentation for detailed explanations: https://mirmachine.readthedocs.
 Options and Arguments
 ---------------------
 ```
+MirMachine 0.3.0.5
+
 Usage:
-    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry] [--long]
-    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry] [--long]
+    MirMachine.py --node <text> --species <text> --genome <text> [--model <text>] [--evalue <float>] [--min-length <integer>] [--cpu <integer>] [--add-all-nodes|--single-node-only] [--unlock|--remove] [--touch] [--dry] [--long]
+    MirMachine.py --species <text> --genome <text> --family <text> [--model <text>] [--evalue <float>] [--min-length <integer>] [--cpu <integer>] [--unlock|--remove] [--touch] [--dry] [--long]
     MirMachine.py --node <text> [--add-all-nodes]
     MirMachine.py --print-all-nodes
     MirMachine.py --print-all-families
@@ -59,6 +61,7 @@ Arguments:
     -m <text>, --model <text>             Model type: deutero, proto, combined [default: combined]
     -f <text>, --family <text>            Run only a single microRNA family (e.g. Let-7).
     -e <text>, --evalue <float>           Inclusion E-value. May inflate low quality hits. [default: 0.2] Default 5 if --long is used.
+    --min-length <integer>                 Minimum precursor length in nucleotides. [default: 50]
     -c <integer>, --cpu <integer>         CPUs. [default: 2]
 
 Options:

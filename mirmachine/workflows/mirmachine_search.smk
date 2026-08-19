@@ -7,7 +7,7 @@ MirMachine snakemake workflow
 
 @author: Sinan U. Umu, sinanugur@gmail.com
 '''
-__version__="0.3.0.5"
+__version__="0.3.0.6b"
 MDBver="3.0"
 
 __licence__="""
@@ -47,6 +47,7 @@ node=config['node']
 model=config.get('model','combined')
 nonull3="" if config.get('nonull3','No') == 'No' else "--nonull3"
 inclusion_threshold=config.get('evalue',0.2) #default inclusion threshold, I think this is not same for cmsearch by default
+minimum_length=int(config.get('min_length', 50))
 meta_directory=config.get('meta_directory','meta')
 cm_directory=config.get('cm_directory', meta_directory + "/cms")
 mirmachine_path=config.get('mirmachine_path','mirmachine')
@@ -189,7 +190,7 @@ rule parse_output:
 	shell:
 		"""
 		#parse the result file into GFF file
-		awk '{{print}} /Hit alignments/ {{exit}}' {input[0]} | gawk -v id={wildcards.mirna} {params.parse} | gawk '($5-$4)>=50{{print}}' > {output[0]}
+		awk '{{print}} /Hit alignments/ {{exit}}' {input[0]} | gawk -v id={wildcards.mirna} {params.parse} | gawk '($5-$4+1)>={minimum_length}{{print}}' > {output[0]}
 		bedtools slop -i {output[0]} -g {input[1]} -b 30 > {output[1]}
 
 		#write the sequences into the GFF file
