@@ -32,6 +32,25 @@ from typing import Dict, Iterable, List, Optional, Tuple
 
 TAXDUMP_URL = "https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz"
 
+# NCBI lineage anchors whose clades have different names, or are omitted, in
+# the MirMachine tree. More-specific lineage entries are checked first.
+NCBI_TO_MIRMACHINE_NODE = {
+    "acanthomorphata": "Acanthomorpha",
+    "actinopterygii": "Osteichthyes",
+    "artiodactyla": "Scrotifera",
+    "carnivora": "Scrotifera",
+    "chiroptera": "Scrotifera",
+    "dasyuromorphia": "Australidelphia",
+    "diprotodontia": "Australidelphia",
+    "metatheria": "Marsupialia",
+    "microbiotheria": "Australidelphia",
+    "notoryctemorphia": "Australidelphia",
+    "peramelemorphia": "Australidelphia",
+    "perissodactyla": "Scrotifera",
+    "pholidota": "Scrotifera",
+    "tunicata": "Olfactores",
+}
+
 
 def normalize_name(name: str) -> str:
     """Normalize names for matching NCBI names to MirMachine node labels."""
@@ -256,9 +275,14 @@ def find_nearest_mirmachine_node(
     lineage: Iterable[dict],
     available_nodes: Dict[str, str],
 ) -> Tuple[str, dict]:
-    """Return the first NCBI lineage name that is available as a MirMachine node."""
+    """Return the nearest MirMachine node represented by the NCBI lineage."""
     for taxon in lineage:
         norm = normalize_name(taxon["name"])
+        mapped_node = NCBI_TO_MIRMACHINE_NODE.get(norm)
+        if mapped_node:
+            mapped_norm = normalize_name(mapped_node)
+            if mapped_norm in available_nodes:
+                return available_nodes[mapped_norm], taxon
         if norm in available_nodes:
             return available_nodes[norm], taxon
     raise ValueError("No NCBI lineage name matched any available MirMachine node.")
